@@ -5,6 +5,9 @@
 
 ;;;; FUNCTIONS
 
+
+
+
 (defmethod emit :function [x]
   (apply
     str
@@ -13,11 +16,21 @@
               (interpose ", " (map emit (body x)))
               ")"])))
 
-
 (comment
   (use 'gamma.emit.function)
   (in-ns 'gamma.emit.function)
 
-  (emit (term :max 1 2))
+  (defmethod emit :function [x]
+    [:group
+     (name (head x))
+     "("
+     [:line ""]
+     [:nest 2
+      (interpose [:span "," :line]
+                 (map emit (body x)))]
+     ")"])
+
+  (fipp.printer/pprint-document
+    (emit (term :max 1 (term :max 2 3 4))) {:width 15})
 
   )

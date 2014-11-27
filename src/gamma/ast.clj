@@ -1,12 +1,42 @@
 (ns gamma.ast)
 
 
-(defrecord Term [head body])
+(defrecord Term [head body id])
 
 (defn head [x] (:head x))
 (defn body [x] (:body x))
 
-(defn term [h & args] (->Term h args))
+(def term-counter (atom 0))
+
+(defn gen-term-id [] (swap! term-counter inc))
+
+(defn term? [x] (instance? Term x))
+
+(defn term [h & args] (->Term
+                        h
+                        (map #(if (term? %) % (->Term :literal % (gen-term-id))) args)
+                        (gen-term-id)))
+
+;; does reduce-kv work for sequences?
+
+
+(comment
+
+  (defn walk [term index pre post]
+   (post
+     (reduce-kv (fn [x y]
+                  (if (instance? Term x)
+                    (walk x)
+                    x))
+                x
+                (body (pre term))))
+
+   ))
+
+
+
+
+;; any way to specify "reduced" or to skip recursion?
 
 
 
@@ -223,11 +253,56 @@
        args))
 
 
+(comment
+  ;; doing functional clojure metaprogramming
+  ;; continue to use binders from host?
+  (let [x (s/foo y)]
+    (s/baz x))
 
-(def ast-class-map
-  (into {}
-        (concat
-          (map #(vector % :function) (map #(nth % 1) functions))
-          (map #(vector (:op %) :operator) operators))))
+  ;; what about generating functions?
+
+  (fresh [a b]
+    (s/fn [a (foo b)] a))
+
+  (with-terms [a b c d]
+         (map a [b c d]))
+
+  (escape [map]
+    (term (map a [b c])))
+
+
+  (fresh [a b]
+         )
+
+  (escape [a b c]
+          (map a [b c]))
+
+  (capture [map]
+           (term (map a [b c])))
+
+  ;; dont want to use capture to inject fns and eval then
+
+  (capture [a]
+           (term (map f a)))
+
+  (require-terms '[foo.bar :as f])
+
+  ;; can pass atoms/promises inside variables to add binding info later
+
+
+
+
+  ;; should just be a replacement fn?
+
+
+
+
+
+  (s/let [] (s/foo x))
+
+
+
+  )
+
 
 

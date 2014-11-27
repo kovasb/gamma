@@ -48,7 +48,7 @@
 ;; these guys should also do arg checking and type inference
 (defn ^:private gen-fn [tag]
   `(defn ~(symbol (name tag)) [& body#]
-     (gamma.ast/->Term ~tag body#)))
+     (gamma.ast/->Term ~tag body# (gamma.ast/gen-term-id))))
 
 (defmacro ^:private gen-fns []
   `(do
