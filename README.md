@@ -14,7 +14,7 @@ Metaprogramming does not have to be a confusing and complicated mess. Aided by t
 - No macros, quoting, unquoting etc
 - Clear visual distinction between GLSL code and Clojure code
 - No attempt to "cross-compile" clojure constructs into GLSL
-- 
+
 
 In Gamma, we write functions that, given a description of the data they will run against, will output corresponding shader code. In effect, we've turned shaders into functions. Not only does this get our code out of the variable-name game, but it also allows the shader to be specified with respect to abstractions. 
 
