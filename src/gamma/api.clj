@@ -18,7 +18,7 @@
             if
             for
             ])
-  (:require gamma.ast)
+  (:require [gamma.ast :as ast])
   )
 
 
@@ -50,12 +50,16 @@
   `(defn ~(symbol (name tag)) [& body#]
      (gamma.ast/->Term ~tag body# (gamma.ast/gen-term-id))))
 
+(defn if [c a b]
+  (ast/term :if c (ast/term :block a) (ast/term :block b)))
+
+
 (defmacro ^:private gen-fns []
   `(do
      ~@(clojure.core/map gen-fn
                          (concat
                            (keys gamma.ast/functions)
                            (keys gamma.ast/operators)
-                           [:if :if-else :for :block :continue :break :discard]))))
+                           [ :for :block :continue :break :discard]))))
 
 (gen-fns)
