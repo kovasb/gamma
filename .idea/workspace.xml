@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32090a69-fd81-45e2-a750-643aa6512c93" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/api.clj" afterPath="$PROJECT_DIR$/src/gamma/api.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/replstate.xml" afterPath="$PROJECT_DIR$/.idea/replstate.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="gamma.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -136,7 +133,7 @@
       <file leaf-file-name="compiler.clj" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gamma/compiler.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="357" column="23" selection-start="9839" selection-end="9839" vertical-scroll-proportion="0.7945566" vertical-offset="5521" max-vertical-offset="7164">
+            <state line="257" column="52" selection-start="7275" selection-end="7275" vertical-scroll-proportion="0.45959595" vertical-offset="4262" max-vertical-offset="10242">
               <folding />
             </state>
           </provider>
@@ -155,7 +152,9 @@
         <entry file="file://$PROJECT_DIR$/src/gamma/api.clj">
           <provider selected="true" editor-type-id="text-editor">
             <state line="53" column="59" selection-start="1191" selection-end="1191" vertical-scroll-proportion="-17.653847" vertical-offset="495" max-vertical-offset="1278">
-              <folding />
+              <folding>
+                <marker date="1419983294000" expanded="true" signature="1115:1191" placeholder="(defn if ...)" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -193,7 +192,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
     <option name="width" value="2524" />
-    <option name="height" value="1414" />
+    <option name="height" value="1054" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -502,7 +501,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="2524" height="1414" extended-state="0" />
+    <frame x="0" y="22" width="2524" height="1054" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -513,7 +512,7 @@
       <window_info id="Leiningen" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.07034796" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0966736" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -523,7 +522,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.09548751" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="REPL" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4480258" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="REPL" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40128928" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -646,7 +645,9 @@
     <entry file="file://$PROJECT_DIR$/src/gamma/api.clj">
       <provider selected="true" editor-type-id="text-editor">
         <state line="60" column="9" selection-start="1410" selection-end="1410" vertical-scroll-proportion="0.0" vertical-offset="211" max-vertical-offset="1206">
-          <folding />
+          <folding>
+            <marker date="1419983294000" expanded="true" signature="1115:1191" placeholder="(defn if ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -714,7 +715,9 @@
     <entry file="file://$PROJECT_DIR$/src/gamma/api.clj">
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="59" selection-start="1191" selection-end="1191" vertical-scroll-proportion="-17.653847" vertical-offset="495" max-vertical-offset="1278">
-          <folding />
+          <folding>
+            <marker date="1419983294000" expanded="true" signature="1115:1191" placeholder="(defn if ...)" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -727,7 +730,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="357" column="23" selection-start="9839" selection-end="9839" vertical-scroll-proportion="0.7945566" vertical-offset="5521" max-vertical-offset="7164">
+        <state line="257" column="52" selection-start="7275" selection-end="7275" vertical-scroll-proportion="0.45959595" vertical-offset="4262" max-vertical-offset="10242">
           <folding />
         </state>
       </provider>
