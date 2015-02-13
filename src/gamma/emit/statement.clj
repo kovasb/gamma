@@ -4,17 +4,38 @@
 
 ;;;; STATEMENTS
 
-(defmethod emit :break [x]
+(defmethod emit :break [db x]
   "break")
 
-(defmethod emit :continue [x]
+(defmethod emit :continue [db x]
   "continue")
 
-(defmethod emit :discard [x]
+(defmethod emit :discard [db x]
   "discard")
 
-(defmethod emit :block [x]
-  (str (apply str (interpose ";\n" (map emit (body x)))) ";\n"))
+(defmethod emit :block [db x]
+  [:group (interpose [:line] (map (fn [y] [:group (emit db (db y)) ";"]) (body x)))])
+
+(defmethod emit :set [db x]
+  [:group (emit db (db (first (body x)))) "=" (emit db (db (second (body x))))])
+
+
+
+
+
+(comment
+  [:group
+   (name (head x))
+   "("
+   [:line ""]
+   [:nest 2
+    (interpose [:span "," :line]
+               (map #(emit db (db %)) (body x)))]
+   ")"])
+
+(defmethod emit :if [db x]
+  (let [[test then else] (body x)]
+    [:group "if(" (emit db (db test)) ")" "{" (emit db (db then)) "}"]))
 
 
 (def qualifier-order
@@ -40,14 +61,12 @@
          (emit bod)
          "}")))
 
-(defmethod emit :if [x]
-  (let [[test then] (body x)]
-    (str "if(" (emit test) ")"
-         "{" (emit then) "}")))
+
 
 
 (defmethod emit :if-else [x]
   (let [[test then else] (body x)]
+    [:group "if" "(" ()]
     (str "if(" (emit test) ")"
          "{" (emit then) "}"
          "else" "{"

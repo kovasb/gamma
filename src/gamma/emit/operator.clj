@@ -5,35 +5,37 @@
 
 ;;; OPERATOR CASES
 
-(defmethod emit :infix [x]
+(defmethod emit :infix [db x]
   (let [literal (:literal (gamma.ast/operators (head x)))]
-    (apply str (interpose literal (map emit (body x))))))
+    [:group (interpose (str " " literal " ") (map #(emit db (db %)) (body x)))]))
 
-(defmethod emit :prefix [x]
+(defmethod emit :prefix [db x]
   (let [literal (:literal (gamma.ast/operators (head x)))]
-    (str literal (emit (first (body x))))))
+    [:group (str " " literal ) (emit db (db (first (body x))))]))
 
-(defmethod emit :postfix [x]
+(defmethod emit :postfix [db x]
   (let [literal (:literal (gamma.ast/operators (head x)))]
-    (str (emit (first (body x))) literal)))
+    [:group (emit db (db (first (body x)))) (str literal " ")]))
 
 
-(defmethod emit :constructor [x]
-  (apply
-    str
-    (flatten [(emit (first (body x)))
-              "("
-              (interpose ", " (map emit (rest (body x))))
-              ")"])))
+(defmethod emit :constructor [db x]
+  [:group
+   (emit db (db (first (body x))))
+   "("
+   [:line ""]
+   [:nest 2
+    (interpose [:span "," :line]
+               (map #(emit db (db %)) (rest (body x))))]
+   ")"])
 
-(defmethod emit :conditional-choice [x])
+(defmethod emit :conditional-choice [db x])
 
 
-(defmethod emit :aget [x]
+(defmethod emit :aget [db x]
   (str (emit (first (body x))) "[" (emit (second (body x))) "]"))
 
 
-(defmethod emit :selector [x]
+(defmethod emit :selector [db x]
   (str (emit (first (body x))) "." (name (second (body x)))))
 
 (comment

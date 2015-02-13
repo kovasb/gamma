@@ -1,78 +1,17 @@
 (ns gamma.compiler
   (:use gamma.ast)
+  (:use [gamme.ast :only [id?]])
   (:require [fipp.edn :refer (pprint) :rename {pprint fipp}]
             fipp.printer))
 
 
 
-(defn ast-doc [db node-id f]
-  (let [x (if (map? node-id) node-id (db node-id))]
-    [:group
-     (name (head x))
-     (if f
-       (if-let [y (f x db)]
-         (pr-str y)
-         ""))
-     "["
-     [:line ""]
-     (if (= :literal (head x))
-       (pr-str (:body x))
-       [:nest 2
-        (interpose [:span "," :line]
-                   (map #(ast-doc db % f) (body x)))])
-     "]"]))
 
-
-(defn print-ast [x f w]
-  (fipp.printer/pprint-document
-    (ast-doc
-      x
-      :root
-      f) {:width w}))
 
 
 
 ;;; Convert tree ast into flat ast
-(defn flatten-ast
-  ([node] (flatten-ast {:root {:id :root :head :block :body [(:id node)] :parents [:root]}} node :root))
-  ([db node parent-id]
-   (let [id (:id node) seen (db id)]
-     (if seen
-       (update-in db [id :parents] conj parent-id)
-       (if (= :literal (head node))
-         (assoc db id (assoc node :parents [parent-id]))
-         (reduce
-           #(flatten-ast %1 %2 id)
-           (assoc db (:id node)
-                  (assoc node
-                         :body (map :id (body node))
-                         :parents [parent-id]))
-           (body node)))))))
 
-
-(comment
-  (:root (flatten-ast (term :bar 0 (term :foo 1))))
-
-
-  (flatten-ast {} (let [x (term :foo)]
-     (term :bar x x)) :root)
-
-  (flatten-ast {} (let [x (term :foo)]
-                    (term :bar x x)) :root)
-
-
-  (clojure.pprint/pprint (let [x (term :foo)]
-     (term :bar
-           (term :baz x)
-           (term :baz x))))
-
-  (def db
-    (flatten-ast (let [x (term :foo)]
-                      (term :bar
-                            (term :baz x)
-                            (term :baz x)))))
-
-  )
 
 
 
@@ -83,79 +22,7 @@
 ;{:conditional tf :current n :start id}
 
 
-(defn parent-bubbles [db bubble]
-  (map
-    (fn [x]
-      (if (= :if (head (db x)))
-        (assoc bubble :current x :conditional true)
-        (assoc bubble :current x)))
-    (get-in db [(:current bubble) :parents])))
 
-
-
-(defn bubble-term [db queue]
-  (let [bubble (first queue)]
-    (if (nil? bubble)
-     ;; base case. If bubble is nil, return the db we've built up
-     db
-     (if (= :root (:current bubble))
-       ;; if bubble has reached the root node, recur to the next bubble in the queue
-       (recur db (rest queue))
-       ;; if not at the root node, inspect and mark node and recur
-       (let [info-path [(:current bubble) :shared (:start bubble)]
-             node-info (get-in db info-path)]
-         (if (:conditional bubble)
-           ;; bubble is conditional
-           (if (nil? node-info)
-             ;; node hasn't been visited before; mark and bubble
-             (let [parent-bubbles (parent-bubbles db bubble)]
-               (recur (assoc-in db info-path {:conditional true}) (concat (rest queue) parent-bubbles)))
-             (if (:unconditional node-info)
-               ;; node has been visited by an unconditional bubble. mark conditional and recur to next bubble
-               (recur (assoc-in db (conj info-path :conditional) true) (rest queue))
-               ;; node has been visited by conditional bubble. recur to next bubble
-               (recur db (rest queue))))
-
-           ;; bubble is unconditional
-           (if (or (nil? node-info) (nil? (:unconditional node-info)))
-             ;; node has not been visited by an unconditional bubble. mark and bubble
-             (let [parent-bubbles (parent-bubbles db bubble)]
-               (recur (assoc-in db info-path (assoc node-info :unconditional 1)) (concat (rest queue) parent-bubbles)))
-             ;; node has been visited by unconditional bubble. increment and recur to next bubble.
-             (recur
-               (assoc-in db info-path (assoc node-info :unconditional (+ 1 (:unconditional node-info))))
-               (rest queue))))
-
-         )))))
-
-(defn bubble-terms [db]
-  (reduce bubble-term db
-          (map
-            (fn [x] (map (fn [y] {:start (:id x)  :current y}) (:parents x)))
-            (filter #(clojure.core/< 1 (count (:parents %)))
-                    (map last db)))))
-
-
-
-
-(comment
-  (let [y (term :plus 1 2)]
-    (def x (flatten-ast (term :plus y y))))
-
-  (let [x (term :plus 1 2)
-        y (term :plus x x x)]
-    (print-ast (bubble-terms (flatten-ast y))
-               (fn [x db] [(:id x) (:shared x)]) 30))
-
-  (let [x (term :plus 1 2)
-        y (term :plus x x (g/if true 1 x))]
-    (print-ast (bubble-terms (flatten-ast y))
-               (fn [x db] [(:id x) (:shared x)]) 30))
-
-
-
-
-  )
 
 
 (defn walk [db id]
@@ -204,12 +71,85 @@
             (down db e (db f))
             f))))))
 
+;;;;
+
+(defn node [x]
+  ((:db x) (:id x)))
+
+(defn parent [x]
+  (assoc x :id (:parent (:env (node x)))))
+
+(defn node-update [x p f & args]
+  (assoc-in x [:db (:id x)] (apply update-in (node x) p f args)))
+
+(defn node-assoc [x & args] 1)
+
+(defn env-merge [to from keys]
+  (node-update to [:env] merge (select-keys (:env (node from)) keys)))
+
+(defn env-assoc [loc & args]
+  (apply node-update loc [:env] assoc args))
+
+
+(defn move-to [id loc] (assoc loc :id id))
+
+(defn standard-next [loc]
+  (let [{:keys [db id]} loc
+        no (node loc)
+        c (get-in no [:env :children])
+        f (first c)
+        n (next c)
+        ]
+    (if f
+      (env-assoc
+        (move-to f (env-assoc loc :children n))
+        :parent id :children (:body no))
+      (move-to nil loc))))
+
+
+(defn standard-next [loc]
+  (let [{:keys [db id]} loc
+        c (get-in db [id :env :children])
+        f (first c)
+        n (next c)
+        ]
+    (if f
+      {:id f :db (assoc-in
+                   (assoc-in db [id :env :children] n)
+                   [f :env] {:parent id :children (:body (db f))})}
+      {:id nil :db db})))
+
+
+(defn standard-up [loc]
+  (let [p (parent loc)]
+   (move-to (:id p) (assoc (:db loc) (:id loc) (dissoc (node loc) :env)))))
+
+(defn standard-up [loc]
+  (let [{:keys [db id]} loc]
+    {:id (:parent (:env (db id))) :db (update-in db [id] dissoc :env)}))
+
+
+(defn walk [loc next-child up]
+  (let [{:keys [db id]} loc]
+    (loop [loc {:id id :db (assoc-in db [id :env :children] (:body (db id)))}]
+     (let [{:keys [db id]} loc]
+       (println loc)
+       (if (= :literal (:head (db id)))
+         (recur (up loc))
+         (let [n (next-child loc)]
+           (if (:id n)
+             (recur n)
+             (if (= :root id)
+               loc
+               (recur (up (assoc n :id id)))))))))))
+
+
 
 (comment
 
   (let [x (term :plus 1 2)
         y (term :plus x x (g/if true 1 x))]
-    (walk (flatten-ast y) :root standard-down standard-up)))
+    (walk {:db (flatten-ast y) :id :root}  standard-next standard-up)))
 
 
 
@@ -230,6 +170,182 @@
                      x))))
 
 
+
+
+(defn env-get [x k]
+
+  )
+
+
+
+(defn iterate-stages [stages]
+  (let [stage-index (into {} (map-indexed #(vector %2 %2) stages)) last-stage (last stages)]
+    (fn iterate-stages-sub [loc]
+      (let [children (env-get loc :children)]
+        (if (= :none children)
+          nil
+          (let [current-stage (env-get loc :stage)
+               f (first children)
+               n (next children)]
+           (if f
+             (env-assoc
+               (move-to f (env-assoc loc :children n))
+               :parent (:id loc))
+             (if current-stage
+               ;; move to next stage, if any
+               (if (= last-stage current-stage)
+                 nil
+                 (let [new-stage (if current-stage
+                                   (nth stages (+ 1 (stage-index current-stage)))
+                                   (first stages))]
+                   (iterate-stages-sub
+                     (env-assoc loc
+                                :stage new-stage
+                                :children ((node loc) new-stage)))))))))))))
+
+
+(def separate-usages-next-0 (iterate-stages [:shared :body]))
+
+(defn separate-usages-next [loc]
+  (if-let [next-loc (separate-usages-next-0 loc)]
+    (let [id-map (env-get loc :id-map)
+          next-loc
+          (env-assoc
+            (env-merge next-loc loc [:id-map :output])
+            :new-id (gen-term-id))]
+      (if-let [binding-id (id-map (:id next-loc))]
+        (env-assoc next-loc :binding-id binding-id :children :none)
+        next-loc))))
+
+(defn separate-usages-up [loc output-fn]
+  (let [parent-loc (parent loc)
+        stage (env-get parent-loc :stage)
+        parent-newid (env-get parent-loc :new-id)
+        newid (env-get loc :new-id)]
+    (if-let [bid (env-get loc :binding-id)]
+     (output-fn parent-loc parent-newid stage bid)
+     (if (= :body stage)
+       (env-merge
+         (parent loc)
+         (output-fn loc
+                 parent-newid
+                 stage
+                 (env-get loc :new-id))
+         [:output])
+       (node-update
+         (env-merge
+           (parent loc)
+           (output-fn loc parent-newid stage (env-get loc :new-id)) [:output])
+         [:env :id-mapping]
+         assoc (:id loc) newid)))))
+
+;;;;;;;;;;;;;
+
+(defn walk [x]
+  (loop [y x]
+    (let [s (:stack y) f (peek s)]
+      (if f
+       (f (assoc y :stack (pop s)))
+       y))))
+
+(defn push [x y])
+
+(declare separate-usages-path separate-usages-body)
+
+(defn separate-usages-node [node id-mapping]
+  (fn [x]
+    (if (literal? node)
+      x
+      ;; need to initialize :shared for the node, and set the path in reduce
+      (reduce
+       #(push %1 (separate-usages-path %2 node id-mapping))
+       (push x (separate-usages-body node id-mapping))
+       (get-shared x node)))))
+
+(defn separate-usages-path [path id-mapping]
+  ;; create new node and insert into parent
+  ;; recurse onto self with separate-usages-node
+  (fn [x]
+    (let [{:keys [parent-id parent-path id]} path]
+      (if-let [target-id (id-mapping (:id path))]
+       (assoc-in x [parent-id parent-path] target-id)
+       (let [newid (gen-term-id)
+             node (assoc ((:source-db x) id) :id newid :parents [parent-id] :source-id id)]
+         (push
+           (assoc-in
+            (assoc-in x [:db newid] node)
+            [parent-id parent-path] newid)
+           (separate-usages-node newid id-mapping)))))))
+
+(defn id-map [x id id-mapping])
+
+(defn separate-usages-body [id id-mapping]
+  ;; gather id mapping
+  ;; push separate-usages-body-node
+  (fn [x]
+    (let [im (id-map x id id-mapping)
+          body (get-in x [:db :id :body])]
+      ;; asssoc bindings to node for later use
+      (reduce #(push %1
+                (separate-usages-path
+                  {:parent-id id :parent-path [:body (first %2)] :id (last %2)} id-mapping))
+                  x (map-indexed vector body)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+
+
+
+
+
+
+
+;;
+
+(defn db-assoc [x])
+(defn db-assoc-in [x])
+(defn db-get [x])
+(defn db-update-in [x])
+
+(defn path-assoc [db path])
+
+(defn lift-assignments-sub )
+
+
+(defn lift-assignments [target-block-id]
+  (fn [db path]
+    [
+    ;; if path is in :shared, or is a statement, lift into target
+    (lift-assignments-sub db path target-block-id)
+    [[:assignments (map-path #(lift-assignments target-block-id))]
+     [:body (let [target (get-target arg)] (map-path #(lift-assignments target)))]]]))
+
+
+;;
+
+(defn insert-variables [db path element]
+  [
+   ;; if id is in the binding map of self (or parent when looking at an :assignments path), insert new node at that position with a literal variable
+   (insert-variables-sub)]
+  [[:assignments (map-path insert-variables-sub)] [:body (map-path insert-variables-sub)]])
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+
+
+{:db {:root {:body [old-id]}} :source-db {} :stack []}
+
+
+;;;;;;;;;;;;;
+
 (defn separate-usages-next-child [parent]
   (let [parent-env (:env parent)
         new-env (if-let [n (next (:children parent-env))]
@@ -240,10 +356,6 @@
 
 
 (defn separate-usages-up [db child parent]
-  ;; add self links to db
-  ;; merge env
-  ;; merge db
-  ;; update children
   (let [parent-env (:env parent)
         child-env (:env child)
         new-db
@@ -255,16 +367,13 @@
             ((:id-map parent-env) (:id child))
             (:new-id child-env)))
         new-env (assoc parent-env :db new-db)
-        new-env (if (= :shared (:stage parent-env)) 
+        new-env (if (= :shared (:stage parent-env))
                   (update-in new-env [:id-mapping] assoc (:id child) (:new-id child-env))
                   new-env)
         ]
     (assoc db
            (:id child) (dissoc child :env)
            (:id parent) (separate-usages-next-child (assoc parent :env new-env)))))
-
-
-
 
 (defn separate-usages-down [db parent child]
 
@@ -288,6 +397,8 @@
                                       :parents [(:new-id (:env parent))]
                                       :body (if (literal? child) (:body child) [])
                                       :shared (if s2 [] nil)))}))))
+
+
 
 
 
@@ -378,10 +489,46 @@
 
 
 
+(defn lift-assignments [node-id parent-block-id]
+  (fn [x]
+
+    (reduce (lift-shared node-id parent-block-id))
+
+
+    )
+
+  )
+
+
+(def lift-assignments-next-0 (iterate-stages [:shared :body]))
+
+(defn lift-assignments-next [loc]
+  (if-let [next-loc (separate-usages-next-0 loc)]
+    (if (= :block (:head (node loc)))
+      (env-assoc next-loc :parent-block-id (:id loc))
+      (env-merge next-loc loc [:parent-block-id]))))
+
+(defn assign-to-block [loc]
+  (move-to
+    (:id loc)
+    (node-update (move-to (env-get loc :parent-block-id) loc)
+                 :assignments conj (:id loc))))
+
+(defn lift-assignments-up [loc]
+  ;; if is shared, or if statement, assign self to parent-block
+  (let [p (parent loc)
+        stage (:stage (node parent))]
+    (if (or (= :shared stage) (statement? loc))
+      (parent (assign-to-block loc))
+      (parent loc))))
 
 
 
 
+
+(defn lift-assignments-next [loc]
+  ;; if parent is block, pass new block id down
+  )
 
 ;; by now shared elements are specifically identified
 (defn lift-assignments
@@ -391,6 +538,7 @@
    (let [e (db current-id)]
      ;; first lift any shared expressions
 
+     ;; all shared exprs
      (let [db2 (reduce
                  (fn [db eid]
                    (lift-assignments
@@ -403,15 +551,18 @@
         db2
 
         (statement? e)
+        ;; if a statement, add self to parent block assignments
         (let [db3 (update-in db2 [parent-block-id :assignments] conj (:id e))]
           (reduce #(lift-assignments %2 parent-block-id %1) db3 (:body e)))
 
         (block? e)
+        ;; children of block see a new node in which to place assignment
         (let [db3 (assoc-in db2 [current-id :assignments] [])]
           (reduce #(lift-assignments %2 current-id %1) db3 (:body e)))
 
 
         :default
+        ;; expressions just recurse to children
         (reduce #(lift-assignments %2 parent-block-id %1) db2 (:body e)))))))
 
 (comment
@@ -443,6 +594,75 @@
 ;; look at the :shared key, compute exprs that should be shared
 ;; those not already in the env need to be stuffed into the assignments block
 
+
+(defn insert-variable-usage-up [loc]
+  ;; iterating through assignments will create bindings on parent
+  ;; instances of usage should be replaced by new literal exprs
+
+  )
+
+(defn insert-variable-usage-down [loc]
+  ;; pass bindings down
+  )
+
+
+(defn insert-assignments-up [loc]
+  ;; create assignment forms, place into block bodies
+
+  )
+
+(defn insert-assignments-down [loc]
+  ;; push targets down into bodies
+
+  )
+
+
+(defn assoc-node [loc node] {:id (:id loc) :db (assoc (:db loc) (:id node) node)})
+
+(defn swap-body [loc] )
+
+(defn insert-variables-up [loc output]
+  (if-let [b (env-get loc :binding)]
+    (let [n {:id (gen-term-id) :head :literal :body b}]
+      (parent (output (assoc-node loc n) (:id n))))
+
+
+    )
+  ;; if is an assignment, add to parent's binding map
+  ;;   add assignment expr to parent's new body
+  ;; else place self's new body into body slot & add self to parent's new body
+  ;; if the last statement in a block, use passed id for assignment
+  )
+
+(def insert-variables-next-0 (iterate-stages [:assignments :body]))
+
+(defn insert-variables-next [loc]
+  (if-let [next-loc (insert-variables-next-0 loc)]
+    (let [bindings-map (env-get loc :bindings-map)]
+      (if-let [b (bindings-map (:id next-loc))]
+        (env-assoc next-loc :binding b :children :none)
+        (let [next-loc (env-assoc next-loc :bindings-map bindings-map)]
+          (if (and (= :if (:head (loc)))
+                   (= :body (env-get loc :stage))
+                   (< 1 (env-get next-loc :stage-position)))
+            (env-assoc next-loc :binding-target (:id loc))
+            next-loc))
+      (env-assoc next-loc loc [:bindings-map])))))
+
+
+
+(defn insert-variables-next [loc]
+  (let [p (par)] (merge-env loc))
+
+  ;; pass binding map
+  ;; when entering an if clause, pass its id in
+  ;; if entering a bound expr, set children to :none
+
+  ;; if the if is in a return position, take any existing if binding
+  ;; if form is contained within an assignment, pass that info down
+  )
+
+
 (declare insert-variables)
 
 (defn insert-variables-block [current-id db env]
@@ -456,52 +676,9 @@
      [(assoc-in db [current-id :body] []) env]
      (:assignments e))))
 
-(defn insert-variables-if-block [current-id db env output]
-  (let [e (db current-id)
-        [db env] (reduce
-                   (fn [[db env] id]
-                     (let [db (insert-variables id db env)
-                           v {:head :literal :body [{:variable id}]}
-                           env2 (assoc env id v)]
-                       [(update-in db [current-id :body] conj {:head :set :body [v (if (env id) (env id) id)]}) env2]))
-                   [(assoc-in db [current-id :body] []) env]
-                   (:assignments e))]
-    (first
-      ))
-
-  )
-
-(comment
-  (defn insert-variables-block [current-id db env]
-    (let [e (db current-id)]
-      (first
-        (reduce
-          (fn [[db env] id]
-            (let [db (insert-variables id db env)
-                  v {:head :literal :body [{:variable id}]}
-                  env2 (assoc env id v)]
-              [(update-in db [current-id :body] conj {:head :set :body [v (if (env id) (env id) id)]}) env2]))
-          [(assoc-in db [current-id :body] []) env]
-          (concat (:assignments e) (:body e))))))
 
 
 
-  (defn insert-variables [current-id db env]
-    (let [e (db current-id)]
-      (cond
-        (env current-id)
-        db
-
-        (literal? e)
-        db
-
-        (block? e)
-        (insert-variables-block current-id db env)
-
-        :default
-        (assoc-in
-          (reduce #(insert-variables %2 %1 env) db (:body e))
-          [current-id :body] (map #(if (env %) (env %) %) (:body e)))))))
 
 
 

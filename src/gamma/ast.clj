@@ -8,13 +8,18 @@
 
 (def term-counter (atom 0))
 
-(defn gen-term-id [] (swap! term-counter inc))
+(defrecord Id [id])
+
+(defn id? [x]
+  (instance? Id x ))
+
+(defn gen-term-id [] (let [id (swap! term-counter inc)] (Id. id)))
 
 (defn term? [x] (instance? Term x))
 
 (defn term [h & args] (->Term
                         h
-                        (map #(if (term? %) % (->Term :literal % (gen-term-id))) args)
+                        (map #(if (term? %) % (assoc (->Term :literal nil (gen-term-id)) :value %)) args)
                         (gen-term-id)))
 
 ;; does reduce-kv work for sequences?

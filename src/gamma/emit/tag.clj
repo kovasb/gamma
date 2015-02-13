@@ -19,8 +19,8 @@
 ;;;; VARIABLES
 
 
-(defmethod emit :variable [x]
-  (:name x))
+(defmethod emit :variable [db x]
+  (str "v" (:id (:id x))))
 
 
 (defmethod emit :vector [x]

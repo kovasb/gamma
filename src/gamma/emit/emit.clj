@@ -12,7 +12,7 @@
 (defn primitive? [x]
   (or (#{true false} x) (integer? x) (float? x)))
 
-(defn emit-dispatch [x]
+(defn emit-dispatch [db x]
   (if (primitive? x)
     :primitive
     (if (#{:float :bool :int} x)
@@ -28,14 +28,79 @@
 
 (defmulti emit emit-dispatch)
 
-(defmethod emit :primitive [x] (str x))
+(defmethod emit :primitive [db x] (str x))
 
-(defmethod emit :primitive-type [x] (name x))
+(defmethod emit :primitive-type [db x] (name x))
+
+(defmethod emit :literal [db x] (emit db (:value x)))
 
 
 (comment
-  (use 'gamma.emit.emit)
+  (use 'gamma.emit.emit :reload)
+  (use 'gamma.emit.tag :reload)
   (in-ns 'gamma.emit.emit)
+
+  (use '[gamma.ast :only [id? term]]
+       '[gamma.compiler.flatten-ast :only [flatten-ast]])
+
+  (def db
+    (flatten-ast (let [x (term :abs 1)]
+                   (term :mod
+                         (term :floor x)
+                         (term :ceil x)))))
+
+  (use 'gamma.emit.function)
+
+  (emit db (db (first (:body (:root db)))))
+
+  (require '[fipp.edn :refer (pprint) :rename {pprint fipp}]
+   'fipp.printer)
+
+  (fipp.printer/pprint-document
+    (emit db (db (first (:body (:root db)))))
+     {:width 10})
+
+  (use 'gamma.emit.operator :reload)
+
+
+  (def db
+    (flatten-ast (let [x (term :abs 1)]
+                   (term :>
+                         (term :floor x)
+                         (term :increment (term :ceil x))))))
+
+  (fipp.printer/pprint-document
+    (emit db (db (first (:body (:root db)))))
+    {:width 15})
+
+  (fipp.printer/pprint-document
+    [:group "a" :break "b"]
+    {:width 15})
+
+  (use 'gamma.emit.statement :reload)
+
+  (def db
+    (flatten-ast (let [x (term :abs 1)]
+                   (term :block
+                         x
+                         (term :floor x)
+                         (term :increment (term :ceil x))))))
+
+  (def db
+    (flatten-ast (term :set
+                       {:head :literal :value {:tag :variable :id 1}}
+
+                       (term :floor 1)
+                       )))
+
+
+  (fipp.printer/pprint-document
+    (emit db (db (first (:body (:root db)))))
+    {:width 10})
+
+
+
+
   (emit-dispatch 1)
   (operator-class (term :+ []))
   (gamma.ast/operators (term :+ []))
