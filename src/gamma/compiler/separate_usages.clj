@@ -9,7 +9,7 @@
     first
     (filter
       #(let [u (:unconditional (last %)) c (:conditional (last %))]
-        (if u (<= 2 u)))
+        (if u (<= 2 (+ u (if c 1 0)))))
       x)))
 
 
@@ -27,11 +27,11 @@
         {:source-id y :id (gen-term-id)}))
     (:body source-element)))
 
-(defn assoc-attributes [db location source-element]
-  (println [{:id (:id location)} source-element])
+(defn assoc-attributes [db location source-element bound-ids]
+  ;(println [{:id (:id location)} source-element])
   (update-in db
              [(:id location)]
-             #(merge (dissoc %1 :source-id) %2)
+             #(assoc (merge (dissoc %1 :source-id) %2) :env bound-ids)
              (dissoc source-element :id :body :shared)))
 
 
@@ -46,7 +46,7 @@
             new-bound-ids (into bound-ids (map :id shared))
             body (body-elements source-element new-id-mapping)]
 
-        [(-> (assoc-attributes db location source-element)
+        [(-> (assoc-attributes db location source-element new-bound-ids)
              ;(assoc-in [(:id location) :env] new-bound-ids)
              (merge-elements (location-conj db location :shared) shared)
              (merge-elements (location-conj db location :body) body))

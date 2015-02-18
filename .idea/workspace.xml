@@ -2,29 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32090a69-fd81-45e2-a750-643aa6512c93" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/bubble_term.clj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/common.clj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/core.clj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/flatten_ast.clj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/insert_assignments.clj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/insert_variables.clj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/lift_assignments.clj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/move_assignments.clj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/print.clj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/compiler/separate_usages.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/ast.clj" afterPath="$PROJECT_DIR$/src/gamma/ast.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/gamma/core_test.clj" afterPath="$PROJECT_DIR$/test/gamma/core_test.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/api.clj" afterPath="$PROJECT_DIR$/src/gamma/api.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler/bubble_term.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler/bubble_term.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/emit/emit.clj" afterPath="$PROJECT_DIR$/src/gamma/emit/emit.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/emit/function.clj" afterPath="$PROJECT_DIR$/src/gamma/emit/function.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gamma.iml" afterPath="$PROJECT_DIR$/gamma.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/examples.clj" afterPath="$PROJECT_DIR$/src/gamma/examples.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler/flatten_ast.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler/flatten_ast.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler/insert_assignments.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler/insert_assignments.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler/insert_variables.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler/insert_variables.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler/lift_assignments.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler/lift_assignments.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/emit/operator.clj" afterPath="$PROJECT_DIR$/src/gamma/emit/operator.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.clj" afterPath="$PROJECT_DIR$/project.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler/move_assignments.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler/move_assignments.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler/print.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler/print.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/replstate.xml" afterPath="$PROJECT_DIR$/.idea/replstate.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/compiler/separate_usages.clj" afterPath="$PROJECT_DIR$/src/gamma/compiler/separate_usages.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/emit/statement.clj" afterPath="$PROJECT_DIR$/src/gamma/emit/statement.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/emit/tag.clj" afterPath="$PROJECT_DIR$/src/gamma/emit/tag.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="gamma.iws" />
@@ -89,28 +80,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="insert_variables.clj" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gamma/compiler/insert_variables.clj">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="788" selection-end="788" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2250">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="emit.clj" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gamma/emit/emit.clj">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="16" selection-start="2283" selection-end="2283" vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="3744">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="tag.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gamma/emit/tag.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="343" selection-end="403" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1080">
+            <state line="21" column="0" selection-start="343" selection-end="403" vertical-scroll-proportion="0.0" vertical-offset="49" max-vertical-offset="1080">
               <folding />
             </state>
           </provider>
@@ -119,16 +92,7 @@
       <file leaf-file-name="core_test.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/gamma/core_test.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="164" selection-end="164" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="function.clj" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gamma/emit/function.clj">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="13" selection-start="431" selection-end="431" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="792">
+            <state line="9" column="0" selection-start="164" selection-end="164" vertical-scroll-proportion="0.0" vertical-offset="162" max-vertical-offset="270">
               <folding />
             </state>
           </provider>
@@ -137,16 +101,63 @@
       <file leaf-file-name="bubble_term.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gamma/compiler/bubble_term.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="14" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="605" max-vertical-offset="1530">
+            <state line="1" column="4" selection-start="30" selection-end="35" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1512">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="insert_assignments.clj" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/gamma/compiler/insert_assignments.clj">
+      <file leaf-file-name="Compiler.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.6.0/clojure-1.6.0.jar!/clojure/lang/Compiler.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="20" selection-start="963" selection-end="963" vertical-scroll-proportion="0.88235295" vertical-offset="0" max-vertical-offset="3420">
+            <state line="240" column="35" selection-start="12420" selection-end="12420" vertical-scroll-proportion="-8.12" vertical-offset="4099" max-vertical-offset="30042">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Numbers.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.6.0/clojure-1.6.0.jar!/clojure/lang/Numbers.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="521" column="35" selection-start="21994" selection-end="21994" vertical-scroll-proportion="-7.96" vertical-offset="9161" max-vertical-offset="16830">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="insert_variables.clj" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/gamma/compiler/insert_variables.clj">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="24" selection-start="508" selection-end="508" vertical-scroll-proportion="0.2475442" vertical-offset="0" max-vertical-offset="1332">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Object.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/src.zip!/java/lang/Object.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="381" column="29" selection-start="17513" selection-end="17513" vertical-scroll-proportion="0.0" vertical-offset="6237" max-vertical-offset="9702">
+              <folding>
+                <element signature="e#0#25868#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Long.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/src.zip!/java/lang/Long.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="837" column="0" selection-start="31867" selection-end="31867" vertical-scroll-proportion="0.0" vertical-offset="14427" max-vertical-offset="28836">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.clj" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.6.0/clojure-1.6.0.jar!/clojure/main.clj">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="273" column="0" selection-start="10367" selection-end="10367" vertical-scroll-proportion="0.0" vertical-offset="4707" max-vertical-offset="7740">
               <folding />
             </state>
           </provider>
@@ -155,25 +166,7 @@
       <file leaf-file-name="move_assignments.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gamma/compiler/move_assignments.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="53" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="operator.clj" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gamma/emit/operator.clj">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="49" selection-start="606" selection-end="606" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1638">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="statement.clj" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gamma/emit/statement.clj">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="72" selection-start="799" selection-end="799" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1962">
+            <state line="20" column="72" selection-start="613" selection-end="613" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="468">
               <folding />
             </state>
           </provider>
@@ -196,28 +189,28 @@
         <option value="$PROJECT_DIR$/src/gamma/emit.clj" />
         <option value="$PROJECT_DIR$/src/gamma/format.clj" />
         <option value="$PROJECT_DIR$/src/gamma/zip.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/examples.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/api.clj" />
         <option value="$PROJECT_DIR$/src/gamma/compiler/flatten-ast.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/compiler/bubble_term.clj" />
         <option value="$PROJECT_DIR$/src/gamma/compiler.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/compiler/flatten_ast.clj" />
         <option value="$PROJECT_DIR$/src/gamma/ast.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/compiler/separate_usages.clj" />
         <option value="$PROJECT_DIR$/project.clj" />
         <option value="$PROJECT_DIR$/src/gamma/compiler/common.clj" />
         <option value="$PROJECT_DIR$/src/gamma/emit/function.clj" />
         <option value="$PROJECT_DIR$/src/gamma/emit/operator.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/compiler/insert_variables.clj" />
         <option value="$PROJECT_DIR$/test/gamma/core_test.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/emit/emit.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/compiler/print.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/emit/statement.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/compiler/lift_assignments.clj" />
         <option value="$PROJECT_DIR$/src/gamma/compiler/core.clj" />
-        <option value="$PROJECT_DIR$/src/gamma/compiler/insert_assignments.clj" />
         <option value="$PROJECT_DIR$/src/gamma/emit/tag.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/compiler/insert_assignments.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/compiler/bubble_term.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/compiler/flatten_ast.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/api.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/emit/statement.clj" />
         <option value="$PROJECT_DIR$/src/gamma/compiler/move_assignments.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/emit/emit.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/compiler/lift_assignments.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/compiler/separate_usages.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/compiler/print.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/examples.clj" />
+        <option value="$PROJECT_DIR$/src/gamma/compiler/insert_variables.clj" />
       </list>
     </option>
   </component>
@@ -252,6 +245,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -352,7 +346,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -377,6 +370,24 @@
     <property name="FullScreen" value="false" />
   </component>
   <component name="RunManager" selected="Clojure REPL.repl">
+    <configuration default="false" name="examples" type="ClojureScriptRunConfiguration" factoryName="Clojure Script" temporary="true">
+      <module name="gamma" />
+      <setting name="path" value="$PROJECT_DIR$/src/gamma/examples.clj" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$/src/gamma" />
+      <setting name="repl" value="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Debug" />
+      <method>
+        <option name="Synchronize Leiningen" enabled="true" />
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -542,9 +553,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list size="1">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Clojure REPL.repl" />
+      <item index="1" class="java.lang.String" itemvalue="Clojure Application.examples" />
     </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Clojure Application.examples" />
+      </list>
+    </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
@@ -576,29 +593,49 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1174" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994455" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994455" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Leiningen" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37523106" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39926064" sideWeight="0.671459" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39926064" sideWeight="0.328541" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994455" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14909478" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="REPL" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30511183" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="REPL" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.44195953" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -655,41 +692,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/print.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="20" selection-start="604" selection-end="687" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="1584">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/flatten_ast.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="30" selection-start="4" selection-end="30" vertical-scroll-proportion="0.0" vertical-offset="101" max-vertical-offset="1026">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/separate_usages.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="2" selection-start="2229" selection-end="2388" vertical-scroll-proportion="0.0" vertical-offset="1242" max-vertical-offset="3816">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/core.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="4" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="1350">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="555" column="10" selection-start="14892" selection-end="14892" vertical-scroll-proportion="0.0" vertical-offset="9990" max-vertical-offset="13428">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/insert_assignments.clj">
       <provider selected="true" editor-type-id="text-editor">
         <state line="91" column="24" selection-start="2565" selection-end="2565" vertical-scroll-proportion="0.0" vertical-offset="1638" max-vertical-offset="3204">
@@ -699,18 +701,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/common.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="22" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="1206">
-          <folding>
-            <marker date="1421443302000" expanded="true" signature="-1:-1" placeholder="(defn get-element ...)" />
-          </folding>
-        </state>
+        <state line="29" column="22" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="1206" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="35" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0" vertical-offset="144" max-vertical-offset="270">
-          <folding />
-        </state>
+        <state line="8" column="35" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0" vertical-offset="144" max-vertical-offset="270" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/lift_assignments.clj">
@@ -729,16 +725,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/print.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="20" selection-start="604" selection-end="687" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="1584">
-          <folding />
-        </state>
+        <state line="32" column="20" selection-start="604" selection-end="687" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="1584" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/flatten_ast.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="30" selection-start="4" selection-end="30" vertical-scroll-proportion="0.0" vertical-offset="101" max-vertical-offset="1026">
-          <folding />
-        </state>
+        <state line="0" column="30" selection-start="4" selection-end="30" vertical-scroll-proportion="0.0" vertical-offset="101" max-vertical-offset="1026" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/separate_usages.clj">
@@ -750,9 +742,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/core.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="4" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="1350">
-          <folding />
-        </state>
+        <state line="24" column="4" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="1350" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler.clj">
@@ -771,18 +761,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/common.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="22" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="1206">
-          <folding>
-            <marker date="1421443302000" expanded="true" signature="-1:-1" placeholder="(defn get-element ...)" />
-          </folding>
-        </state>
+        <state line="29" column="22" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="1206" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="35" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0" vertical-offset="144" max-vertical-offset="270">
-          <folding />
-        </state>
+        <state line="8" column="35" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0" vertical-offset="144" max-vertical-offset="270" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/ast.clj">
@@ -847,42 +831,9 @@
         <state line="181" column="0" selection-start="4990" selection-end="4990" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5742" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/examples.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="12" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="1728" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="35" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/common.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="22" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1206">
-          <folding>
-            <marker date="1421443302000" expanded="true" signature="-1:-1" placeholder="(defn get-element ...)" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/flatten_ast.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="30" selection-start="4" selection-end="30" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1165">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/api.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="59" selection-start="1191" selection-end="1191" vertical-scroll-proportion="0.6545842" vertical-offset="340" max-vertical-offset="1278" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/ast.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="88" selection-start="438" selection-end="438" vertical-scroll-proportion="-2.3545947" vertical-offset="2556" max-vertical-offset="5742" />
+        <state line="8" column="35" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler.clj">
@@ -895,13 +846,6 @@
     <entry file="file://$PROJECT_DIR$/src/gamma/emit/operator.clj">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="49" selection-start="606" selection-end="606" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1638">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/bubble_term.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="14" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="605" max-vertical-offset="1530">
           <folding />
         </state>
       </provider>
@@ -920,43 +864,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/print.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="3" selection-start="1432" selection-end="1460" vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1674">
-          <folding>
-            <marker date="1423859919000" expanded="true" signature="-1:-1" placeholder="(comment ...)" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/emit/emit.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="16" selection-start="2283" selection-end="2283" vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="3744">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/core.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="15" selection-start="834" selection-end="843" vertical-scroll-proportion="1.008" vertical-offset="0" max-vertical-offset="1350">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/separate_usages.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="2" selection-start="2458" selection-end="2576" vertical-scroll-proportion="0.5114379" vertical-offset="1091" max-vertical-offset="3816">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/emit/statement.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="72" selection-start="799" selection-end="799" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1962">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/emit/tag.clj">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="0" selection-start="343" selection-end="403" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1080">
@@ -964,30 +871,144 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.6.0/clojure-1.6.0.jar!/clojure/lang/Compiler.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="240" column="35" selection-start="12420" selection-end="12420" vertical-scroll-proportion="-8.12" vertical-offset="4099" max-vertical-offset="30042">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.6.0/clojure-1.6.0.jar!/clojure/main.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="273" column="0" selection-start="10367" selection-end="10367" vertical-scroll-proportion="0.0" vertical-offset="4707" max-vertical-offset="7740">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/src.zip!/java/lang/Long.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="837" column="0" selection-start="31867" selection-end="31867" vertical-scroll-proportion="0.0" vertical-offset="14427" max-vertical-offset="28836">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.6.0/clojure-1.6.0.jar!/clojure/lang/Numbers.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="521" column="35" selection-start="21994" selection-end="21994" vertical-scroll-proportion="-7.96" vertical-offset="9161" max-vertical-offset="16830">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/src.zip!/java/lang/Object.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="381" column="29" selection-start="17513" selection-end="17513" vertical-scroll-proportion="0.0" vertical-offset="6237" max-vertical-offset="9702">
+          <folding>
+            <element signature="e#0#25868#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/ast.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="88" selection-start="438" selection-end="438" vertical-scroll-proportion="0.3713163" vertical-offset="0" max-vertical-offset="5742">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/api.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="9" selection-start="1528" selection-end="1528" vertical-scroll-proportion="0.89524734" vertical-offset="247" max-vertical-offset="1296">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/flatten_ast.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="12" selection-start="33" selection-end="47" vertical-scroll-proportion="0.035363458" vertical-offset="0" max-vertical-offset="1026">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/core.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="902" selection-end="902" vertical-scroll-proportion="0.0" vertical-offset="283" max-vertical-offset="1350">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/emit/statement.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="54" selection-start="542" selection-end="542" vertical-scroll-proportion="0.14145383" vertical-offset="252" max-vertical-offset="2268">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/emit/emit.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="46" selection-start="794" selection-end="794" vertical-scroll-proportion="0.628516" vertical-offset="0" max-vertical-offset="3780">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/bubble_term.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="4" selection-start="30" selection-end="35" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1512">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/common.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="31" selection-start="807" selection-end="808" vertical-scroll-proportion="0.5304519" vertical-offset="0" max-vertical-offset="1206">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/move_assignments.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="53" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342">
+        <state line="20" column="72" selection-start="613" selection-end="613" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="468">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/separate_usages.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="91" selection-start="2040" selection-end="2040" vertical-scroll-proportion="0.848723" vertical-offset="90" max-vertical-offset="3816">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/lift_assignments.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="35" selection-start="4" selection-end="35" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="2232">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/insert_variables.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="788" selection-end="788" vertical-scroll-proportion="0.0" vertical-offset="864" max-vertical-offset="2250">
+        <state line="23" column="0" selection-start="683" selection-end="683" vertical-scroll-proportion="0.40667975" vertical-offset="0" max-vertical-offset="2268">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/insert_assignments.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="20" selection-start="963" selection-end="963" vertical-scroll-proportion="0.88235295" vertical-offset="0" max-vertical-offset="3420">
+        <state line="29" column="41" selection-start="941" selection-end="941" vertical-scroll-proportion="0.4950884" vertical-offset="18" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/print.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="8" selection-start="2156" selection-end="2156" vertical-scroll-proportion="0.842871" vertical-offset="805" max-vertical-offset="2250">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/examples.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="41" selection-start="2545" selection-end="2545" vertical-scroll-proportion="0.50630456" vertical-offset="1458" max-vertical-offset="4248">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/insert_variables.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="24" selection-start="508" selection-end="508" vertical-scroll-proportion="0.2475442" vertical-offset="0" max-vertical-offset="1332">
           <folding />
         </state>
       </provider>

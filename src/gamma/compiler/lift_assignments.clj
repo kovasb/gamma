@@ -20,6 +20,8 @@
       (:id e)
       target-block-id)))
 
+;; do we need to topologically sort the assignments at a given level?
+
 
 (defn lift-assignments [target-block-id]
   (fn [db location]

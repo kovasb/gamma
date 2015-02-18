@@ -34,6 +34,8 @@
 
 (defmethod emit :literal [db x] (emit db (:value x)))
 
+(defmethod emit nil [db x] (println [:nil x]))
+
 
 (comment
   (use 'gamma.emit.emit :reload)

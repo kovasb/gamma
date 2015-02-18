@@ -5,65 +5,32 @@
 
 (defn insert-variables-sub [db location]
   (let [id (gen-term-id)]
-    (println "z")
     (-> db
         (assoc-in-location (:parent location) id)
         (assoc-elements [{:id id :head :literal :value {:tag :variable :id (:id location)}}]))))
 
+(defn parent-env [db location]
+  (get (db (:id (:parent location))) :env {}))
 
-(defn insert-variables [env]
+(defn insert-variables []
   (fn [db location]
-    (if (env (:id (get-element db location)))
+    (if ((parent-env db location) (:id location))
+      ;(env (:id (get-element db location)))
       [(insert-variables-sub db location) nil]
-      (let [new-env (into env (:assignments (get-element db location)))]
-       [
-        db
-        [[:assignments (map-path (insert-variables env))]
-         [:body (map-path (insert-variables new-env))]
-         ]]))))
+      ;let [new-env (into env (:assignments (get-element db location)))]
+      [
+       db
+       [[:shared (map-path (insert-variables))]
+        [:body (map-path (insert-variables))]
+        ]])))
 
+;; need to insert variables before we lift the assignments
 
 
 
 (comment
-  (use 'gamma.compiler.insert-variables)
-  (in-ns 'gamma.compiler.insert-variables)
-
-  (use 'gamma.compiler.separate-usages
-       '[gamma.ast :only [id? term]]
-       '[gamma.compiler.flatten-ast :only [flatten-ast]]
-       'clojure.stacktrace
-       'gamma.ast
-       'gamma.compiler.core
-       'gamma.compiler.bubble-term
-       'gamma.compiler.print
-       )
-  (require '[gamma.api :as g] )
-  (use 'gamma.compiler.lift-assignments)
 
 
-  (def db2
-    (flatten-ast (let [x (term :foo 1)]
-                   (term :bar
-                         (term :baz x)
-                         (term :baz x)))))
-
-  (def d2
-    (transform {:root {:source-id :root :id :root}}
-               (separate-usages (bubble-terms db) {} #{})))
-
-
-  (def d3
-    (transform d2
-               insert-variables))
-
-  (print-ast d3
-             (fn [x db] [(:id (:id x)) (mapv :id (:shared x))]) 30)
-
-  (d3 (gamma.ast.Id. 71))
-  (d3 (gamma.ast.Id. 77))
-
-  (clojure.stacktrace/e)
 
 
 
@@ -94,27 +61,8 @@
                  "}"
                 ]) 30)
 
-  (iv4 (gamma.ast.Id. 83))
 
-
-
-  [:group ]
-  (:root iv4)
-  (iv4 (gamma.ast.Id. 92))
-  (iv4 (gamma.ast.Id. 82))
 
 
 
   )
-
-(comment
-  (defn usage? [db location]
-    (let [env (or
-                (if (= :assignments (peek (pop (:path (:source location)))))
-                  (:env (get-element db (:parent (:parent location))))
-                  (:env (get-element db {:id (:id (:parent location))
-                                         :path []})))
-                {})]
-      (println "y")
-      (println [env (:id location) location])
-      (env (:id location)))))

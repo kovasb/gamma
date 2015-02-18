@@ -14,7 +14,6 @@
     (get-in db [(:current bubble) :parents])))
 
 
-
 (defn bubble-term [db queue]
   (let [bubble (first queue)]
     (if (nil? bubble)

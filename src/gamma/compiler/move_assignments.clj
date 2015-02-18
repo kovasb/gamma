@@ -5,10 +5,17 @@
 
 ;; move assignments into the body of blocks
 
+(defn helper [db location]
+  (let [e (get-element db location)]
+    (if (= :block (:head e))
+      (let [a (:assignments e) b (:body e)]
+        (assoc
+          db
+          (:id e)
+          (assoc (dissoc e :assignments) :body (vec (concat a b))))
+        )
+      db)))
+
 (defn move-assignments []
-  (fn [db location ]
-    (let [e (get-element db location)]
-      (if (= :block (:head e))
-        (let [a (:assignments e) b (:body e)]
-          [(assoc-in db [(:id e) :body] (concat a b))])
-        [db nil]))))
+  (fn [db location]
+    [(helper db location) [ [:body (map-path (move-assignments))]]]))

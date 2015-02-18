@@ -14,7 +14,13 @@
   "discard")
 
 (defmethod emit :block [db x]
-  [:group (interpose [:line] (map (fn [y] [:group (emit db (db y)) ";"]) (body x)))])
+  [:group
+   (interpose :break
+              (map (fn [y]
+                     [:group
+                      (emit db (db y))
+                            (if (#{:if :block} (head (db y)))
+                                "" ";")]) (body x)))])
 
 (defmethod emit :set [db x]
   [:group (emit db (db (first (body x)))) "=" (emit db (db (second (body x))))])
@@ -35,7 +41,18 @@
 
 (defmethod emit :if [db x]
   (let [[test then else] (body x)]
-    [:group "if(" (emit db (db test)) ")" "{" (emit db (db then)) "}"]))
+    [:group
+     "if("
+     (emit db (db test))
+     ")"
+     "{"
+     (emit db (db then))
+     "}"
+     :break
+     [:nest 2 "else {"  (emit db (db else))]
+
+     "}"]
+    ))
 
 
 (def qualifier-order

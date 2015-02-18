@@ -52,11 +52,43 @@
        (pr-str (select-keys x [:value]))
        [:span
         "{"
-        [:line ""]
-        (if-let [y (:assignments x)]
-          [:nest 2 ":assignments " [:line ""] (helper db paths y)]
-          [:span ""])
-        [:nest 2 ":body " [:line ""] (helper db paths (:body x))]
+        [:nest 2
+         [:line ""]
+         (if-let [y (:assignments x)]
+           [:span  ":assignments " [:line ""] (helper db paths y) [:line]]
+           [:span ""])
+         [:span ":body " [:line ""] (helper db paths (:body x))]]
+
+        "}"]
+       )
+     ]))
+
+
+(defn helper2 [db paths list]
+  [:nest 2
+   (interpose [:span "," :line]
+              (map #(ast-doc3 db % paths) list))]
+
+  )
+
+(defn ast-doc3 [db node-id paths]
+  (let [x  (if (or (= :root node-id) (id? node-id)) (db node-id) node-id)]
+    [:group
+     (pr-str (:head x))
+     "("
+     (let [i (:id x)] (if (= :root i) ":root" (str (:id i))))
+     ")"
+     (if (= :literal (:head x))
+       (pr-str (select-keys x [:value]))
+       [:span
+        "{"
+        [:nest 2
+         [:line ""]
+         (if-let [y (vec (:shared x))]
+           [:span  ":shared " [:line ""] (helper2 db paths y) [:line]]
+           [:span ""])
+         [:span ":body " [:line ""] (helper2 db paths (:body x))]]
+
         "}"]
        )
      ]))

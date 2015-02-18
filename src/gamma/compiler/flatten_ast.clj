@@ -1,6 +1,6 @@
 (ns gamma.compiler.flatten-ast)
 
-
+(let [x 1] x)
 
 (defn flatten-ast
   ([node] (flatten-ast {:root {:id :root :head :block :body [(:id node)] :parents [:root]}} node :root))

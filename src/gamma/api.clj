@@ -48,7 +48,8 @@
 ;; these guys should also do arg checking and type inference
 (defn ^:private gen-fn [tag]
   `(defn ~(symbol (name tag)) [& body#]
-     (gamma.ast/->Term ~tag body# (gamma.ast/gen-term-id))))
+     (apply gamma.ast/term ~tag body#)
+     #_(gamma.ast/->Term ~tag body# (gamma.ast/gen-term-id))))
 
 (defn if [c a b]
   (ast/term :if c (ast/term :block a) (ast/term :block b)))
