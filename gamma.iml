@@ -13,12 +13,14 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Leiningen: aysylu/loom:0.5.0" level="project" />
     <orderEntry type="library" name="Leiningen: clj-tuple:0.1.7" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.3" level="project" />
     <orderEntry type="library" name="Leiningen: fipp:0.5.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.6.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.nrepl:0.2.3" level="project" />
     <orderEntry type="library" name="Leiningen: spyscope:0.1.5" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/data.priority-map:0.0.5" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.finger-tree:0.0.2" level="project" />
     <orderEntry type="library" name="Leiningen: transduce:0.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: clj-time:0.7.0" level="project" />

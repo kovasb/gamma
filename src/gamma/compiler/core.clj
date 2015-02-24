@@ -40,7 +40,7 @@
 
 
 
-(defn walk [db pre post]
+(defn walk [db pre]
   (transform
     db
     (fn walk-fn [db path]

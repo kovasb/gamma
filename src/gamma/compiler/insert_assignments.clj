@@ -11,9 +11,12 @@
 (defn insert-assignment [db location target-id]
   (let [set-id (gen-term-id) var-id (gen-term-id)
         this-id (:id location) parent-loc (:parent location)]
+    ;(println [this-id ])
     (-> db
         (assoc-elements [{:id set-id :head :set :body [var-id this-id]}
-                         {:id var-id :head :literal :value {:tag :variable :id target-id}}])
+                         {:id var-id :head :literal
+                          :value {:tag :variable :id target-id
+                                  :type (:type (get-element db location))}}])
         (assoc-in-location parent-loc set-id))))
 
 (declare insert-assignments-sub)
@@ -49,7 +52,9 @@
         :block
         [db
          [(in-path [:body (- (count (:body e)) 1)] (insert-assignments-sub target-id))
-          (insert-assignments)]]
+          ;(insert-assignments)
+          ]]
+        ;:set [db nil]
 
         [(insert-assignment db location target-id) nil]))))
 

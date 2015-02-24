@@ -7,22 +7,28 @@
   (let [id (gen-term-id)]
     (-> db
         (assoc-in-location (:parent location) id)
-        (assoc-elements [{:id id :head :literal :value {:tag :variable :id (:id location)}}]))))
+        (assoc-elements [{:id id :head :literal
+                          :type (:type (get-element db location))
+                          :value {:tag :variable :id (:id location)
+                                  :type (:type (get-element db location))}}]))))
 
 (defn parent-env [db location]
   (get (db (:id (:parent location))) :env {}))
 
-(defn insert-variables []
+(defn insert-variables [env]
   (fn [db location]
-    (if ((parent-env db location) (:id location))
-      ;(env (:id (get-element db location)))
-      [(insert-variables-sub db location) nil]
-      ;let [new-env (into env (:assignments (get-element db location)))]
-      [
-       db
-       [[:shared (map-path (insert-variables))]
-        [:body (map-path (insert-variables))]
-        ]])))
+    (let [elt (get-element db location)
+         ]
+      (if (env (:id elt))
+       [(insert-variables-sub db location) nil]
+       (let [new-env (into env (concat
+                                 (:assignments elt)
+                                 (:env elt)))]
+         [
+          db
+          [[:assignments (map-path (insert-variables env))]
+           [:body (map-path (insert-variables new-env))]
+           ]])))))
 
 ;; need to insert variables before we lift the assignments
 

@@ -63,6 +63,7 @@
        )
      ]))
 
+(declare ast-doc3)
 
 (defn helper2 [db paths list]
   [:nest 2

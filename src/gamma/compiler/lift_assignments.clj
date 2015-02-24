@@ -4,9 +4,17 @@
 
 
 (defn liftable? [db location]
-  (or
-    (= :shared (peek (pop (:path (:parent location)))))
-    (#{:if} (:head (db (:id location))))))
+  (let [e (get-element db location)]
+    (or
+     (= :shared (peek (pop (:path (:parent location)))))
+     (and
+       (#{:if} (:head e))
+       (let [env (into #{} (:env (db (:id (:parent location)))))]
+         (not
+           (if env (env (:id e)) false)))))))
+
+
+;; do not lift statements that have been bound from above.
 
 
 (defn lift-assignments-sub [db location target-block-id]

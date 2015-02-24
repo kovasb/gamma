@@ -28,10 +28,10 @@
       {:root {:source-id :root :id :root}}
       (separate-usages
         (bubble-terms (flatten-ast input)) {} #{}))
-    ;(transform (lift-assignments :root))
-    ;(transform (insert-variables))
-    ;(transform (insert-assignments))
-    ;(transform (move-assignments))
+    (transform (lift-assignments :root))
+    (transform (insert-variables #{}))
+    (transform (insert-assignments))
+    (transform (move-assignments))
     )
   )
 
@@ -61,7 +61,7 @@
     [x
      (gcompile y)]
     (fipp.printer/pprint-document
-      (ast-doc3 x :root [:body])
+      (ast-doc2 x :root [:body])
       {:width 30})))
 
 (defn show [x]
@@ -91,11 +91,16 @@
 
 ;; works
 (show (let [x (g/sin 1)]
-        (g/if true x x)))
+        (g/clamp x x)))
+
+
+
+(let [x 1]
+  {:a x :b x})
 
 ;; works
 (show (let [x (g/sin 1)]
-        (g/cos (g/if true x x))))
+        (g/cos (g/if true x x) x)))
 
 ;; works
 (show (let [x (g/sin 1)]
@@ -103,19 +108,184 @@
           (g/cos (g/if true x x))
           (g/sin (g/if true x x)))))
 
-;; works, but usage of sin(1) is not being propogated to if branches
-(show-ast (let [x (g/sin 1)]
+(use 'clojure.stacktrace)
+(clojure.stacktrace/e)
+
+;; works
+(show-ast (let [x (g/sin 1.0)
+            y (g/if true x x)]
+            (g/sin
+              (g/clamp
+               (g/if true
+                 (g/cos y)
+                 (g/sin y) )y x
+               ) )))
+
+
+(show (let [x (g/sin 1.0)
+                z (g/cos 1.0)
+                y (g/if true x z)
+                ]
+            (g/sin
+              (g/clamp
+                z y
+                (g/clamp
+                 (g/if true
+                   (g/cos z)
+                   (g/sin y)) y x
+                 )) )))
+
+
+(show (let [x (g/sin 1.0)
+            z (g/cos 1.0)
+            y (g/clamp x z x)
+            ]
         (g/sin
+          (g/clamp
+            z y
+            (g/clamp
+              (g/if true
+                (g/cos z)
+                (g/sin y)) y x
+              )) )))
+
+(show (let [x (g/sin 1.0)
+            z (g/cos 1.0)
+            y (g/clamp x z x)
+            ]
+        (g/sin
+          (g/clamp
+            z y
+            (g/clamp
+              (g/clamp x
+                (g/cos z)
+                (g/sin y)) y x
+              )) )))
+
+(show (let [x (g/sin 1.0)
+            z (g/cos 1.0)
+            y (g/if true z x)
+            ]
+        (g/sin
+          (g/clamp
+            z y
+            (g/clamp
+              (g/clamp x
+                       (g/cos z)
+                       (g/sin y)) y x
+              )) )))
+
+
+(require 'gamma.compiler.insert-declarations)
+(gamma.compiler.insert-declarations/variables
+  (gcompile
+    (let [x (g/sin 1.0)
+          y (g/if true x x)]
+      (g/sin
+        (g/clamp
           (g/if true
-            (g/cos (g/if true x x))
-            (g/sin (g/if true x x))) x)))
+            (g/cos y)
+            (g/sin y)) y x
+          )))))
+
+(let [y (gcompile
+          (let [x (g/sin 1.0)
+                y (g/if true x x)]
+            (g/sin
+              (g/clamp
+                (g/if true
+                  (g/cos y)
+                  (g/sin y)) y x
+                ))))]
+
+  (fipp.printer/pprint-document
+    (emit y (y :root))
+    {:width 80})
+  (gamma.compiler.insert-declarations/variables y))
+
+(let [y (gcompile
+          (let [x (g/sin 1.0)
+                y (g/if true x x)]
+            (g/sin
+              (g/clamp
+                (g/if true
+                  y
+                  (g/sin y)) y x
+                ))))]
+
+  (fipp.printer/pprint-document
+    (emit y (y :root))
+    {:width 80})
+  (gamma.compiler.insert-declarations/variables y))
 
 
-;; doesn't
-(show-ast (let [x (g/sin 1)]
+(show
+  (apply g/clamp (map g/sin [1 2 3])))
+
+
+
+(show (let [x (g/sin 1)
+            y (g/if true x x)]
+        (g/clamp
+          (g/if true
+            1
+            y) x y
+          )))
+
+(show (let [x (g/sin 1)
+            y (g/if true x x)]
+        (g/clamp
+          (g/cos y) x y
+          )))
+;;;
+(show (let [x (g/sin 1)
+            y (g/if true x x)]
+        (g/clamp
+          y x y
+          )))
+
+; broken
+(show (let [x (g/sin 1)
+            y (g/clamp x x)]
+        (g/clamp
+          y x y
+          )))
+; broken
+(show (let [x (g/sin 1)
+            y (g/clamp x x)]
+        (g/clamp
+           x y y
+          )))
+; broken
+(show (let [x (g/sin 1)
+            y (g/cos x)]
+        (g/clamp
+          x y y
+          )))
+
+
+;;;;
+;; are parents a set? need to become a set at some point?
+
+
+; works
+(show (let [x (g/sin 1)
+            y (g/clamp x x)]
+        (g/clamp
+          y x
+          )))
+
+;;;
+
+(show (let [x (g/sin 1)
+            y (g/if true x x)]
+        (g/cos x y)))
+
+
+;; nested block doesn't
+(show (let [x (g/sin 1)]
         (g/block (g/if true x x))))
 
-;; insert assignments not recursing?
 
 
 

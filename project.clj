@@ -5,5 +5,6 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [fipp "0.5.1"]
-                 [clj-tuple "0.1.7"]
-                 [spyscope "0.1.5"]])
+
+
+                 [aysylu/loom "0.5.0"]])

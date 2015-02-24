@@ -46,10 +46,11 @@
      (emit db (db test))
      ")"
      "{"
-     (emit db (db then))
+     [:nest 2 :break (emit db (db then))]
+
      "}"
      :break
-     [:nest 2 "else {"  (emit db (db else))]
+     [:nest 2 "else {" :break [:nest 2 (emit db (db else))]]
 
      "}"]
     ))
