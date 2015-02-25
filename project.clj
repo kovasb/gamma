@@ -4,7 +4,23 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [fipp "0.5.1"]
+                 [kovasb/fipp "0.5.3-SNAPSHOT"]
+                 [org.clojure/clojurescript "0.0-2913"]]
+  :plugins [[lein-cljsbuild "1.0.5"]]
+  :cljsbuild {
+              :builds [{
+                        ; The path to the top-level ClojureScript source directory:
+                        :source-paths ["src"]
+                        ; The standard ClojureScript compiler options:
+                        ; (See the ClojureScript compiler documentation for details.)
+                        :compiler {
 
+                                   :optimizations :whitespace
+                                   :pretty-print true}}]})
 
-                 [aysylu/loom "0.5.0"]])
+(comment
+ (def opts
+   {
+   :output-dir "output"
+
+   }))

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: kovasb/fipp:0.5.3-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/kovasb/fipp/0.5.3-SNAPSHOT/fipp-0.5.3-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
