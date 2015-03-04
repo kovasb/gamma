@@ -17,7 +17,9 @@
     [gamma.compiler.separate-usages :only [separate-usages]]
     [gamma.compiler.insert-variables :only [insert-variables]]
     [gamma.compiler.move-assignments :only [move-assignments]]
-    [gamma.compiler.core :only [transform]]))
+    [gamma.compiler.core :only [transform]]
+    [gamma.compiler.common :only [get-element map-path assoc-in-location assoc-elements]]
+    ))
 
 
 (comment
@@ -62,6 +64,101 @@
            (fipp.printer/pprint-document
              (emit y (y :root))
              {:width 80})))
+
+(defn shader-str [x]
+  (with-out-str (show x)))
+
+
+(defn walk [db pre]
+  (transform
+    db
+    (fn walk-fn [db path]
+      [(pre db path) [[:body (map-path walk-fn)]]])))
+
+
+
+(defn variables [db]
+  (let [a (atom #{})]
+    (walk db (fn [db location]
+               (let [e (get-element db location)]
+                 (if (= :literal (:head e))
+                   (if (= :variable (:tag (:value e)))
+                     (do
+                       (swap! a conj (:value e))
+                       (if (:type (:value e))
+                         nil
+                         (println location))
+                       ))))
+               db))
+    @a
+    ))
+
+
+(defn program [db]
+  (let [v (variables db)
+        locals (filter #(not (#{:attribute :uniform :varying}
+                              (:storage %))) v)
+        globals (filter #(#{:attribute :uniform :varying}
+                          (:storage %)) v)]
+
+    {:tag              :program
+     :global-variables globals
+     :local-variables  locals}))
+
+(defn emit-program [db]
+  (emit db (program db)))
+
+
+(comment
+
+
+  (defn sample-shader [v]
+    (let [x (g/sin v)
+          z (g/cos v)
+          y (g/if true z x)
+          ]
+      (g/sin
+        (g/clamp
+          z y
+          (g/clamp
+            (g/clamp x
+                     (g/cos z)
+                     (g/sin y)) y x
+            )))))
+
+  (:local-variables (program (gcompile sample-shader)))
+
+  (def c (gcompile sample-shader))
+  (def p (program c))
+  (def v1 (first (:local-variables p)))
+
+  (emit c {:tag :declaration :variable v1})
+
+
+
+  (g/block (g/sin 1.1))
+
+  (let [c (gcompile
+            (g/block (g/set {:tag :variable :name "gl_Position" :type :float}
+                            (sample-shader (g/attribute "aAttr" :float)))))]
+    (println
+      (with-out-str
+       (fipp.printer/pprint-document
+         (emit c (program c))
+         {:width 50}))))
+
+  (def create-program [m]
+    (apply g/block
+           (map
+             (fn [[k v]]
+               (g/set k v))
+             m)))
+
+
+
+  (sample-shader
+    (g/attribute "aAttr" :float)))
+
 
 
 (comment
@@ -186,18 +283,22 @@
                             (g/sin y)) y x
                    )) )))
 
-  (show (let [x (g/sin 1.0)
-              z (g/cos 1.0)
-              y (g/if true z x)
-              ]
-             (g/sin
-               (g/clamp
-                 z y
-                 (g/clamp
-                   (g/clamp x
-                            (g/cos z)
-                            (g/sin y)) y x
-                   )) )))
+  (println
+    (shader-str (let [x (g/sin 1.1)
+                     z (g/cos 1.1)
+                     y (g/if true z x)
+                     ]
+                 (g/sin
+                   (g/clamp
+                     z y
+                     (g/clamp
+                       (g/clamp x
+                                (g/cos z)
+                                (g/sin y)) y x
+                       ))))))
+
+
+
 
 
   (require 'gamma.compiler.insert-declarations)

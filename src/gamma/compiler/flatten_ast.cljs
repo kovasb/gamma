@@ -3,7 +3,12 @@
 (let [x 1] x)
 
 (defn flatten-ast
-  ([node] (flatten-ast {:root {:id :root :head :block :body [(:id node)] :parents [:root]}} node :root))
+  ([node] (flatten-ast
+            (if (= :block (:head node))
+              {:root {:id :root :head :block :body (mapv :id (:body node)) :parents [:root]}}
+              {:root {:id :root :head :block :body [(:id node)] :parents [:root]}})
+            node
+            :root))
   ([db node parent-id]
    (let [id (:id node) seen (db id)]
      (if seen

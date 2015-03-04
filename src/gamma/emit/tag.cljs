@@ -6,7 +6,39 @@
 
 
 (defmethod emit :variable [db x]
-  (str "v" (:id (:id x))))
+  (if-let [n (:name x)]
+    n
+    (str "v" (:id (:id x)))))
+
+(defmethod emit :shader [db x]
+  [:span
+   (interpose
+     :break
+     (map
+      (fn [v] (emit db {:tag :declaration :variable v}))
+      (:global-variables x)))
+   :break
+
+   "void main(void){"
+   :break
+   (interpose
+     :break
+     (map
+      (fn [v] (emit db {:tag :declaration :variable v}))
+      (:local-variables x)))
+   :break
+   (emit db (db :root))
+   :break
+   "}"])
+
+(defmethod emit :declaration [db x]
+  (let [v (:variable x)]
+    [:span
+     (if-let [s (:storage v)] (str (name s) " ") "")
+     (name (:type v)) " " (emit db v) ";"]))
+
+
+
 
 (comment
   (defmethod emit :program [x]

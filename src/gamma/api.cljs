@@ -30,7 +30,7 @@
   {:tag :array :member-type type :length length})
 
 (defn gl-position []
-  {:tag :variable :name "gl_Position" :type (vector-type 4)})
+  {:tag :variable :name "gl_Position" :type :vec4})
 
 (defn gl-point-size []
   {:tag :variable :name "gl_PointSize" :type :float})
@@ -117,3 +117,6 @@
 
 
 (api-macro/gen-fns)
+
+
+
