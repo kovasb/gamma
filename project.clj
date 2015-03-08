@@ -23,4 +23,9 @@
    {
    :output-dir "output"
 
+
+    (require '[cljs.closure :as cljsc])
+    (cljsc/watch "src/cljs" {:optimizations :advanced :pretty-print false})
+
+
    }))

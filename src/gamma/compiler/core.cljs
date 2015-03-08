@@ -1,11 +1,13 @@
 (ns gamma.compiler.core
-  (:use [gamma.compiler.common
-         :only [get-element map-path location-conj]]
+  (:use [gamma.compiler.common :only [get-element map-path location-conj]]
         [gamma.ast :only [id? term]]
-        [gamma.compiler.flatten-ast :only [flatten-ast]])
-  (:require
-    [fipp.printer]))
-
+        [gamma.compiler.flatten-ast :only [flatten-ast]]
+        [gamma.compiler.bubble-term :only [bubble-terms]]
+        [gamma.compiler.insert-assignments :only [insert-assignments]]
+        [gamma.compiler.lift-assignments :only [lift-assignments]]
+        [gamma.compiler.separate-usages :only [separate-usages]]
+        [gamma.compiler.insert-variables :only [insert-variables]]
+        [gamma.compiler.move-assignments :only [move-assignments]]))
 
 
 
@@ -48,22 +50,34 @@
 
 
 
+(defn variables [db]
+  (let [a (atom #{})]
+    (walk db (fn [db location]
+               (let [e (get-element db location)]
+                 (if (= :literal (:head e))
+                   (if (= :variable (:tag (:value e)))
+                     (do
+                       (swap! a conj (:value e))
+                       (if (:type (:value e))
+                         nil
+                         (println location))
+                       ))))
+               db))
+    @a
+    ))
 
-(comment
-  ;; smiple recursion
-  (def db
-    (flatten-ast (let [x (term :foo)]
-                   (term :bar
-                         (term :baz x)
-                         (term :baz x)))))
+;;;
 
-  (walk db
-        (fn [db path] (println ["print" path]) db)
-        (fn [db path] [db nil]))
-
-  (use 'clojure.stacktrace)
-  (clojure.stacktrace/e)
+(defn compile [input]
+  (->
+    (transform
+      {:root {:source-id :root :id :root}}
+      (separate-usages
+        (bubble-terms (flatten-ast input)) {} #{}))
+    (transform (lift-assignments :root))
+    (transform (insert-variables #{}))
+    (transform (insert-assignments))
+    (transform (move-assignments))))
 
 
-  )
 

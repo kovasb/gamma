@@ -10,13 +10,47 @@
     n
     (str "v" (:id (:id x)))))
 
+
+(comment
+  (def
+    r
+    (let [x (shader vs)]
+     (map
+       (fn [v] (gamma.emit.emit/emit (:ir x) {:tag :declaration :variable v}))
+       (filter
+         #(not (re-matches (js/RegExp. "gl_.*") (:name %)))
+         (concat (:inputs x) (:outputs x))))))
+
+  (def
+    r
+    (let [x (shader vs)]
+      (filter
+        #(not (re-matches (js/RegExp. "gl_.*") (:name %)))
+        (concat (:inputs x) (:outputs x)))))
+
+  (gamma.emit.emit/emit
+    nil
+    {:tag :declaration :variable
+         {:tag :variable, :name "aAttr", :type :vec2, :storage :attribute}})
+
+  (gamma.emit.emit/emit
+    nil
+    {:tag :variable, :name "aAttr", :type :vec2, :storage :attribute})
+
+  (gamma.emit.emit/emit )
+
+
+  )
+
 (defmethod emit :shader [db x]
   [:span
    (interpose
      :break
      (map
       (fn [v] (emit db {:tag :declaration :variable v}))
-      (:global-variables x)))
+      (filter
+        #(not (re-matches (js/RegExp. "gl_.*") (:name %)))
+        (concat (:inputs x) (:outputs x)))))
    :break
 
    "void main(void){"
@@ -25,7 +59,9 @@
      :break
      (map
       (fn [v] (emit db {:tag :declaration :variable v}))
-      (:local-variables x)))
+      (filter
+        #(not (if (:name %) (re-matches (js/RegExp. "gl_.*") (:name %))))
+        (:locals x))))
    :break
    (emit db (db :root))
    :break

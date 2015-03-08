@@ -1,6 +1,5 @@
 (ns gamma.webgl
-  (:require [goog.webgl :as ggl])
-  )
+  (:require [goog.webgl :as ggl]))
 
 
 (defn webgl-context [canvas-element]
@@ -8,36 +7,58 @@
 
 
 (defn load-shader [gl type source]
-  (let [shader (.createShader gl type)]
+  (let [shader (.createShader gl ({:vertex ggl/VERTEX_SHADER
+                                   :fragment ggl/FRAGMENT_SHADER} type))]
     (if shader
       (do
         (.shaderSource gl shader source)
         (.compileShader gl shader)
-        (let [compiled (.getShaderParameter gl ggl/COMPILE_STATUS)]
+        (let [compiled (.getShaderParameter gl shader ggl/COMPILE_STATUS)]
           (if compiled
             shader
-            (throw. (js/Error. (str "failed to compile shader: "
+            (throw (js/Error. (str "failed to compile " (name type) " shader:"
                                     (.getShaderInfoLog gl shader)))))))
       (throw (js/Error. "Unable to create shader")))))
 
 
 
 (defn create-program [gl vshader fshader]
-  (let [vertex-shader (load-shader gl ggl/VERTEX_SHADER vshader)
-        fragment-shader (load-shader gl ggl/FRAGMENT_SHADER fshader)]
+  (let [vertex-shader (load-shader gl :vertex vshader)
+        fragment-shader (load-shader gl :fragment fshader)]
     (let [program (.createProgram gl)]
-      (.attachShader program vertex-shader)
-      (.attachShader program fragment-shader)
+      (.attachShader gl program vertex-shader)
+      (.attachShader gl program fragment-shader)
       (.linkProgram gl program)
       (if (.getProgramParameter gl program ggl/LINK_STATUS)
         program
         (throw (js/Error. (str "failed to link program: "
                                (.getProgramInfoLog gl program))))))))
 
+(comment
+  (def gl (:gl @gamma.program.c) )
+  (def vshader (:glsl (:vertex-shader gamma.program/p)))
+  (def fshader (:glsl (:fragment-shader gamma.program/p)))
+
+
+
+  (def vertex-shader (load-shader gl :vertex vshader))
+  (def fragment-shader (load-shader gl :fragment fshader))
+  (def prog (.createProgram gl))
+
+  (.attachShader gl prog vertex-shader)
+  (.attachShader gl prog fragment-shader)
+  (.linkProgram gl prog)
+  (.getProgramParameter gl prog ggl/LINK_STATUS)
+
+
+
+
+  )
+
 
 (defn attribute-input [context program attribute-name ]
   {:buffer (.createBuffer context)
-   :location (.getAttribLocation program attribute-name)})
+   :location (.getAttribLocation context program attribute-name)})
 
 (defn uniform-input [program uniform-name]
   {:location (.getUniformLocation program uniform-name)})
@@ -53,15 +74,18 @@
     :variable variable))
 
 
-(defn fill-attribute-input [gl buffer location data]
-  (.bindBuffer gl ggl/ARRAY_BUFFER buffer)
-  (.bufferData ggl/ARRAY_BUFFER data ggl/STATIC_DRAW)
-  (.vertexAttribPointer gl
-                        location
-                        2
-                        ggl/FLOAT
-                        false 0 0)
-  (.enableVertexAttribArray gl location))
+(defn fill-attribute-input [gl program buf loc data attribute-name]
+  (let [buffer (.createBuffer gl)
+        location  (.getAttribLocation gl program attribute-name)]
+    (.bindBuffer gl ggl/ARRAY_BUFFER buffer)
+    (.bufferData gl ggl/ARRAY_BUFFER data ggl/STATIC_DRAW)
+    (.vertexAttribPointer gl
+                          location
+                          2
+                          ggl/FLOAT
+                          false 0 0)
+    (.enableVertexAttribArray gl location))
+  )
 
 (defn fill-uniform-input [gl type data]
   (case type
@@ -71,7 +95,9 @@
 (defn fill-input [program input data]
   (let [gl (:gl @(:context program))]
     (if (= :attribute (:storage (:variable input)))
-     (fill-attribute-input gl (:buffer input) (:location input) data)
+     (fill-attribute-input gl (:program program)
+                           (:buffer input) (:location input) data
+                           (:name (:variable input)))
      (fill-uniform-input gl (:type input) data))))
 
 
@@ -83,7 +109,7 @@
 ;; output: {attribute typedarray :count count}
 
 (defn normalize-attribute [data]
-  (js/Float64Array. (clj->js (vec (flatten data)))))
+  (js/Float32Array. (clj->js (vec (flatten data)))))
 
 
 (defn normalize-data [data]

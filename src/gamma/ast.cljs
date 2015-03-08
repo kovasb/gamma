@@ -95,6 +95,10 @@
        2 3 4))
 
 
+
+
+
+
 ;; what are the type signatures of the operators?
 (def operators
   (into

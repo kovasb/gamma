@@ -2,7 +2,7 @@
   (:require
     [gamma.api :as g]
 
-    [gamma.emit.function]
+    [gamma.emit.fun]
     [gamma.emit.operator]
     [gamma.emit.statement]
     [gamma.emit.tag]

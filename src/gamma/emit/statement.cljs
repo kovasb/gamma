@@ -61,13 +61,14 @@
    [:storage :parameter :precision]])
 
 
-(defmethod emit :declaration [x]
-  (let [v (first (body x))]
-    (str (if (:invariant v) "invariant " "")
-         (if (:storage v) (str (name (:storage v)) " ") "")
-         (if (:precision v) (str (name (:precision v)) " ") "")
-         (emit (:type v)) " "
-         (:name v))))
+(comment
+  (defmethod emit :declaration [x]
+   (let [v (first (body x))]
+     (str (if (:invariant v) "invariant " "")
+          (if (:storage v) (str (name (:storage v)) " ") "")
+          (if (:precision v) (str (name (:precision v)) " ") "")
+          (emit (:type v)) " "
+          (:name v)))))
 
 
 (defmethod emit :for [x]

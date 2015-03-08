@@ -1,123 +1,43 @@
 (ns gamma.program
   (:require [gamma.webgl :as webgl]
-            [goog.webgl :as ggl]))
+            [goog.webgl :as ggl]
+            gamma.compiler.core
+            fipp.printer
+            [gamma.emit.emit :as emit]
+            gamma.emit.fun
+            gamma.emit.operator
+            gamma.emit.statement
+            gamma.emit.tag
+            gamma.emit.constructor
+            [gamma.api :as g]))
 
-
-(comment
-
-  (defn show [x]
-    (let [y (gcompile x)]
-      (fipp.printer/pprint-document
-        (emit y (y :root))
-        {:width 80})))
-
-  (defn shader-str [x]
-    (with-out-str (show x)))
-
-
-  (defn walk [db pre]
-    (transform
-      db
-      (fn walk-fn [db path]
-        [(pre db path) [[:body (map-path walk-fn)]]])))
-
-
-
-  (defn variables [db]
-    (let [a (atom #{})]
-      (walk db (fn [db location]
-                 (let [e (get-element db location)]
-                   (if (= :literal (:head e))
-                     (if (= :variable (:tag (:value e)))
-                       (do
-                         (swap! a conj (:value e))
-                         (if (:type (:value e))
-                           nil
-                           (println location))
-                         ))))
-                 db))
-      @a
-      ))
-
-
-  (defn program [db]
-    (let [v (variables db)
-          locals (filter #(not (#{:attribute :uniform :varying}
-                                 (:storage %))) v)
-          globals (filter #(#{:attribute :uniform :varying}
-                            (:storage %)) v)]
-
-      {:tag              :program
-       :global-variables globals
-       :local-variables  locals}))
-
-  (defn emit-program [db]
-    (emit db (program db)))
-
-
-  (let [c (gcompile
-            (g/block (g/set {:tag :variable :name "gl_Position" :type :float}
-                            (sample-shader (g/attribute "aAttr" :float)))))]
-    (println
-      (with-out-str
-        (fipp.printer/pprint-document
-          (emit c (program c))
-          {:width 50}))))
-
-  (def create-program [m]
-    (apply g/block
-           (map
-             (fn [[k v]]
-               (g/set k v))
-             m)))
-
-  )
-
-
-;;;
-
-
-
-
-;;;
-
-(defn compile [input]
-  (->
-    (transform
-      {:root {:source-id :root :id :root}}
-      (separate-usages
-        (bubble-terms (flatten-ast input)) {} #{}))
-    (transform (lift-assignments :root))
-    (transform (insert-variables #{}))
-    (transform (insert-assignments))
-    (transform (move-assignments))))
 
 
 
 (defn glsl [shader]
   (with-out-str
     (fipp.printer/pprint-document
-      (emit (:ir shader) shader)
+      (emit/emit (:ir shader) shader)
       {:width 80})))
 
-(defn ast [shader]
+(defn ast [inputs]
   (apply g/block
-         (map
+         (mapv
            (fn [[k v]]
              (g/set k v))
-           (:inputs shader))))
+           inputs)))
 
 
 (defn shader [shader]
   (let [ast (ast shader)
-        ir (compile ast)
-        v (variables ir)
+        ir (gamma.compiler.core/compile ast)
+        v (gamma.compiler.core/variables ir)
         locals (filter #(not (#{:attribute :uniform :varying}
                                (:storage %))) v)
         globals (filter #(#{:attribute :uniform :varying}
                           (:storage %)) v)
-        outputs (keys (:outputs shader))
-        inputs (clojure.set/difference globals outputs)
+        outputs (keys shader)
+        inputs (clojure.set/difference (into #{} globals) (into #{} outputs))
         ]
     (let
       [p
@@ -127,13 +47,15 @@
         :locals  locals
         :ir      ir
         :ast     ast}]
-      (assoc p :glsl (glsl p)))))
+      p
+      (assoc p :glsl (glsl p))
+      )))
 
 
 (defn program [vertex-shader fragment-shader]
   {:tag :program
    :vertex-shader (shader vertex-shader)
-   :fragment-shader (shader vertex-shader)})
+   :fragment-shader (shader fragment-shader)})
 
 
 (defn program-inputs [program]
@@ -142,7 +64,7 @@
   ;; if we want to share inputs across programs, gonna need to look at context
   ;; would pass such sharing info as a map to the context, rather than trying to infer it
   (into {}
-        (map [% (webgl/input program %)]
+        (map (fn [x] [x (webgl/input program x)])
         (:inputs (:vertex-shader program)))))
 
 
@@ -155,72 +77,86 @@
                      (:gl @context)
                      (get-in program [:vertex-shader :glsl])
                      (get-in program [:fragment-shader :glsl])))]
+    (.useProgram (:gl @context) (:program p))
     (assoc p :inputs (program-inputs p))))
 
 
 
 
 (defn draw [program data]
-  (doseq [[variable input] (:inputs program)]
-    (webgl/fill-input program input (data variable)))
+
+  (let [gl (:gl @(:context program))]
+    (.useProgram  gl (:program program))
+    (doseq [[variable input] (:inputs program)]
+     (webgl/fill-input program input (data variable)))
+
+  (.viewport gl 0 0 500 500)
+  ;(.clearColor gl 0.0 0.0 0.0 1.0)
+  (.clear gl ggl/COLOR_BUFFER_BIT)
+
+
   (.drawArrays
+    gl
     ggl/TRIANGLES
-    (:gl @(:context program))
-    (:count data)))
-
-
-
-
-
-
-;; browser specific? look at sample program
-(defn webgl-context [canvas] ())
-
-
+    0
+    (:count data))))
 
 (comment
+  (require 'gamma.program)
 
-  (def p (program (some-shader (attribute :foo :vec3))))
-
-  (def s {:tag :shader :vertex p1 :fragment p2})
-
-  ;; how to create, link, run etc
-
-  ;; representation of gl program object?
-
-  ;; should defer compiling shader programs until entire shader is built?
-
-  (compile shader)
-
-  (run context shader input)
-  ;; --> new context recording shader, input state?
-
-  (create-context )
-
-  (bind context input)
-
-  ;; dont understand how state is kept in gl program.
-  ;; what if we want to change the contents of a single buffer?
+  (in-ns 'gamma.program)
 
 
-  (some-shader (:foo (descriptor {:foo data})))
+  (def vs {{:tag :variable :name "gl_Position" :type :vec4}
+           (g/vec4 (g/attribute "aAttr" :vec2) 0.0 1.0)})
+
+
+  (def fs {{:tag :variable :name "gl_FragColor" :type :vec4}
+           (g/vec4 0.2 0.4 0.8 1)})
+
+
+  (def p (program vs fs))
+
+
+  (:glsl (:vertex-shader p))
+
+  (glsl (shader fs))
 
 
 
-(comment
-  ;; basic processing flow (p 31)
-  ;; retrieve canvas element
-  ;; get webgl rendering context
-  ;; initialize shaders. check initShaders() in cuon-util.js
-  ;; set color for clearning canvas
-  ;; clear canvas
-  ;; draw
+  (def ce (.createElement js/document "CANVAS"))
+
+  (aset ce "width" 500)
+  (aset ce "height" 500)
+  (.append (.-body js/document) ce)
+
+  (document.getElementsByTagName("html")[0]).appendChild(document.createElement("body"))
+  (document.getElementsByTagName("body")[0]).innerHTML="<canvas id=glcanvas width=500 height=500></canvas>"
 
 
-  )
+  (def canvas-elt (.getElementById js/document "glcanvas"))
 
 
+  (def c (atom {:gl (webgl/webgl-context canvas-elt)}))
 
+  (.getContext canvas-elt "webgl")
+
+  (install-program c p)
+
+  (:inputs p2)
+
+  (def d (webgl/normalize-data
+           {(g/attribute "aAttr" :vec2) [[0 0.5] [0.5 0.5] [0.5 0]]}
+           ))
+
+  (.clearColor (webgl/webgl-context canvas-elt) 0.9 0.9 0.9 1.0)
+  (.clear (webgl/webgl-context canvas-elt) ggl/COLOR_BUFFER_BIT)
+
+  (def p2 (install-program (atom {:gl (webgl/webgl-context canvas-elt)}) p))
+
+  (let [c (atom {:gl (webgl/webgl-context canvas-elt)})
+        p2 (install-program c p)]
+    (draw p2 d))
 
 
   )

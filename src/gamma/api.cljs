@@ -118,5 +118,8 @@
 
 (api-macro/gen-fns)
 
+(defn vec4 [& args]
+  (assoc (apply ast/term :vec4 args) :type :vec4))
+
 
 
