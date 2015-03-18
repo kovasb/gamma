@@ -48,8 +48,7 @@
         :ir      ir
         :ast     ast}]
       p
-      (assoc p :glsl (glsl p))
-      )))
+      (assoc p :glsl (glsl p)))))
 
 
 (defn program [vertex-shader fragment-shader]
@@ -65,7 +64,10 @@
   ;; would pass such sharing info as a map to the context, rather than trying to infer it
   (into {}
         (map (fn [x] [x (webgl/input program x)])
-        (:inputs (:vertex-shader program)))))
+             (into
+               (:inputs (:vertex-shader program))
+               (filter #(= :uniform (:storage %))
+                       (:inputs (:fragment-shader program)))))))
 
 
 
@@ -86,9 +88,10 @@
 (defn draw [program data]
 
   (let [gl (:gl @(:context program))]
-    (.useProgram  gl (:program program))
+    ;(.useProgram  gl (:program program))
     (doseq [[variable input] (:inputs program)]
-     (webgl/fill-input program input (data variable)))
+      (if-let [d (data variable)]
+        (webgl/fill-input program input d)))
 
   (.viewport gl 0 0 500 500)
   ;(.clearColor gl 0.0 0.0 0.0 1.0)
@@ -101,13 +104,16 @@
     0
     (:count data))))
 
+(defn context [elt]
+  (atom {:gl (webgl/webgl-context elt)}))
+
 (comment
   (require 'gamma.program)
 
   (in-ns 'gamma.program)
 
 
-  (def vs {{:tag :variable :name "gl_Position" :type :vec4}
+    (def vs {{:tag :variable :name "gl_Position" :type :vec4}
            (g/vec4 (g/attribute "aAttr" :vec2) 0.0 1.0)})
 
 
@@ -118,17 +124,6 @@
   (def p (program vs fs))
 
 
-  (:glsl (:vertex-shader p))
-
-  (glsl (shader fs))
-
-
-
-  (def ce (.createElement js/document "CANVAS"))
-
-  (aset ce "width" 500)
-  (aset ce "height" 500)
-  (.append (.-body js/document) ce)
 
   (document.getElementsByTagName("html")[0]).appendChild(document.createElement("body"))
   (document.getElementsByTagName("body")[0]).innerHTML="<canvas id=glcanvas width=500 height=500></canvas>"
@@ -137,26 +132,23 @@
   (def canvas-elt (.getElementById js/document "glcanvas"))
 
 
-  (def c (atom {:gl (webgl/webgl-context canvas-elt)}))
-
-  (.getContext canvas-elt "webgl")
-
-  (install-program c p)
-
-  (:inputs p2)
 
   (def d (webgl/normalize-data
-           {(g/attribute "aAttr" :vec2) [[0 0.5] [0.5 0.5] [0.5 0]]}
+           {(g/attribute "aAttr" :vec2) [[0 0.5] [0.5 0.6] [0.5 0]]}
            ))
 
-  (.clearColor (webgl/webgl-context canvas-elt) 0.9 0.9 0.9 1.0)
-  (.clear (webgl/webgl-context canvas-elt) ggl/COLOR_BUFFER_BIT)
-
-  (def p2 (install-program (atom {:gl (webgl/webgl-context canvas-elt)}) p))
 
   (let [c (atom {:gl (webgl/webgl-context canvas-elt)})
         p2 (install-program c p)]
     (draw p2 d))
+
+  (def c (atom {:gl (webgl/webgl-context canvas-elt)}))
+  (def p2 (install-program c p))
+
+  (draw p2
+        (webgl/normalize-data
+          {(g/attribute "aAttr" :vec2) [[0 0.5] [0.5 0.6] [0.5 0.0]]}))
+
 
 
   )

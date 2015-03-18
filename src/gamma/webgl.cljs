@@ -60,46 +60,105 @@
   {:buffer (.createBuffer context)
    :location (.getAttribLocation context program attribute-name)})
 
-(defn uniform-input [program uniform-name]
-  {:location (.getUniformLocation program uniform-name)})
+(defn uniform-input [context program uniform-name]
+  {:location (.getUniformLocation context program uniform-name)})
+
+(defn texture-input [context program uniform-name]
+  {:location (.getUniformLocation context program uniform-name)
+   :texture (.createTexture context)})
 
 (defn input [program variable]
   (assoc
-    (if (= :attribute (:storage variable))
-     (attribute-input
-       (:gl @(:context program))
-       (:program program)
-       (:name variable))
-     (uniform-input (:program program) (:name variable)))
-    :variable variable))
+    (cond
+      (= :attribute (:storage variable))
+      (attribute-input
+        (:gl @(:context program))
+        (:program program)
+        (:name variable))
+
+      (and (= :uniform (:storage variable)) (= :sampler2D (:type variable)))
+      (texture-input
+        (:gl @(:context program))
+        (:program program)
+        (:name variable))
+
+      (= :uniform (:storage variable))
+      (uniform-input
+        (:gl @(:context program))
+        (:program program)
+        (:name variable)))
+
+      :variable variable))
 
 
-(defn fill-attribute-input [gl program buf loc data attribute-name]
-  (let [buffer (.createBuffer gl)
-        location  (.getAttribLocation gl program attribute-name)]
+
+(defn fill-attribute-input [gl input data ]
+  (let [buffer (:buffer input)
+        location (:location input)]
     (.bindBuffer gl ggl/ARRAY_BUFFER buffer)
     (.bufferData gl ggl/ARRAY_BUFFER data ggl/STATIC_DRAW)
+
     (.vertexAttribPointer gl
                           location
-                          2
+                          ({:float 1 :vec2 2 :vec3 3 :vec4 4}
+                            (:type (:variable input)))
                           ggl/FLOAT
                           false 0 0)
-    (.enableVertexAttribArray gl location))
-  )
+    (.enableVertexAttribArray gl location)))
 
-(defn fill-uniform-input [gl type data]
-  (case type
-    :vec4 (.uniformf4 gl (nth data 0) (nth data 1) (nth data 2) (nth data 3))))
+(defn fill-texture-input [gl input data]
+  (let [texture (:texture input)
+        location (:location input)]
+    (.pixelStorei gl ggl/UNPACK_FLIP_Y_WEBGL 1)
+    (.activeTexture gl ggl/TEXTURE0)
+    (.bindTexture gl ggl/TEXTURE_2D texture)
+    (.texParameteri gl ggl/TEXTURE_2D ggl/TEXTURE_MIN_FILTER ggl/LINEAR)
+    (.texImage2D gl
+                 ggl/TEXTURE_2D
+                 0
+                 ggl/RGB
+                 ggl/RGB
+                 ggl/UNSIGNED_BYTE
+                 data)
+    (.uniform1i gl location 0)))
+
+
+
+(defn fill-uniform-input [gl input data]
+  (let [location (:location input)
+        type (:type (:variable input))]
+    (case type
+     :bool (.uniform1fv gl location data)
+     :bvec2 (.uniform2fv gl location data)
+     :bvec3 (.uniform3fv gl location data)
+     :bvec4 (.uniform4fv gl location data)
+     :float (.uniform1fv gl location data)
+     :vec2 (.uniform2fv gl location data)
+     :vec3 (.uniform3fv gl location data)
+     :vec4 (.uniform4fv gl location data)
+     :int (.uniform1iv gl location data)
+     :ivec2 (.uniform2iv gl location data)
+     :ivec3 (.uniform3iv gl location data)
+     :ivec4 (.uniform4iv gl location data)
+     :mat2 (.uniformMatrix2fv gl location false data)
+     :mat3 (.uniformMatrix3fv gl location false data)
+     :mat4 (.uniformMatrix4fv gl location false data)
+     nil)))
+
+
 
 
 (defn fill-input [program input data]
   (let [gl (:gl @(:context program))]
-    (if (= :attribute (:storage (:variable input)))
-     (fill-attribute-input gl (:program program)
-                           (:buffer input) (:location input) data
-                           (:name (:variable input)))
-     (fill-uniform-input gl (:type input) data))))
+    (cond
+      (= :attribute (:storage (:variable input)))
+      (fill-attribute-input gl input data)
 
+      (and (= :uniform (:storage (:variable input))) (= :sampler2D (:type (:variable input))))
+      (fill-texture-input gl input data)
+
+      (= :uniform (:storage (:variable input)))
+      (fill-uniform-input gl input data))))
 
 
 
@@ -111,6 +170,8 @@
 (defn normalize-attribute [data]
   (js/Float32Array. (clj->js (vec (flatten data)))))
 
+(defn normalize-uniform [data]
+  (js/Float32Array. (clj->js (vec (flatten data)))))
 
 (defn normalize-data [data]
   (let [x (group-by #(:storage (first %)) data)]
@@ -119,7 +180,7 @@
        {}
        (concat
          (map (fn [[k v]] [k (normalize-attribute v)]) (:attribute x))
-         (:uniform x)))
+         (map (fn [[k v]] [k (normalize-uniform v)]) (:uniform x))))
       :count (first (map #(count (last %)) (:attribute x))))))
 
 ;; can attribute-buffer ops be done in a different order? tie together, then write data?
@@ -194,4 +255,8 @@
 
 
 
+(comment
 
+
+
+  )

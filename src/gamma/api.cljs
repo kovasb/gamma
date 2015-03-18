@@ -32,6 +32,9 @@
 (defn gl-position []
   {:tag :variable :name "gl_Position" :type :vec4})
 
+(defn gl-frag-color []
+  {:tag :variable :name "gl_FragColor" :type :vec4})
+
 (defn gl-point-size []
   {:tag :variable :name "gl_PointSize" :type :float})
 
@@ -40,6 +43,9 @@
 
 (defn uniform [name type]
   {:tag :variable :name name :type type :storage :uniform})
+
+(defn varying [name type]
+  {:tag :variable :name name :type type :storage :varying})
 
 (defn variable
   ([x] (variable x nil))
@@ -120,6 +126,27 @@
 
 (defn vec4 [& args]
   (assoc (apply ast/term :vec4 args) :type :vec4))
+
+(defn * [a b]
+  (assoc (ast/term :* a b) :type (:type b)))
+
+(defn - [a b]
+  (assoc (ast/term :- a b) :type (:type a)))
+
+(defn + [a b]
+  (assoc (ast/term :+ a b) :type (:type a)))
+
+(defn swizzle-type [x c]
+  (let [l (count (name c))
+        ]
+    ({1 :float 2 :vec2 3 :vec3 4 :vec4} l))
+  )
+
+(defn swizzle [x c]
+  (assoc
+    (ast/term :swizzle x)
+    :swizzle c
+    :type (swizzle-type x c)))
 
 
 

@@ -67,10 +67,26 @@
    :break
    "}"])
 
+(def qualifier-order
+  [[:invariant :storage :precision]
+   [:storage :parameter :precision]])
+
+
+(comment
+  (defmethod emit :declaration [x]
+    (let [v (first (body x))]
+      (str (if (:invariant v) "invariant " "")
+           (if (:storage v) (str (name (:storage v)) " ") "")
+           (if (:precision v) (str (name (:precision v)) " ") "")
+           (emit (:type v)) " "
+           (:name v)))))
+
+
 (defmethod emit :declaration [db x]
   (let [v (:variable x)]
     [:span
      (if-let [s (:storage v)] (str (name s) " ") "")
+     (if-let [p (:precision v)] (str (name p) " ") "")
      (name (:type v)) " " (emit db v) ";"]))
 
 

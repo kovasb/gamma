@@ -17,6 +17,9 @@
                (map #(emit db (db %)) (body x)))]
    ")"])
 
+(defmethod emit :swizzle [db x]
+  [:span (emit db (db (first (body x))))  "." (name (:swizzle x))])
+
 
 (comment
   (defmethod emit :function [db x]
