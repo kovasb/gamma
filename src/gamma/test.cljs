@@ -5,7 +5,7 @@
             [gamma.compiler.print :as prn]
             [clojure.walk :as walk])
   (:use
-    [gamma.tools :only [stages-map print-dag compile-stages stages]]
+    [gamma.tools :only [stages-map print-dag print-tree compile-stages stages]]
     [gamma.compiler.flatten-ast :only [->tree]]))
 
 
@@ -22,6 +22,13 @@
        (stages-map :flatten-ast))
       p)))
 
+(defn trim-keys [x]
+  (walk/postwalk
+    (fn [x]
+      (if (map? x)
+        (dissoc x :env :shared)
+        x))
+    x))
 
 (comment
 
@@ -55,13 +62,26 @@
 
   (require '[clojure.walk :as walk])
 
-  (defn trim-keys [x]
-    (walk/postwalk
-      (fn [x]
-        (if (map? x)
-          (dissoc x :env :shared)
-          x))
-      x))
+
+  (print-tree
+    (trim-keys
+     (->tree
+       (get-in
+         (compile-stages (g/+ 1 2))
+         [:stages :move-assignments]) :root)))
+
+  (print-tree
+    (trim-keys
+      (->tree
+        (get-in
+          (compile-stages (let [x (g/sin 1)]
+                            (g/if true x 1)))
+          [:stages :move-assignments]) :root)))
+
+
+
+
+
 
   ;; get compiler stages to work
 
