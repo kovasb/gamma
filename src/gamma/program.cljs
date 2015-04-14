@@ -32,10 +32,13 @@
   (let [ast (ast shader)
         ir (gamma.compiler.core/compile ast)
         v (gamma.compiler.core/variables ir)
-        locals (filter #(not (#{:attribute :uniform :varying}
-                               (:storage %))) v)
-        globals (filter #(#{:attribute :uniform :varying}
-                          (:storage %)) v)
+        locals (filter
+                 #(not
+                   (#{:attribute :uniform :varying} (:storage %)))
+                 v)
+        globals (filter
+                  #(#{:attribute :uniform :varying} (:storage %))
+                  v)
         outputs (keys shader)
         inputs (clojure.set/difference (into #{} globals) (into #{} outputs))
         ]
@@ -51,104 +54,23 @@
       (assoc p :glsl (glsl p)))))
 
 
+
+(defn program-inputs [vs fs]
+  (into
+    (:inputs vs)
+    (filter #(= :uniform (:storage %))
+            (:inputs fs))))
+
 (defn program [vertex-shader fragment-shader]
-  {:tag :program
-   :vertex-shader (shader vertex-shader)
-   :fragment-shader (shader fragment-shader)})
-
-
-(defn program-inputs [program]
-
-  ;; {attribute {buffer} uniform {spec}}
-  ;; if we want to share inputs across programs, gonna need to look at context
-  ;; would pass such sharing info as a map to the context, rather than trying to infer it
-  (into {}
-        (map (fn [x] [x (webgl/input program x)])
-             (into
-               (:inputs (:vertex-shader program))
-               (filter #(= :uniform (:storage %))
-                       (:inputs (:fragment-shader program)))))))
-
-
-
-(defn install-program [context program]
-  (let [p
-        (assoc program
-          :context context
-          :program (webgl/create-program
-                     (:gl @context)
-                     (get-in program [:vertex-shader :glsl])
-                     (get-in program [:fragment-shader :glsl])))]
-    (.useProgram (:gl @context) (:program p))
-    (assoc p :inputs (program-inputs p))))
+  (let [vs (shader vertex-shader) fs (shader fragment-shader)]
+    {:tag             :program
+     :vertex-shader   vs
+     :fragment-shader fs
+     :inputs (program-inputs vs fs)}))
 
 
 
 
-(defn draw [program data]
-
-  (let [gl (:gl @(:context program))]
-    ;(.useProgram  gl (:program program))
-    (doseq [[variable input] (:inputs program)]
-      (if-let [d (data variable)]
-        (webgl/fill-input program input d)))
-
-  (.viewport gl 0 0 500 500)
-  ;(.clearColor gl 0.0 0.0 0.0 1.0)
-  (.clear gl ggl/COLOR_BUFFER_BIT)
-
-
-  (.drawArrays
-    gl
-    ggl/TRIANGLES
-    0
-    (:count data))))
-
-(defn context [elt]
-  (atom {:gl (webgl/webgl-context elt)}))
-
-(comment
-  (require 'gamma.program)
-
-  (in-ns 'gamma.program)
-
-
-    (def vs {{:tag :variable :name "gl_Position" :type :vec4}
-           (g/vec4 (g/attribute "aAttr" :vec2) 0.0 1.0)})
-
-
-  (def fs {{:tag :variable :name "gl_FragColor" :type :vec4}
-           (g/vec4 0.2 0.4 0.8 1)})
-
-
-  (def p (program vs fs))
 
 
 
-  (document.getElementsByTagName("html")[0]).appendChild(document.createElement("body"))
-  (document.getElementsByTagName("body")[0]).innerHTML="<canvas id=glcanvas width=500 height=500></canvas>"
-
-
-  (def canvas-elt (.getElementById js/document "glcanvas"))
-
-
-
-  (def d (webgl/normalize-data
-           {(g/attribute "aAttr" :vec2) [[0 0.5] [0.5 0.6] [0.5 0]]}
-           ))
-
-
-  (let [c (atom {:gl (webgl/webgl-context canvas-elt)})
-        p2 (install-program c p)]
-    (draw p2 d))
-
-  (def c (atom {:gl (webgl/webgl-context canvas-elt)}))
-  (def p2 (install-program c p))
-
-  (draw p2
-        (webgl/normalize-data
-          {(g/attribute "aAttr" :vec2) [[0 0.5] [0.5 0.6] [0.5 0.0]]}))
-
-
-
-  )

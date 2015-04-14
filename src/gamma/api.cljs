@@ -35,6 +35,9 @@
 (defn gl-frag-color []
   {:tag :variable :name "gl_FragColor" :type :vec4})
 
+(defn gl-frag-coord []
+  {:tag :variable :name "gl_FragCoord" :type :vec4})
+
 (defn gl-point-size []
   {:tag :variable :name "gl_PointSize" :type :float})
 
@@ -53,9 +56,15 @@
 
 
 
+(defn ensure-term [x]
+  (if (ast/term? x)
+    x
+    (ast/literal x)))
 
 (defn if [c a b]
-  (let [at (:type a) bt (:type b)]
+  (let [a (ensure-term a)
+        b (ensure-term b)
+        at (:type a) bt (:type b)]
     (if (= at bt)
       (assoc
         (ast/term :if c
@@ -128,19 +137,22 @@
   (assoc (apply ast/term :vec4 args) :type :vec4))
 
 (defn * [a b]
-  (assoc (ast/term :* a b) :type (:type b)))
+  (let [t (ast/term :* a b)]
+    (assoc t :type (:type (first (:body t))))))
 
 (defn - [a b]
-  (assoc (ast/term :- a b) :type (:type a)))
+  (let [t (ast/term :- a b)]
+    (assoc t :type (:type (first (:body t))))))
 
 (defn + [a b]
-  (assoc (ast/term :+ a b) :type (:type a)))
+  (let [t (ast/term :+ a b)]
+    (assoc t :type (:type (first (:body t))))))
 
 (defn swizzle-type [x c]
   (let [l (count (name c))
         ]
-    ({1 :float 2 :vec2 3 :vec3 4 :vec4} l))
-  )
+    ({1 :float 2 :vec2 3 :vec3 4 :vec4} l)))
+
 
 (defn swizzle [x c]
   (assoc

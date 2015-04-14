@@ -3,6 +3,74 @@
   (:require
     [fipp.printer]))
 
+
+
+(defn pretty-nil [trans x]
+  [:text "nil"])
+
+(defn pretty-object [trans x]
+  [:text (pr-str x)])
+
+(defn pretty-vector [trans v]
+  [:group "[" [:align (interpose :line (map trans v))] "]"])
+
+(defn pretty-seq [trans s]
+  [:group "(" [:align (interpose :line (map trans s))] ")"])
+
+(defn pretty-map [trans m]
+  (let [kvps (for [[k v] m]
+               [:span (trans k) " " (trans v)])
+        doc [:group "{" [:align (interpose [:span "," :line] kvps)]  "}"]]
+    (if (implements? IRecord m)
+      [:span "#"
+       (str (type m))
+       doc]
+      doc)))
+
+(defn pretty-set [trans s]
+  [:group "#{" [:align (interpose :line (map trans s))] "}"])
+
+
+;;;;;;;;;;;;;;;;;;;;;;
+
+(defn pretty-term [trans x]
+  [:group (str (:head x)) "(" (str (:id (:id x))) ")"
+   (pretty-map trans (dissoc x :id :head :tag))])
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;
+
+(deftype Dispatcher [dispatch-fn]
+  IFn
+  (-invoke [this x] ((dispatch-fn x) this x)))
+
+(defn printer []
+  (Dispatcher.
+    (fn [x]
+      (cond
+        (and (map? x) (= :term (:tag x))) pretty-term
+        (map? x) pretty-map
+        (vector? x) pretty-vector
+        (seq? x) pretty-seq
+        (set? x) pretty-set
+        (nil? x) pretty-nil
+        :default pretty-object))))
+
+(comment
+  ((printer) {:a 1 :b [1 "2" #{(list nil)}]})
+
+  (fipp.printer/pprint-document
+    ((printer) {:a 1 :b [1 "2" #{(list nil)}]})
+     {:width 30})
+
+
+  )
+
+
+;;;;;;;;;;;;;;;;;;;;;;
 (defn ast-doc [db node-id f]
   (let [x (if (or (= :root node-id) (id? node-id)) (db node-id) node-id)]
     [:group
@@ -116,4 +184,6 @@
                 ]) 30)
 
   )
+
+
 

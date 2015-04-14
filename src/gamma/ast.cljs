@@ -1,39 +1,49 @@
 (ns gamma.ast)
 
 
-(defrecord Term [head body id])
+;(defrecord Term [head body id])
 
 (defn head [x] (:head x))
 (defn body [x] (:body x))
 
 (def term-counter (atom 0))
 
-(defrecord Id [id])
+;(defrecord Id [id])
 
 (defn id? [x]
-  (instance? Id x ))
+  (and (map? x) (= :id (:tag x))))
 
-(defn gen-term-id [] (let [id (swap! term-counter inc)] (Id. id)))
+(defn gen-term-id [] (let [id (swap! term-counter inc)] {:tag :id :id id}))
 
-(defn term? [x] (instance? Term x))
+(defn term? [x]
+  (and (map? x) (= :term (:tag x))))
+
+
+;(assoc (->Term :literal nil (gen-term-id)) :value %)
 
 
 
-;; (assoc (->Term :literal nil (gen-term-id)) :value %)
 
 (defn literal [x]
   (let [type (cond
                (clojure.core/or (= true x) (= false x)) :bool
-               (integer? x) :int
+               ;(integer? x) :int
                (number? x) :float
                (map? x) (:type x)
-               :default (throw (js/Error. "Invalid literal")))]
-    (assoc (->Term :literal nil (gen-term-id)) :value x :type type)))
+               :default (throw (js/Error. (str "Invalid literal: " (pr-str x)))))]
+    {:tag :term
+     :head :literal
+     :value x
+     :type type
+     :id (gen-term-id)}))
 
-(defn term [h & args] (->Term
-                        h
-                        (map #(if (term? %) % (literal %)) args)
-                        (gen-term-id)))
+
+(defn term [h & args]
+  {:tag :term
+   :head h
+   :body (map #(if (term? %) % (literal %)) args)
+   :id (gen-term-id)})
+
 
 ;; does reduce-kv work for sequences?
 

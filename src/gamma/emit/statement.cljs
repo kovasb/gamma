@@ -1,6 +1,6 @@
 (ns gamma.emit.statement
   (:use [gamma.emit.emit :only [emit]]
-        [gamma.ast :only [head body term ->Term]]))
+        [gamma.ast :only [head body term]]))
 
 ;;;; STATEMENTS
 

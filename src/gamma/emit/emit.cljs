@@ -1,5 +1,5 @@
 (ns gamma.emit.emit
-  (:use [gamma.ast :only [term ->Term head body]]))
+  (:use [gamma.ast :only [term  head body]]))
 
 
 (defn function? [x]

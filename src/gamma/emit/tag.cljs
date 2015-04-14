@@ -1,6 +1,6 @@
 (ns gamma.emit.tag
   (:use [gamma.emit.emit :only [emit]]
-        [gamma.ast :only [head body term ->Term]]))
+        [gamma.ast :only [head body term]]))
 
 ;;;; PROGRAM
 
@@ -10,37 +10,6 @@
     n
     (str "v" (:id (:id x)))))
 
-
-(comment
-  (def
-    r
-    (let [x (shader vs)]
-     (map
-       (fn [v] (gamma.emit.emit/emit (:ir x) {:tag :declaration :variable v}))
-       (filter
-         #(not (re-matches (js/RegExp. "gl_.*") (:name %)))
-         (concat (:inputs x) (:outputs x))))))
-
-  (def
-    r
-    (let [x (shader vs)]
-      (filter
-        #(not (re-matches (js/RegExp. "gl_.*") (:name %)))
-        (concat (:inputs x) (:outputs x)))))
-
-  (gamma.emit.emit/emit
-    nil
-    {:tag :declaration :variable
-         {:tag :variable, :name "aAttr", :type :vec2, :storage :attribute}})
-
-  (gamma.emit.emit/emit
-    nil
-    {:tag :variable, :name "aAttr", :type :vec2, :storage :attribute})
-
-  (gamma.emit.emit/emit )
-
-
-  )
 
 (defmethod emit :shader [db x]
   [:span
@@ -72,6 +41,23 @@
    [:storage :parameter :precision]])
 
 
+
+
+
+(defmethod emit :declaration [db x]
+  (try
+    (let [v (:variable x)]
+     [:span
+      (if-let [s (:storage v)] (str (name s) " ") "")
+      (if-let [p (:precision v)] (str (name p) " ") "")
+      (name (:type v)) " " (emit db v) ";"])
+    (catch js/Error e (println (str "declaration error on: ") (pr-str x)))))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (comment
   (defmethod emit :declaration [x]
     (let [v (first (body x))]
@@ -80,17 +66,6 @@
            (if (:precision v) (str (name (:precision v)) " ") "")
            (emit (:type v)) " "
            (:name v)))))
-
-
-(defmethod emit :declaration [db x]
-  (let [v (:variable x)]
-    [:span
-     (if-let [s (:storage v)] (str (name s) " ") "")
-     (if-let [p (:precision v)] (str (name p) " ") "")
-     (name (:type v)) " " (emit db v) ";"]))
-
-
-
 
 (comment
   (defmethod emit :program [x]
@@ -114,6 +89,37 @@
 
 
   (defmethod emit :matrix [x]))
+
+(comment
+  (def
+    r
+    (let [x (shader vs)]
+      (map
+        (fn [v] (gamma.emit.emit/emit (:ir x) {:tag :declaration :variable v}))
+        (filter
+          #(not (re-matches (js/RegExp. "gl_.*") (:name %)))
+          (concat (:inputs x) (:outputs x))))))
+
+  (def
+    r
+    (let [x (shader vs)]
+      (filter
+        #(not (re-matches (js/RegExp. "gl_.*") (:name %)))
+        (concat (:inputs x) (:outputs x)))))
+
+  (gamma.emit.emit/emit
+    nil
+    {:tag :declaration :variable
+          {:tag :variable, :name "aAttr", :type :vec2, :storage :attribute}})
+
+  (gamma.emit.emit/emit
+    nil
+    {:tag :variable, :name "aAttr", :type :vec2, :storage :attribute})
+
+  (gamma.emit.emit/emit )
+
+
+  )
 
 
 

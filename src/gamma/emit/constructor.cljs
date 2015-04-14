@@ -1,6 +1,6 @@
 (ns gamma.emit.constructor
   (:use [gamma.emit.emit :only [emit]]
-        [gamma.ast :only [head body term ->Term]]))
+        [gamma.ast :only [head body term ]]))
 
 (defmethod emit :vec4 [db x]
   [:group

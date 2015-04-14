@@ -7,7 +7,8 @@
         [gamma.compiler.lift-assignments :only [lift-assignments]]
         [gamma.compiler.separate-usages :only [separate-usages]]
         [gamma.compiler.insert-variables :only [insert-variables]]
-        [gamma.compiler.move-assignments :only [move-assignments]]))
+        [gamma.compiler.move-assignments :only [move-assignments]]
+        ))
 
 
 

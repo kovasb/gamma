@@ -5,8 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [kovasb/fipp "0.5.3-SNAPSHOT"]
-                 [org.clojure/clojurescript "0.0-2913"]]
-  :plugins [[lein-cljsbuild "1.0.5"]]
+                 [org.clojure/clojurescript "0.0-3169"]]
+
   :cljsbuild {
               :builds [{
                         ; The path to the top-level ClojureScript source directory:

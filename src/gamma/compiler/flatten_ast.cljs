@@ -1,6 +1,6 @@
-(ns gamma.compiler.flatten-ast)
-
-(let [x 1] x)
+(ns gamma.compiler.flatten-ast
+  (:require [clojure.walk]
+            [gamma.ast]))
 
 (defn flatten-ast
   ([node] (flatten-ast
@@ -25,33 +25,91 @@
 
 
 
+(defn ->tree [db id]
+  (let [e (db id)]
+    (assoc
+      (clojure.walk/postwalk
+       (fn [y]
+         (if
+           (gamma.ast/id? y)
+           (->tree db y)
+           y))
+       (dissoc e :parents :id))
+      :id id)))
+
 
 (comment
 
 
+  (def x
+    (->tree
+     (flatten-ast
+       (gamma.ast/term :bar 0 (gamma.ast/term :foo 1))) :root))
 
-  (:root (flatten-ast (term :bar 0 (term :foo 1))))
+  (require '[gamma.compiler.print :refer [printer]] )
+
+  (fipp.printer/pprint-document
+    ((printer) x)
+    {:width 30})
+
+  (fipp.printer/pprint-document
+    ((printer) {:id 1 :head :foo :tag :term})
+    {:width 30})
+
+  (fipp.printer/pprint-document
+    [:group "1" "(" "1"  ")" [:group "{" [:align '()] "}"]]
+    {:width 30})
 
 
-  (flatten-ast {} (let [x (term :foo)]
-                    (term :bar x x)) :root)
-
-  (flatten-ast {} (let [x (term :foo)]
-                    (term :bar x x)) :root)
 
 
-  (clojure.pprint/pprint (let [x (term :foo)]
-                           (term :bar
-                                 (term :baz x)
-                                 (term :baz x))))
+  )
 
-  (def db
-    (flatten-ast (let [x (term :foo)]
-                   (term :bar
-                         (term :baz x)
-                         (term :baz x)))))
+(comment
 
-  (require '[gamma.api :as g])
-  (g/if true 1 2)
+  (def c (crazy. 1))
+
+  (c 2)
+
+  (defrecord crazy [arg]
+    IFn
+    (-invoke [this arg]  (crazy. this)))
+
+
+  (get-fn data) -> fn specific to data (polymorphism)
+
+
+  (defrecord dispatcher [get-fn]
+    IFn
+    (-invoke [this arg] ((get-fn arg) this arg)))
+
+
+  (declare dispatch-map)
+
+    (def dispatch-map (dispatch-map-constructor
+                      dispatch-map
+                      {rule my-transform2}))
+
+  (defn my-transform [dispatch-map arg]
+
+    )
+
+
+  (defn my-transform [dispatcher data]
+    (.populateSomeObject
+      (o.)
+      (:somedata data)
+      ((assoc dispatcher
+         :environment-data) (:subdata data)))
+    )
+
+
+
+
+  (fn crazy [arg arg2]
+    [(crazy arg crazy)])
+
+
+
 
   )
