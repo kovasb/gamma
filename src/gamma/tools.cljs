@@ -66,6 +66,13 @@
     {:width 30}))
 
 
+(defn print-tree [x]
+  (fipp.printer/pprint-document
+    ((printer) x)
+    {:width 30}))
+
+
+
 (comment
   (def p (g/+ 1 2))
 

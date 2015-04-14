@@ -2,7 +2,8 @@
   (:require
             [gamma.api :as g]
             [gamma.ast :as ast]
-            [gamma.compiler.print :as prn])
+            [gamma.compiler.print :as prn]
+            [clojure.walk :as walk])
   (:use
     [gamma.tools :only [stages-map print-dag compile-stages]]
     [gamma.compiler.flatten-ast :only [->tree]]))
@@ -48,8 +49,12 @@
 
   (test (ast/literal 1))
 
+  (require '[clojure.walk :as walk])
 
-
-
-
-  )
+  (defn trim-keys [x]
+    (walk/postwalk
+      (fn [x]
+        (if (map? x)
+          (dissoc x :env :shared)
+          x))
+      x)))

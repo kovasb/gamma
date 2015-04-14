@@ -14,8 +14,8 @@
         this-id (:id location) parent-loc (:parent location)]
     ;(println [this-id ])
     (-> db
-        (assoc-elements [{:id set-id :head :set :body [var-id this-id]}
-                         {:id    var-id :head :literal
+        (assoc-elements [{:id set-id :head :set :body [var-id this-id] :tag :term}
+                         {:id    var-id :head :literal :tag :term
                           :value {:tag  :variable :id (:id target-id)
                                   :type (:type (get-element db location))}}])
         (assoc-in-location parent-loc set-id))))
