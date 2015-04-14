@@ -35,7 +35,7 @@
                  (fn [input]
                    (transform input (move-assignments)))})
 
-(def stages [:flatten-ast :bubble-terms :separate-usage :lift-assignments
+(def stages [:flatten-ast :bubble-terms :separate-usages :lift-assignments
              :insert-variables :insert-assignments :move-assignments])
 
 (defn compile-stages [input]

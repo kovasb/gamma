@@ -5,7 +5,7 @@
             [gamma.compiler.print :as prn]
             [clojure.walk :as walk])
   (:use
-    [gamma.tools :only [stages-map print-dag compile-stages]]
+    [gamma.tools :only [stages-map print-dag compile-stages stages]]
     [gamma.compiler.flatten-ast :only [->tree]]))
 
 
@@ -25,11 +25,15 @@
 
 (comment
 
+  (def stages [:flatten-ast :bubble-terms :separate-usage :lift-assignments
+               :insert-variables :insert-assignments :move-assignments])
+
   (test (g/+ 1 2))
 
   (test (g/if true 1 0))
 
-
+  (:exception-at
+    (compile-stages (g/+ 1 2)))
 
   (test
     (let [x (g/sin 1)]
@@ -57,4 +61,11 @@
         (if (map? x)
           (dissoc x :env :shared)
           x))
-      x)))
+      x))
+
+  ;; get compiler stages to work
+
+
+
+  )
+
