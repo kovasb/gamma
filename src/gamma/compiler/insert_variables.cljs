@@ -8,7 +8,7 @@
   (let [id (gen-term-id)]
     (-> db
         (assoc-in-location (:parent location) id)
-        (assoc-elements [{:id    id :head :literal
+        (assoc-elements [{:id    id :head :literal :tag :term
                           :type  (:type (get-element db location))
                           :value {:tag  :variable :id (:id (:id location))
                                   :type (:type (get-element db location))}}]))))
