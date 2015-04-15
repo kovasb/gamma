@@ -10,10 +10,12 @@
     [gamma.compiler.insert-variables :only [insert-variables]]
     [gamma.compiler.move-assignments :only [move-assignments]]
     [gamma.compiler.print :only [printer]]
-    [gamma.emit.emit :refer [emit]])
+    )
   (:require
     [gamma.compiler.core :refer [transform]]
-            [gamma.api :as g]))
+    [gamma.api :as g]
+    [gamma.emit.emit :refer [emit]]
+    ))
 
 
 (def stages-map

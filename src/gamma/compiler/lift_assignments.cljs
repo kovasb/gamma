@@ -34,12 +34,22 @@
 
 (defn lift-assignments [target-block-id]
   (fn [db location]
-    [
+    [db
      ;; if path is in :shared, or is a statement, lift into target
-     (lift-assignments-sub db location target-block-id)
-    [[:shared (map-path (lift-assignments target-block-id))]
-      [:body (let [target (get-target db location target-block-id)]
-               (map-path (lift-assignments target)))]]]))
+     ;; problem is that the :shared bits of a statement must be inserted first
+
+
+    [
+
+
+     [:shared (map-path (lift-assignments target-block-id))]
+
+     [:body (let [target (get-target db location target-block-id)]
+               (map-path (lift-assignments target)))]
+
+     (fn [db location]
+       [(lift-assignments-sub db location target-block-id) nil])
+     ]]))
 
 
 (comment

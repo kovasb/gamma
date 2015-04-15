@@ -13,10 +13,7 @@
             [fipp.printer]
             [gamma.tools :refer [stages-map print-dag print-tree compile-stages stages glsl-stage]]
             [gamma.compiler.flatten-ast :refer [->tree]])
-  (:use
-
-
-    ))
+  )
 
 
 
@@ -73,9 +70,59 @@
 
 
 
-  (glsl-stage (compile-stages (let [x (g/sin 1)]
-                                (g/if true x 1)))
-              :move-assignments)
+  (glsl-stage
+    (compile-stages
+      (let [x (g/sin 1)]
+        (g/if true x 1)))
+    :move-assignments)
+
+  ;;;;;;;;;;
+  (def working
+    (compile-stages
+      (let [x (g/sin 1)]
+        (g/+ x (g/if true x x)))))
+
+  (def working
+    (compile-stages
+      (let [x (g/sin 1)]
+        (g/+ (g/if true x x) x))))
+
+  (def broken
+    (compile-stages
+      (let [x (g/sin 1)]
+        (g/if (g/> x x) 1 2))))
+
+  (print-tree (trim-keys
+                (->tree (get-in broken [:stages :lift-assignments]) :root)))
+  (glsl-stage
+    broken
+    :move-assignments)
+
+  ;; breaks in interesting way
+  (def broken
+    (compile-stages
+      (let [x (g/sin 1)]
+        (g/if (g/> x x) x 2))))
+
+  (def working
+    (compile-stages
+      (let [x (g/sin 1)]
+        (g/+ x (g/if (g/> x x) 1 2)))))
+
+  (def working
+    (compile-stages
+      (let [x (g/sin 1)]
+        (g/+ (g/if (g/> x x) 1 2) x))))
+
+  (glsl-stage
+    working
+    :move-assignments)
+
+  ;; broken
+
+
+
+
 
   (ast/literal 1)
   ()
