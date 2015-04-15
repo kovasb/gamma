@@ -8,7 +8,7 @@
 (defmethod emit :variable [db x]
   (if-let [n (:name x)]
     n
-    (str "v" (:id (:id x)))))
+    (str "v" (:id x))))
 
 
 (defmethod emit :shader [db x]

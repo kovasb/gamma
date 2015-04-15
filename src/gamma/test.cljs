@@ -3,10 +3,20 @@
             [gamma.api :as g]
             [gamma.ast :as ast]
             [gamma.compiler.print :as prn]
-            [clojure.walk :as walk])
+            [clojure.walk :as walk]
+            [gamma.emit.emit :refer [emit]]
+            gamma.emit.fun
+            gamma.emit.operator
+            gamma.emit.statement
+            gamma.emit.tag
+            gamma.emit.constructor
+            [fipp.printer]
+            [gamma.tools :refer [stages-map print-dag print-tree compile-stages stages glsl-stage]]
+            [gamma.compiler.flatten-ast :refer [->tree]])
   (:use
-    [gamma.tools :only [stages-map print-dag print-tree compile-stages stages]]
-    [gamma.compiler.flatten-ast :only [->tree]]))
+
+
+    ))
 
 
 
@@ -53,7 +63,19 @@
   (g/if true (g/sin 1) (ast/literal 1))
   (g/if true (g/sin 1) 1)
 
+
+  (def s (compile-stages (g/+ 1 2)))
+
+  (:move-assignments (:stages s))
+
+
   (require '[gamma.ast :as ast])
+
+
+
+  (glsl-stage (compile-stages (let [x (g/sin 1)]
+                                (g/if true x 1)))
+              :move-assignments)
 
   (ast/literal 1)
   ()
@@ -79,6 +101,27 @@
           [:stages :move-assignments]) :root)))
 
 
+  (def p )
+
+
+
+  (require '[clojure.walk :as walk])
+
+  (walk/prewalk (fn [x] (if (and (map? x) (:foo x))
+                          (dissoc
+                            (assoc-in x [:foo :bar] (:bar x))
+                            :bar)
+                          x))
+                {:foo {:foo {:foo {}}} :bar 1})
+
+  (walk/postwalk (fn [x]
+                   (if (and (map? x) (:foo x))
+                     (update-in
+                       (assoc x :bar (:bar (:foo x)))
+                       [:foo] dissoc :bar)
+                     x)
+                   )
+                 {:foo {:foo {:foo {:bar 1}}}})
 
 
 

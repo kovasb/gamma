@@ -13,6 +13,8 @@
     (get-in db [(:current bubble) :parents])))
 
 
+;; term structure {:shared {nodeid {:conditional bool :unconditional int} }}
+
 (defn bubble-term [db queue]
   (let [bubble (first queue)]
     (if (nil? bubble)

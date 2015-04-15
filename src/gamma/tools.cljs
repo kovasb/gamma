@@ -9,7 +9,8 @@
     [gamma.compiler.separate-usages :only [separate-usages]]
     [gamma.compiler.insert-variables :only [insert-variables]]
     [gamma.compiler.move-assignments :only [move-assignments]]
-    [gamma.compiler.print :only [printer]])
+    [gamma.compiler.print :only [printer]]
+    [gamma.emit.emit :refer [emit]])
   (:require
     [gamma.compiler.core :refer [transform]]
             [gamma.api :as g]))
@@ -71,6 +72,12 @@
     ((printer) x)
     {:width 30}))
 
+(defn glsl-stage [stages stage]
+  (fipp.printer/pprint-document
+    (emit
+      (:move-assignments (:stages stages))
+      (:root (stage (:stages stages))))
+    {:width 30}))
 
 
 (comment
