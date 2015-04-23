@@ -1,0 +1,2 @@
+;; Analyzed by ClojureScript 0.0-3208
+{:imports nil, :requires nil, :uses nil, :require-macros nil, :use-macros nil, :excludes #{}, :doc nil, :name gamma.test.runner}

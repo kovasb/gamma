@@ -1,0 +1,2 @@
+;; Analyzed by ClojureScript 0.0-3208
+{:cljs.analyzer/constants {:order [:break :continue :discard :block :group :if :set :nest :for :if-else], :seen #{:nest :block :group :if-else :continue :if :break :for :discard :set}}, :imports nil, :requires {gamma.ast gamma.ast, gamma.emit.emit gamma.emit.emit}, :uses {body gamma.ast, term gamma.ast, head gamma.ast, emit gamma.emit.emit}, :require-macros nil, :use-macros nil, :excludes #{}, :doc nil, :name gamma.emit.statement}
