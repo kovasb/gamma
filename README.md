@@ -2,6 +2,19 @@
 
 Gamma simplifies developing GLSL shaders for use with WebGL or OpenGL. It represents shaders as composable expressions, giving you the full power of Clojure to compose, abstract and manipulate them before finally compiling to an executable GLSL string. 
 
+## Design Goals
+
+Gamma is a style of metaprogramming tailored and restricted to this particular domain. The most important feature of this domain is that shaders are essentially pure functions, which allows us to semantically represent them as compositions of expressions with no intermediary variables. 
+
+With this in mind, Gamma's design mitigates complexities commonly associated with metaprogramming:
+
+- No macros, special "def" forms
+- Clear separation of Clojure code versus Gamma code 
+- No binding forms, user variables in Gamma code
+- Trivial to use of all Clojure's affordaces (defn, let, protocols, multimethods, etc)
+
+Gamma doesn't require macros, data-flow programming, or attempt to transpile something that "looks like clojure" into GLSL. It aims to minimize magic and maximize simplicity, so programing with Gamma is just vanilla Clojure programming. Its only goal is to make the fundamental constructs of GLSL composable, so as to enable others to write higher-order graphics libraries in Clojure. 
+
 ## Basic Usage
 
 GLSL operations are represented by simple Clojure maps. Instead of entering the maps directly, use the constructor functions in the gamma.api namespace:
@@ -39,7 +52,7 @@ Gamma will trasform the expression into a statement and create the intermediary 
 
 ## Binding, Reuse, and Common Subexpression Elimination
 
-Gamma allows you to use all of Clojure's binding forms to pass the data to multiple places, or to organize the logic of your code.
+Gamma allows you to use all of Clojure's binding forms to pass the data to multiple places, or to organize the logic of your code. It does not introduce new binding constructs, or require you to juggle intermediary variables at the meta level. 
 
 (let [x (g/sin 1)]
   (g/vec4 x x x x))
