@@ -4,16 +4,18 @@ Gamma simplifies developing GLSL shaders for use with WebGL or OpenGL. It repres
 
 ## Design Goals
 
-Gamma is a style of metaprogramming tailored and restricted to this particular domain. The most important feature of this domain is that shaders are essentially pure functions, which allows us to semantically represent them as compositions of expressions with no intermediary variables. 
+Metaprogramming shaders has been done badly many times. The most common solutions are to program against a dataflow graph, or to transpile from a crippled version of the host language. These approaches fail to provide a foundation for users to create their own abstractions. They are effectively frameworks. This can be seen in practice in the derth of interopable graphics libraries. 
 
-With this in mind, Gamma's design mitigates complexities commonly associated with metaprogramming:
+By fixing the problem at the root, a ecosystem of interopable libraries can emerge. Gamma's insight is that shaders are pure functions, which allows us to represent them as compositions of expressions, with no variables or binding on the inside. Composing such expressions is then just a matter of vanilla Clojure programming of data-oriented GLSL expressions.
 
+It is nevertheless a form of metaprogramming, the complexity of which Gamma mitigages in the following ways:
+
+- Everything is data
 - No macros, special "def" forms
-- Clear separation of Clojure code versus Gamma code 
-- No binding forms, user variables in Gamma code
-- Trivial to use of all Clojure's affordaces (defn, let, protocols, multimethods, etc)
+- No binding forms, user variables in GLSL code
+- Clear separation of Clojure code versus GLSL code 
+- Worry-free use of all Clojure's affordaces (defn, let, protocols, multimethods, etc)
 
-Gamma doesn't require macros, data-flow programming, or attempt to transpile something that "looks like clojure" into GLSL. It aims to minimize magic and maximize simplicity, so programing with Gamma is just vanilla Clojure programming. Its only goal is to make the fundamental constructs of GLSL composable, so as to enable others to write higher-order graphics libraries in Clojure. 
 
 ## Basic Usage
 
