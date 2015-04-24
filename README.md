@@ -21,11 +21,15 @@ It is nevertheless a form of metaprogramming, the complexity of which Gamma miti
 
 GLSL operations are represented by simple Clojure maps. Instead of entering the maps directly, use the constructor functions in the gamma.api namespace:
 
+```clojure
 (g/sin 1)
+```
 
 In addition to clarity & brevity, these constructor functions provide type checking and inference:
 
+```clojure
 (g/sin "a")
+```
 
 To see the GLSL fragment corresponding to an expression, use XX. 
 
@@ -38,8 +42,10 @@ The only kinds of variables you need to think about in Gamma are the inputs to y
 
 To create a variable and use it in gamma code, simply create the variable and pass it as an argument:
 
+```clojure
 (let [a (g/attribute "my_Attribute" :float)]
   (g/sin a))
+```  
   
 In GLSL, there are 3 kinds of input variables: attributes, uniforms, and varyings. Consult WebGL or OpenGL references for their semantics.   
 
@@ -48,7 +54,9 @@ In GLSL, there are 3 kinds of input variables: attributes, uniforms, and varying
 
 GLSL is a statement-oriented language, but Gamma's compiler transformations allow you to compose with expressions:
 
+```clojure
 (g/cos (g/sin (g/if (g/< 1 a) 2 3)))
+```
 
 Gamma will trasform the expression into a statement and create the intermediary variables necessary.
 
@@ -56,8 +64,10 @@ Gamma will trasform the expression into a statement and create the intermediary 
 
 Gamma allows you to use all of Clojure's binding forms to pass the data to multiple places, or to organize the logic of your code. It does not introduce new binding constructs, or require you to juggle intermediary variables at the meta level. 
 
+```clojure
 (let [x (g/sin 1)]
   (g/vec4 x x x x))
+```  
 
 This means that (g/sin 1) is repeated many times within the body of g/vec4. However, the compiler eliminates this repetition and inserts an intermediary variable, so that (g/sin 1) is only computed once:
 
@@ -70,9 +80,12 @@ Not having to worry about manipulating variables in the target GLSL is a massive
 
 We are free to build up shader expressions any way we want. You can define functions, pass shader fragments inside maps, etc:
 
+```clojure
+
  (defn helper [x] {:some-key (g/sin x)})
  
  (g/cos (:some-key (helper 1)))
+```
  
 As long as the final result is a well-formed Gamma expression, you can build it up any way you want. 
 
