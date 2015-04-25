@@ -2,72 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32090a69-fd81-45e2-a750-643aa6512c93" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/gamma/constructors.clj" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/cljs/core.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/cljs/core.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/cljs/repl.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/cljs/repl.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/reducers.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/reducers.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/interop.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/interop.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/nodes.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/nodes.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/protocols.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/protocols.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/rrbt.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/rrbt.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/transients.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/transients.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/trees.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/core/rrb_vector/trees.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/set.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/set.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/string.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/clojure/string.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/fipp/printer.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/fipp/printer.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/api.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/ast.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/bubble_term.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/common.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/core.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/flatten_ast.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/insert_assignments.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/insert_variables.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/lift_assignments.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/move_assignments.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/print.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/compiler/separate_usages.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/emit/emit.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/emit/function.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/emit/operator.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/emit/statement.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/emit/tag.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/gamma/examples.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/goog/array/array.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/goog/asserts/asserts.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/goog/base.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/goog/debug/error.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/goog/deps.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/goog/dom/nodetype.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/goog/object/object.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/goog/string/string.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/goog/string/stringbuffer.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/node_repl.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/node_repl_deps.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/transduce/reducers.cljs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output/transduce/reducers.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/gamma/core_test.clj" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/ast.cljs" afterPath="$PROJECT_DIR$/src/gamma/ast.cljs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gamma.iml" afterPath="$PROJECT_DIR$/gamma.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/program.cljs" afterPath="$PROJECT_DIR$/src/gamma/program.cljs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.clj" afterPath="$PROJECT_DIR$/project.clj" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/gamma/api.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/replstate.xml" afterPath="$PROJECT_DIR$/.idea/replstate.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/test.cljs" afterPath="$PROJECT_DIR$/src/gamma/test.cljs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/tools.cljs" afterPath="$PROJECT_DIR$/src/gamma/tools.cljs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="gamma.iws" />
@@ -135,8 +72,8 @@
             <file leaf-file-name="ast.cljs" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/src/gamma/ast.cljs">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7896">
-                    <caret line="0" column="13" selection-start-line="0" selection-start-column="4" selection-end-line="0" selection-end-column="13" />
+                  <state vertical-scroll-proportion="0.6456401" vertical-offset="0" max-vertical-offset="7896">
+                    <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
                     <folding />
                   </state>
                 </provider>
@@ -168,16 +105,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="192">
               <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="core.cljs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.repl/cljs/core.cljs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.08" vertical-offset="5581" max-vertical-offset="222336">
-              <caret line="242" column="19" selection-start-line="242" selection-start-column="19" selection-end-line="242" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -238,8 +165,8 @@
       <file leaf-file-name="constructors.cljs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gamma/test/constructors.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.580645" vertical-offset="120" max-vertical-offset="3048">
-              <caret line="75" column="38" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.29493088" vertical-offset="120" max-vertical-offset="3048">
+              <caret line="13" column="7" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -782,7 +709,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="1174" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -804,7 +731,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30452344" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="REPL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35700756" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="REPL" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35700756" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -963,13 +890,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/api.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1484" max-vertical-offset="2502">
-          <caret line="133" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler.cljs">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="11636" max-vertical-offset="12654">
@@ -1105,14 +1025,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/ast.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7560">
-          <caret line="0" column="13" selection-start-line="0" selection-start-column="4" selection-end-line="0" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/examples.cljs">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13008">
@@ -1129,13 +1041,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gamma/compiler/core.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1800">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/compiler/core.cljs">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1225" max-vertical-offset="2160">
@@ -1148,14 +1053,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="7992">
           <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.repl/cljs/core.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.08" vertical-offset="5581" max-vertical-offset="222336">
-          <caret line="242" column="19" selection-start-line="242" selection-start-column="19" selection-end-line="242" selection-end-column="19" />
           <folding />
         </state>
       </provider>
@@ -1228,16 +1125,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/ast.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7896">
-          <caret line="0" column="13" selection-start-line="0" selection-start-column="4" selection-end-line="0" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.6456401" vertical-offset="0" max-vertical-offset="7896">
+          <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/test/constructors.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.580645" vertical-offset="120" max-vertical-offset="3048">
-          <caret line="75" column="38" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.29493088" vertical-offset="120" max-vertical-offset="3048">
+          <caret line="13" column="7" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
           <folding />
         </state>
       </provider>
