@@ -28,26 +28,20 @@ Gamma represents the GLSL AST as Clojure maps. Instead of entering the maps dire
 
 ```clojure
 (g/sin 1)
-```
-
-```
 =>
 {:tag :term, :head :sin, :id {:tag :id, :id 1}, :type :float,
   :body ({:tag :term, :head :literal, :value 1, :type :float, :id {:tag :id, :id 2}})}
 ```
 
+
 You typically won't need to know the details of this format, but it is useful to know that the constructor functions simply resolve to a pure data representation. 
 
 In addition to clarity & brevity, these constructor functions also provide type checking and inference:
 
-In addition to clarity & brevity, these constructor functions provide type checking and inference:
-
 ```clojure
 (g/sin true)
-=> Error: Wrong argument types for term sin: :bool
+=> "Error: Wrong argument types for term sin: :bool"
 ```
-
-
 
 To see the GLSL fragment corresponding to an expression, use XX. 
 
