@@ -4,40 +4,7 @@ Gamma simplifies developing GLSL shaders for use with WebGL or OpenGL. It repres
 
 Read the [rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
-## Design Goals
-
-Metaprogramming shaders has been done badly many times. The most common solutions are to program against a dataflow graph, or to transpile from a crippled version of the host language. These approaches fail to provide a foundation for users to create their own abstractions. They are effectively frameworks. This can be seen in practice in the derth of interopable graphics libraries. 
-
-By fixing the problem at the root, a ecosystem of interopable libraries can emerge. Gamma's insight is that shaders are pure functions, which allows us to represent them as compositions of expressions, with no variables or binding on the inside. Composing such expressions is then just a matter of vanilla Clojure programming of data-oriented GLSL expressions.
-
-It is nevertheless a form of metaprogramming, the complexity of which Gamma mitigages in the following ways:
-
-- Everything is data
-- No macros, special "def" forms
-- No binding forms, user variables in GLSL code
-- Clear separation of Clojure code versus GLSL code 
-- Worry-free use of all Clojure's affordaces (defn, let, protocols, multimethods, etc)
-
-
-## Compiling a basic program
-
-We will construct a simple GLSL program suitable for the traditional "Hello Triangle" example. 
-
-Require the gamma.api and gamma.program namespaces:
-```clojure
-(require '[gamma.api :as g] '[gamma.program :as p])
-```
-
-The program:
-
-```clojure
-(def p 
-  {:vertex-shader {(g/gl-position) ()}}
-
-```
-
-
-
+# usage
 
 Gamma represents the GLSL AST as Clojure maps. Instead of entering the maps directly, use the constructor functions in the gamma.api namespace:
 
