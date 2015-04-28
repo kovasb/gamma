@@ -12,7 +12,7 @@ Gamma lets you do two things: a) construct a GLSL AST as clojure data, and b) co
 
 ## Constructing GLSL 
 
-The GLSL AST is represented as Clojure maps. 
+Gamma represents the GLSL AST as Clojure maps. 
 The functions in gamma.api are convenience functions for constructing the maps:
 
 ```clojure
@@ -26,7 +26,9 @@ The functions in gamma.api are convenience functions for constructing the maps:
   :body ({:tag :term, :head :literal, :value 1, :type :float, :id {:tag :id, :id 2}})}
 ```
 
-By design, the AST consists of pure functions operating on values. This isn't how GLSL normally works (as detailed below), but Gamma chooses this representation because it makes composition trivial. 
+The mapping from GLSL to Gamma's AST maps is in general very direct, although Gamma deviates in one important way. 
+
+Gamma's AST is designed to represent pure functions operating on values. This vastly simplies the task of metaprogramming: no state, no side-effects, no variable names to juggle, no order-of-operations issues.  
 
 Most importantly, it is referentially transparent, which means we can replace any AST fragment with code that generates it, and vice verse. 
 
