@@ -28,9 +28,11 @@ The functions in gamma.api are convenience functions for constructing the maps:
 
 The mapping from GLSL to Gamma's AST maps is in general very direct, although Gamma deviates in one important way. 
 
-Gamma's AST is designed to represent pure functions operating on values. This vastly simplies the task of metaprogramming: no state, no side-effects, no variable names to juggle, no order-of-operations issues.  
+Gamma's AST is designed to represent pure functions operating on values. This vastly simplies the task of metaprogramming: no state, no side-effects, no variable names to juggle, no order-of-operations issues. 
 
-Most importantly, it is referentially transparent, which means we can replace any AST fragment with code that generates it, and vice verse. 
+Most importantly, it is referentially transparent, which means we can replace any AST fragment with code that generates it, and vice verse. This is the foundational idea that allows us to apply any of Clojure's abstractions to GLSL.
+
+For starters, we can factor out some part of an AST into a a function:
 
 ```clojure
 (g/+ 1 (g/+ 2 3))
@@ -45,8 +47,23 @@ We have abstracted out (g/+ 2 3) from our tree, and now invoke (my-fn 2) to get 
 So what can my-fn accept as an argument? Only numbers? No. It can accept any AST fragment that computes to a number:
 
 ```clojure
-;; also equivalent to (g/+ 1 (g/+ 2 3))
+;; also equivalent 
 (g/+ 1 (my-fn (g/- 3 1)))
+```
+
+Functions are an extremely powerful abstraction, making many composition patterns trivial that are difficult or impossible in GLSL. 
+
+```clojure
+;; more equivalent forms 
+
+;; pass function into a function   
+(defn root-ast-fn [sub-ast-fn]
+  (g/+ 1 (sub-ast-fn 2)))
+(root-ast-fn my-fn)  
+  
+;; close over data 
+(defn my-fn-2 [x] (fn [y] (g/+ x y)))
+(root-ast-fn (my-fn-2 3))
 ```
 
 There is no limit to how you construct your ASTs, how you set up your composition, polymorphism, indirection, etc. 
