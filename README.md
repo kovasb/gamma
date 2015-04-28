@@ -8,17 +8,16 @@ Read the [rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
 # API
 
-Gamma lets you do two things: a) compose a GLSL AST,  and b) compile that AST into a string
+Gamma lets you do two things: a) construct a GLSL AST as clojure data, and b) compile it to a GLSL program string
 
 ## Constructing GLSL 
 
-Functions for constructing GLSL ASTs are in the gamma.api namespace.
+The GLSL AST is represented as Clojure maps. 
+The functions in gamma.api are convenience functions for constructing the maps:
 
 ```clojure
 (require '[gamma.api :as g])
 ```
-
-Invoking these functions with appropriate arguments returns an AST:
 
 ```clojure
 (g/sin 1)
@@ -27,29 +26,58 @@ Invoking these functions with appropriate arguments returns an AST:
   :body ({:tag :term, :head :literal, :value 1, :type :float, :id {:tag :id, :id 2}})}
 ```
 
-The particular format of the AST at this point is not part of the public API, but will be in the future. The constructor functions are not only easier to read and write, but also perform type inference. 
+By design, the AST consists of pure functions operating on values. This isn't how GLSL normally works (as detailed below), but Gamma chooses this representation because it makes composition trivial. 
 
-You build up the AST with vanilla clojure programming:
+Most importantly, it is referentially transparent, which means we can replace any AST fragment with code that generates it, and vice verse. 
 
 ```clojure
-;; define an input variable
-(def input (g/attribute "my_Attribute" :float))
+(g/+ 1 (g/+ 2 3))
 
-;; compose Gamma constructor functions
-(g/+ (g/sin input) input)
-
-;; create a function that returns some AST 
-(defn my-op [x] 
-  (g/+ (g/sin x) x))
-  
-;; pass along AST fragments as part of compound datastructure 
-{:sum (g/+ input1 input2) :difference (g/- input1 input2)}
-
-;; use higher-order functions
-(reduce g/+ 0 [1 2 3 4])
+;; equivalent to 
+(defn my-fn [x] (g/+ x 3))
+(g/+ 1 (my-fn 2))
 ```
 
-Gamma supports the spectrum of GLSL functions, operators, type constructors, and variables. See the tests for all supported forms. 
+We have abstracted out (g/+ 2 3) from our tree, and now invoke (my-fn 2) to get the same result. 
+
+So what can my-fn accept as an argument? Only numbers? No. It can accept any AST fragment that computes to a number:
+
+```clojure
+;; also equivalent
+(g/+ 1 (my-fn (g/- 3 1)))
+```
+
+There is no limit to how you construct your ASTs, how you set up your composition, polymorphism, indirection, etc. 
+
+```clojure
+;; use arbitrary kinds of indirection or polymorphism
+(g/+ 1 (some-AST-generating-fn))
+(g/+ 1 (:val (map-returning-AST-generating-fn)))
+(g/+ 1 (my-ast-returning-multimethod some-data))
+(g/+ 1 (my-ast-returning-protocol some-type))
+```
+
+You can go to town with higher order functions:
+
+```clojure
+(reduce g/+ 0 [1 2 3 4])
+
+(apply g/vec4 (map #(g/clamp % 0 1) [0 0.5 1 2]))
+```
+
+You can pass around AST fragments however you want, including inside datastructure:
+
+```clojure
+
+(def x {:color (g/vec3 0 0 1) :alpha 0.5})
+
+(defn conj-alpha [c]
+  (g/vec4 (:color c) (:alpha c)))
+  
+(conj-alpha x)  
+```
+
+If this looks like very basic programming, its because it is. However, these forms of abstraction are unavailable in raw GLSL, or in many of the languages and tools dedicated to wrapping it. 
 
 
 ### Differences from GLSL
@@ -90,6 +118,9 @@ For example, map a function across each element of a GLSL vector and produce a n
 (defn map-over-vec4 [f v]
  (apply g/vec4 (for [i (range 4)] (f (g/part v i)))))
 ``` 
+
+## Compiling Programs 
+
 
 
 
