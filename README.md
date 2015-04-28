@@ -2,6 +2,7 @@
 
 Gamma simplifies developing GLSL shaders for use with WebGL. It represents shaders as composable expressions, giving you the full power of Clojure to compose, abstract and manipulate them before finally compiling to an executable GLSL string. 
 
+Using Gamma directly requires knowledge of GLSL. It can be used directly by applications, or by graphics library authors to create arbitrary abstractions, from composable shader libraries to high-level declarative graphics DSLs. 
 
 Read the [rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
