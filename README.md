@@ -1,12 +1,23 @@
 # gamma
 
-Gamma simplifies developing GLSL shaders for use with WebGL or OpenGL. It represents shaders as composable expressions, giving you the full power of Clojure to compose, abstract and manipulate them before finally compiling to an executable GLSL string. 
+Gamma simplifies developing GLSL shaders for use with WebGL. It represents shaders as composable expressions, giving you the full power of Clojure to compose, abstract and manipulate them before finally compiling to an executable GLSL string. 
+
 
 Read the [rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
-# usage
+# API
 
-Gamma represents the GLSL AST as Clojure maps. Instead of entering the maps directly, use the constructor functions in the gamma.api namespace:
+Gamma lets you do two things: a) compose a GLSL AST,  and b) compile that AST into a string
+
+## Constructing GLSL 
+
+Functions for constructing GLSL ASTs are in the gamma.api namespace.
+
+```clojure
+(require '[gamma.api :as g])
+```
+
+Invoking these functions with appropriate arguments returns an AST:
 
 ```clojure
 (g/sin 1)
@@ -14,6 +25,81 @@ Gamma represents the GLSL AST as Clojure maps. Instead of entering the maps dire
 {:tag :term, :head :sin, :id {:tag :id, :id 1}, :type :float,
   :body ({:tag :term, :head :literal, :value 1, :type :float, :id {:tag :id, :id 2}})}
 ```
+
+The particular format of the AST at this point is not part of the public API, but will be in the future. The constructor functions are not only easier to read and write, but also perform type inference. 
+
+You build up the AST with vanilla clojure programming:
+
+```clojure
+;; define an input variable
+(def input (g/attribute "my_Attribute" :float))
+
+;; compose Gamma constructor functions
+(g/+ (g/sin input) input)
+
+;; create a function that returns some AST 
+(defn my-op [x] 
+  (g/+ (g/sin x) x))
+  
+;; pass along AST fragments as part of compound datastructure 
+{:sum (g/+ input1 input2) :difference (g/- input1 input2)}
+
+;; use higher-order functions
+(reduce g/+ 0 [1 2 3 4])
+```
+
+Gamma supports the spectrum of GLSL functions, operators, type constructors, and variables. See the tests for all supported forms. 
+
+
+## Differences from GLSL
+
+### Statements are expressions
+
+Unlike ordinary GLSL, Gamma's AST is expression oriented. 
+
+In particular, if-statements are expressions that can be nested in other expressions.
+
+```clojure
+(g/+ 1 (g/if conditional-expr 2 3))
+```
+
+### No binding forms 
+
+You don't create bindings or assignments within the AST.
+
+If you want to pass an expression to multiple places, just do with Clojure:
+
+```clojure
+(defn my-abs [a b]
+  (let [x (g/+ a b)]
+    (g/if (g/< 0 x)
+       (g/* -1 x) 
+       x)))
+```
+
+This duplicates the (g/+ a b) AST fragment in multiple places, but Gamma's compiler will optimize that duplication away.
+
+### No for loops 
+
+WebGL only supports for loops that are un-rollable. You can unroll these yourself trivially with higher-order functions.
+
+For example, map a function across each element of a GLSL vector and produce a new GLSL vector:
+
+```clojure
+(defn map-over-vec4 [f v]
+ (apply g/vec4 (for [i (range 4)] (f (g/part v i)))))
+``` 
+
+
+
+
+
+
+
+# usage
+
+Gamma represents the GLSL AST as Clojure maps. Instead of entering the maps directly, use the constructor functions in the gamma.api namespace:
+
 
 
 You typically won't need to know the details of this format, but it is useful to know that the constructor functions simply resolve to a pure data representation. 
