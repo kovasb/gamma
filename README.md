@@ -15,13 +15,7 @@ The value of Gamma is that it lets you use Clojure to abstract the process in st
 
 ## Constructing GLSL 
 
-Gamma makes it easy to construct G
-
-Gamma represents the GLSL AST as Clojure maps.  
-
-The value of Gamma is that you can use Clojure's abstractions and datastructures to do this, in a straightfowr
-
-The functions in gamma.api are convenience functions for constructing the maps:
+Gamma represents the GLSL AST as Clojure maps.  The functions in gamma.api are convenience functions for constructing the maps:
 
 ```clojure
 (require '[gamma.api :as g])
