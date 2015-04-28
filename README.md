@@ -1,18 +1,26 @@
 # gamma
 
-Gamma simplifies developing GLSL shaders for use with WebGL. It represents shaders as composable expressions, giving you the full power of Clojure to compose, abstract and manipulate them before finally compiling to an executable GLSL string. 
+Gamma is a simple, composable API for describing WebGL shaders. 
 
-Using Gamma directly requires knowledge of GLSL. It can be used directly by applications, or by graphics library authors to create arbitrary abstractions, from composable shader libraries to high-level declarative graphics DSLs. 
+Gamma's purpose is to be a fundamental building block for graphics libraries. It makes it easy to define your own abstractions that compile down to GLSL shaders. It also makes it possible for graphics libraries to meet at a common standard and achieve interoperability. 
 
 Read the [rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
 # API
 
-Gamma lets you do two things: a) construct a GLSL AST as clojure data, and b) compile it to a GLSL program string
+Gamma lets you do two things: A) construct a GLSL AST as clojure data, and B) compile it to a GLSL program string
+
+The value of Gamma is that it lets you use Clojure to abstract the process in step A. You can use functions, procotols, multimethods, datastructures, etc to abstract the GLSL. Your Clojure program runs, and the GLSL AST is produced. Gamma does NOT try to tanspile Clojure to GLSL.
+
 
 ## Constructing GLSL 
 
-Gamma represents the GLSL AST as Clojure maps. 
+Gamma makes it easy to construct G
+
+Gamma represents the GLSL AST as Clojure maps.  
+
+The value of Gamma is that you can use Clojure's abstractions and datastructures to do this, in a straightfowr
+
 The functions in gamma.api are convenience functions for constructing the maps:
 
 ```clojure
@@ -25,6 +33,79 @@ The functions in gamma.api are convenience functions for constructing the maps:
 {:tag :term, :head :sin, :id {:tag :id, :id 1}, :type :float,
   :body ({:tag :term, :head :literal, :value 1, :type :float, :id {:tag :id, :id 2}})}
 ```
+
+Each GLSL operator, function, or type constructor has an equivalent function in gamma.api. 
+
+The different species of GLSL input/output variables also have constructors:
+
+```clojure
+;; attribute 
+(g/attribute "a_Attr" :float)
+;; uniform 
+(g/uniform "u_Uniform" :mat4)
+;; varying 
+(g/varying "v_Varying" :float :highp)
+```
+
+To refer to a input variable with the AST, simply create it and pass it to an AST constuctor: 
+
+```clojure 
+(g/sin (g/attribute "a_Attr" :float))
+```
+
+In Gamma, we represent if-statements as expressions, so we can nest if's inside of other expressions:
+
+```clojure 
+(g/sin (g/if (g/attribute "b_Bool" :bool) 1 2))
+```
+
+Gamma allows you to employ vanilla Clojure programming to build up the ASTs.
+
+Insert arbitary helper functions to construct pieces of the tree:
+
+```clojure
+;; start with 
+(g/+ 1 (g/+ 2 3))
+
+;; create helper
+(defn my-helper [x] (g/+ x 3))
+
+;; refactor tree using helper:
+(g/+ 1 (my-helper 2))
+```
+
+To reuse an expression in multiple places, use let, or any other binding form:
+```clojure
+(let [x (g/length (g/attribute "a_Vec4" :vec4))]
+  (g/vec3 x x x))
+  
+;; equivalent to 
+(g/vec3 
+    (g/length (g/attribute "a_Vec4" :vec4))
+    (g/length (g/attribute "a_Vec4" :vec4))
+    (g/length (g/attribute "a_Vec4" :vec4)))
+```
+
+Gamma's compiler will ensure that the (g/length ...) expression will only be evaluated once. This frees you from having to think about intermediary variables within the AST and their impact on performance. 
+
+The Gamma AST is simple data and composes cleanly. Most things you can imagine doing will just work. 
+
+```clojure
+;; Some higher-order AST construction
+
+(reduce g/+ 0 [1 2 3 4])
+
+(apply g/vec4 (map #(g/clamp % 0 1) [0 0.5 1 2]))
+```
+
+
+
+
+
+
+
+
+
 
 The mapping from GLSL to Gamma's AST maps is in general very direct, although Gamma deviates in one important way. 
 
@@ -75,13 +156,7 @@ There is no limit to how you construct your ASTs, how you set up your compositio
 (g/+ 1 (my-ast-returning-protocol some-type))
 ```
 
-You can go to town with higher order functions:
 
-```clojure
-(reduce g/+ 0 [1 2 3 4])
-
-(apply g/vec4 (map #(g/clamp % 0 1) [0 0.5 1 2]))
-```
 
 You can pass around AST fragments however you want, including inside datastructure:
 
