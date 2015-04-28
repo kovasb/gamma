@@ -30,41 +30,40 @@ The mapping from GLSL to Gamma's AST maps is in general very direct, although Ga
 
 Gamma's AST is designed to represent pure functions operating on values. This vastly simplies the task of metaprogramming: no state, no side-effects, no variable names to juggle, no order-of-operations issues. 
 
-Most importantly, it is referentially transparent, which means we can replace any AST fragment with code that generates it, and vice verse. This is the foundational idea that allows us to apply any of Clojure's abstractions to GLSL.
+Most importantly, it is referentially transparent, which means we can replace any AST fragment with code that generates it, and vice verse. This frees us to abstract the AST using any technique available in Clojure. 
 
-For starters, we can factor out some part of an AST into a a function:
+As a simple example, consider all the ways we can factor the expression (g/+ 1 (g/+ 2 3)) using functions. 
 
 ```clojure
+;; many equivalent forms of the following
 (g/+ 1 (g/+ 2 3))
 
-;; equivalent to 
+;; factor (g/+ 2 3) into reuseable function 
 (defn my-fn [x] (g/+ x 3))
+
 (g/+ 1 (my-fn 2))
-```
 
-We have abstracted out (g/+ 2 3) from our tree, and now invoke (my-fn 2) to get the same result. 
+;; input to my-fn can be another expression that computes to 2, not just a literal value 
+(g/+ 1 (my-fn (g/+ 1 1)))
 
-So what can my-fn accept as an argument? Only numbers? No. It can accept any AST fragment that computes to a number:
+;; for that matter can generate a simple 2 with Clojure's arithmetic
+(g/+ 1 (my-fn (+ 1 1)))
 
-```clojure
-;; also equivalent 
-(g/+ 1 (my-fn (g/- 3 1)))
-```
-
-Functions are an extremely powerful abstraction, making many composition patterns trivial that are difficult or impossible in GLSL. 
-
-```clojure
-;; more equivalent forms 
-
-;; pass function into a function   
+;; factor out the whole tree, and pass a constructor for the subtree   
 (defn root-ast-fn [sub-ast-fn]
   (g/+ 1 (sub-ast-fn 2)))
+  
 (root-ast-fn my-fn)  
   
 ;; close over data 
 (defn my-fn-2 [x] (fn [y] (g/+ x y)))
+
 (root-ast-fn (my-fn-2 3))
+
+
 ```
+
+Functions are an extremely powerful abstraction, making many composition patterns trivial that are difficult or impossible in GLSL. 
 
 There is no limit to how you construct your ASTs, how you set up your composition, polymorphism, indirection, etc. 
 
