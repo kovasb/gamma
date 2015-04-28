@@ -2,7 +2,7 @@
 
 Gamma is a simple, composable API for describing WebGL shaders. 
 
-Gamma's purpose is to be a fundamental building block for graphics libraries. It makes it easy to define your own abstractions that compile down to GLSL shaders. It also makes it possible for graphics libraries to meet at a common standard and achieve interoperability. 
+Gamma's purpose is to be a fundamental building block for graphics libraries. It makes it easy to define your own abstractions that compile down to GLSL shaders. It also makes it possible for graphics libraries to meet at a common, simple yet powerful representation.
 
 Read the [rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
