@@ -45,7 +45,7 @@ We have abstracted out (g/+ 2 3) from our tree, and now invoke (my-fn 2) to get 
 So what can my-fn accept as an argument? Only numbers? No. It can accept any AST fragment that computes to a number:
 
 ```clojure
-;; also equivalent
+;; also equivalent to (g/+ 1 (g/+ 2 3))
 (g/+ 1 (my-fn (g/- 3 1)))
 ```
 
@@ -84,16 +84,6 @@ If this looks like very basic programming, its because it is. However, these for
 
 ### Differences from GLSL
 
-#### Statements are expressions
-
-Unlike ordinary GLSL, Gamma's AST is expression oriented. 
-
-In particular, if-statements are expressions that can be nested in other expressions.
-
-```clojure
-(g/+ 1 (g/if conditional-expr 2 3))
-```
-
 #### No binding forms 
 
 You don't create bindings or assignments within the AST.
@@ -107,6 +97,17 @@ If you want to pass an expression to multiple places, just do with Clojure:
        (g/* -1 x) 
        x)))
 ```
+
+#### Statements are expressions
+
+Unlike ordinary GLSL, Gamma's AST is expression oriented. 
+
+In particular, if-statements are expressions that can be nested in other expressions.
+
+```clojure
+(g/+ 1 (g/if conditional-expr 2 3))
+```
+
 
 This duplicates the (g/+ a b) AST fragment in multiple places, but Gamma's compiler will optimize that duplication away.
 
