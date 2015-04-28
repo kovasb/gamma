@@ -51,9 +51,9 @@ You build up the AST with vanilla clojure programming:
 Gamma supports the spectrum of GLSL functions, operators, type constructors, and variables. See the tests for all supported forms. 
 
 
-## Differences from GLSL
+### Differences from GLSL
 
-### Statements are expressions
+#### Statements are expressions
 
 Unlike ordinary GLSL, Gamma's AST is expression oriented. 
 
@@ -63,7 +63,7 @@ In particular, if-statements are expressions that can be nested in other express
 (g/+ 1 (g/if conditional-expr 2 3))
 ```
 
-### No binding forms 
+#### No binding forms 
 
 You don't create bindings or assignments within the AST.
 
@@ -79,7 +79,7 @@ If you want to pass an expression to multiple places, just do with Clojure:
 
 This duplicates the (g/+ a b) AST fragment in multiple places, but Gamma's compiler will optimize that duplication away.
 
-### No for loops 
+#### No for loops 
 
 WebGL only supports for loops that are un-rollable. You can unroll these yourself trivially with higher-order functions.
 
