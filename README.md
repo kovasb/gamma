@@ -8,12 +8,15 @@ Gamma plays a different game. It simplifies GLSL itself, so that building abstra
 
 Gamma will be particularly useful to authors of graphics libraries, and graphics applications developers seeking greater flexibility and simplicity in their pipeline. 
 
+Gamma is currently implemented for WebGL's GLSL and Clojurescript.
+
 Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
 Look at the tests. 
 
 See examples. 
 
+WebGL/GLSL references: WebGL Cheatsheet, [WebGL Spec](https://www.khronos.org/registry/webgl/specs/latest/1.0/), [OpenGL ES Shading Language 1.0 Spec](https://www.khronos.org/files/opengles_shading_language.pdf)
 
 
 # API
