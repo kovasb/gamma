@@ -120,10 +120,20 @@ The different species of GLSL input/output variables also have constructors:
 ```clojure
 ;; attribute 
 (g/attribute "a_Attr" :float)
+=> {:tag :variable, :name "a_Attr", :type :float, :storage :attribute}
 ;; uniform 
 (g/uniform "u_Uniform" :mat4)
+=> {:tag :variable, :name "u_Uniform", :type :mat4, :storage :uniform}
 ;; varying 
 (g/varying "v_Varying" :float :highp)
+=> {:tag :variable, :name "v_Varying", :type :float, :storage :varying, :precision :highp} 
+
+;; bult-in variables
+(g/gl-position)
+=> {:tag :variable, :name "gl_Position", :type :vec4}
+(g/gl-frag-color)
+=> {:tag :variable, :name "gl_FragColor", :type :vec4}
+
 ```
 
 To refer to a input variable with the AST, simply create it and pass it to an AST constuctor: 
