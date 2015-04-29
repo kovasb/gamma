@@ -4,7 +4,7 @@ Gamma simplifies an essential aspect of graphics programming: shaders.
 
 Graphics shaders are so complex and painful to program by hand that most significant graphics systems use some form of metaprogramming. However, these metaprogramming systems often simply lock the user into a different set of abstractions and asssumptions.  
 
-Gamma plays a different game. It makes GLSL itself composable, and lets you use Clojurescript to create whatever abstractions you want. It does not prescribe a higher-level shader programming model, it enables you to use Clojurescript's affordances to easily design and build your own. 
+Gamma plays a different game. It simplifies GLSL itself, so that building abstractions on top becomes easy. Instead of imposing its own abstractions, Gamma enables using a powerful tool - Clojurescript - to build what you need. Furthermore, it provides the foundation for these user-land abstractions to interoperate, setting the stage for a la carte graphics libraries. 
 
 Gamma will be particularly useful to authors of graphics libraries, and graphics applications developers seeking greater flexibility and simplicity in their pipeline. 
 
