@@ -1,6 +1,6 @@
 # gamma
 
-Gamma simplifies an essential aspect of graphics programming: shaders. It represents shaders as composable Clojurescript data, giving you Clojurescript's power to define and manipulate them. 
+Gamma simplifies an essential aspect of graphics programming: shaders. It represents GLSL shader programs as composable Clojurescript data, giving you Clojurescript's power to define and manipulate them. 
 
 Graphics shaders are so complex and painful to program by hand that most significant graphics systems use some form of metaprogramming. Typically, they provide a more specific programming model, such as dataflow, that parameterizes the complexity of GLSL. This allows faster programming of a certain pattern or set of patterns, but falls short of providing the user with a substrate they can continue to abstract.
 
