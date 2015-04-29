@@ -10,11 +10,7 @@ Gamma will be particularly useful to authors of graphics libraries, and graphics
 
 Gamma is currently implemented for WebGL's GLSL and Clojurescript.
 
-Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
-
-Look at the tests. 
-
-See examples. 
+Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale). Look at the tests. See examples. 
 
 WebGL/GLSL references: [WebGL Cheatsheet](https://www.khronos.org/files/webgl/webgl-reference-card-1_0.pdf), [WebGL Spec](https://www.khronos.org/registry/webgl/specs/latest/1.0/), [OpenGL ES Shading Language 1.0 Spec](https://www.khronos.org/files/opengles_shading_language.pdf), [WebGL Programming Guide (Book)](http://www.amazon.com/WebGL-Programming-Guide-Interactive-Graphics/dp/0321902920)
 
