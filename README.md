@@ -4,16 +4,30 @@ Gamma simplifies an essential aspect of graphics programming: shaders. It repres
 
 Graphics shaders are so complex and painful to program by hand that most significant graphics systems use some form of metaprogramming. Typically, they provide a more specific programming model, such as dataflow, that parameterizes the complexity of GLSL. This allows faster programming of a certain pattern or set of patterns, but falls short of providing the user with a substrate they can continue to abstract.
 
-Gamma plays a different game. It simplifies GLSL itself, so that building abstractions on top becomes easy. Instead of imposing its own abstractions, Gamma enables using a powerful tool - Clojurescript - to build what you need. Furthermore, it provides the foundation for these user-land abstractions to interoperate, setting the stage for a la carte graphics libraries. 
+Gamma plays a different game. It simplifies GLSL itself, so that building abstractions on top becomes easy. Instead of imposing its own abstractions, Gamma enables using a powerful tool - Clojurescript - to build what you need. Furthermore, it provides the foundation for these user-land abstractions to interoperate, setting the stage for a la carte graphics libraries. Finally, it allows creating shaders in reponse to input, allowing the graphics pipeline to dictate its own variable names, data formats, and desired computations to GLSL, rather than than other way around. 
 
 Gamma will be particularly useful to authors of graphics libraries, and graphics applications developers seeking greater flexibility and simplicity in their pipeline. 
 
 Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
+Look at the tests. 
+
+See examples. 
+
+
 
 # API
 
-Gamma lets you do two things: A) construct a GLSL AST as clojure data, and B) compile it to a GLSL program string
+Gamma lets you do two things:
+- Construct a GLSL AST as clojure data
+  - require gamma.api    
+- Compile it to a GLSL program string 
+  - require gamma.program 
+
+There are also tools for pretty printing () and debugging/utils (gamma.tools) 
+  
+
+A) , and B) 
 
 The value of Gamma is that it lets you use Clojure to abstract the process in step A. You can use functions, procotols, multimethods, datastructures, etc to abstract the GLSL. Your Clojure program runs, and the GLSL AST is produced. Gamma does NOT try to tanspile Clojure to GLSL.
 
