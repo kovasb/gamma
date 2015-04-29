@@ -71,12 +71,6 @@ The different species of GLSL input/output variables also have constructors:
 => {:tag :variable, :name "gl_FragColor", :type :vec4}
 ```
 
-To refer to a input variable with the AST, simply create it and pass it to an AST constuctor: 
-
-```clojure 
-(g/sin (g/attribute "a_Attr" :float))
-```
-
 ##### Compose constructor functions to buld the AST
 
 Building the AST is just a matter of composing constructor functions, resulting in nested maps:
@@ -92,6 +86,12 @@ Building the AST is just a matter of composing constructor functions, resulting 
                     :id {:tag :id, :id 5}} 
         {:tag :term, :head :literal, :value 0.5, :type :float, :id {:tag :id, :id 6}}), 
           :id {:tag :id, :id 4}, :type :float}
+```
+
+To refer to a input variable with the AST, simply create it and pass it to an AST constuctor: 
+
+```clojure 
+(g/sin (g/attribute "a_Attr" :float))
 ```
 
 ##### Factor your AST with functions and datastructures
