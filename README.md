@@ -21,25 +21,21 @@ WebGL/GLSL references: [WebGL Cheatsheet](https://www.khronos.org/files/webgl/we
 
 # API
 
-Gamma lets you do two things:
+Gamma lets you do two main things:
 - Construct a GLSL AST as clojure data
   - require gamma.api    
 - Compile it to a GLSL program string 
   - require gamma.program 
 
-There are also tools for pretty printing () and debugging/utils (gamma.tools) 
-  
-
-A) , and B) 
-
-The value of Gamma is that it lets you use Clojure to abstract the process in step A. You can use functions, procotols, multimethods, datastructures, etc to abstract the GLSL. Your Clojure program runs, and the GLSL AST is produced. Gamma does NOT try to tanspile Clojure to GLSL.
-
+There are also namespaces for AST pretty printing (gamma.print) and tooling (gamma.tools). 
 
 ## Constructing GLSL 
 
 ##### GLSL represented as Clojure maps. Generate maps with constructor functions.  
 
-Gamma represents the GLSL AST as Clojure maps.  The functions in gamma.api are convenience functions for constructing the maps:
+The GLSL AST is represented as Clojure maps with certain keys. 
+
+Instead of entering the maps directly, use the constructor functions provided in gamma.api:
 
 ```clojure
 (require '[gamma.api :as g])
@@ -54,7 +50,46 @@ Gamma represents the GLSL AST as Clojure maps.  The functions in gamma.api are c
 
 Each GLSL operator, function, or type constructor has an equivalent function in gamma.api. 
 
-##### GLSL Input/ouput variables
+##### Compose constructor functions to buld the AST
+
+Building the AST is just a matter of composing constructor functions:
+
+```clojure
+(g/clamp (g/sin s) 0.25 0.5)
+```
+
+It doesn't really matter how the AST comes together, just flow data to where it is needed.
+
+```clojure
+;; create some AST fragments and hang on to them
+(def x {:partA (g/sin 1) :partB (g/cos a)})
+;; get AST fragments and put them where we want
+(g/clamp (:partA x) 0 (:partB x))
+```
+
+Feel free to use whatever abstractions you want for building up the tree. Just remember that GLSL is a typed language, and its functions and operations have type signatures that need to be respected. 
+
+##### Types are checked and inferred by constructor functions
+
+Constructor functions typecheck their arguments and infer their own types:
+
+```clojure
+(:type (sin 1.0))
+=> :float
+(:type (sin (vec3 0.0 0.0 1.0))
+=> :vec3
+```
+
+Passing the wrong type results in an exception:
+
+```clojure
+(sin true)
+=> 
+```
+
+
+
+##### GLSL Input/Ouput variables are also maps with constructor functions. 
 
 The different species of GLSL input/output variables also have constructors:
 
