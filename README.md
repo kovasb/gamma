@@ -100,6 +100,43 @@ If's are expressions, so we can nest if's inside of other expressions:
 (g/sin (g/if (g/attribute "b_Bool" :bool) 1 2))
 ```
 
+##### Use Clojure's binding forms 
+
+To reuse an expression in multiple places, use let, or any other binding form:
+```clojure
+(let [x (g/sin (g/attribute "a_Attr" :float))]
+  (g/vec3 x x x))
+  
+;; equivalent to 
+(g/vec3 
+  (g/sin (g/attribute "a_Attr" :float))
+  (g/sin (g/attribute "a_Attr" :float))
+  (g/sin (g/attribute "a_Attr" :float)))
+```
+
+Gamma's compiler will ensure that the (g/length ...) expression will only be evaluated once. This frees you from having to think about intermediary variables within the AST and their impact on performance. 
+
+In general, Gamma disallows use of binding forms within the AST. This is because the Gamma AST needs an important property: referential transparency. This property is what allows easy metaprogramming and full use of Clojurescript's facilities. 
+
+##### Types are checked and inferred by constructor functions
+
+Constructor functions typecheck their arguments and infer their own types:
+
+```clojure
+(:type (g/sin 1.0))
+=> :float
+(:type (g/sin (g/vec3 0.0 0.0 1.0))
+=> :vec3
+```
+
+Passing the wrong type results in an exception:
+
+```
+(g/sin true)
+=> Error: Wrong argument types for term sin: :bool
+```
+This is useful for debugging. Your code can also dispatch based on the GLSL type of the AST.
+
 ##### Factor your AST with functions and datastructures
 
 It doesn't really matter how the AST comes together, just flow data to where it is needed.
@@ -135,98 +172,18 @@ Metaprogramming GLSL with higher-order functions:
 
 Feel free to use whatever abstractions you want for building up the tree. Just remember that GLSL is a typed language, and its functions and operations have type signatures that need to be respected. 
 
-##### Types are checked and inferred by constructor functions
+##### Create abstractions
 
-Constructor functions typecheck their arguments and infer their own types:
+For example, Gamma does not provide a for loop, since WebGL only supports unrollable for-loops. 
 
-```clojure
-(:type (g/sin 1.0))
-=> :float
-(:type (g/sin (g/vec3 0.0 0.0 1.0))
-=> :vec3
-```
-
-Passing the wrong type results in an exception:
-
-```
-(g/sin true)
-=> Error: Wrong argument types for term sin: :bool
-```
-This is useful for debugging. Your code can also dispatch based on the GLSL type of the AST.
-
-##### GLSL If Statements are nestable expressions
-
-In Gamma, we represent 
-
-
-
-
-
-##### Use Clojure's binding forms 
-
-To reuse an expression in multiple places, use let, or any other binding form:
-```clojure
-(let [x (g/sin (g/attribute "a_Attr" :float))]
-  (g/vec3 x x x))
-  
-;; equivalent to 
-(g/vec3 
-  (g/sin (g/attribute "a_Attr" :float))
-  (g/sin (g/attribute "a_Attr" :float))
-  (g/sin (g/attribute "a_Attr" :float)))
-```
-
-Gamma's compiler will ensure that the (g/length ...) expression will only be evaluated once. This frees you from having to think about intermediary variables within the AST and their impact on performance. 
-
-In general, Gamma disallows use of binding forms within the AST. This is because the Gamma AST needs an important property: referential transparency. This property is what allows easy metaprogramming and full use of Clojurescript's facilities. 
-
-##### Higher-order AST construction
-
-The Gamma AST is simple data and composes cleanly. Most things you can imagine doing will just work. 
-
-
-
-
-
-### Differences from GLSL
-
-#### No binding forms 
-
-You don't create bindings or assignments within the AST.
-
-If you want to pass an expression to multiple places, just do with Clojure:
-
-```clojure
-(defn my-abs [a b]
-  (let [x (g/+ a b)]
-    (g/if (g/< 0 x)
-       (g/* -1 x) 
-       x)))
-```
-
-#### Statements are expressions
-
-Unlike ordinary GLSL, Gamma's AST is expression oriented. 
-
-In particular, if-statements are expressions that can be nested in other expressions.
-
-```clojure
-(g/+ 1 (g/if conditional-expr 2 3))
-```
-
-
-This duplicates the (g/+ a b) AST fragment in multiple places, but Gamma's compiler will optimize that duplication away.
-
-#### No for loops 
-
-WebGL only supports for loops that are un-rollable. You can unroll these yourself trivially with higher-order functions.
-
-For example, map a function across each element of a GLSL vector and produce a new GLSL vector:
+Using Clojurescript, it is trivial to unroll loops ourselves:
 
 ```clojure
 (defn map-over-vec4 [f v]
  (apply g/vec4 (for [i (range 4)] (f (g/part v i)))))
 ``` 
+
+A third party is free to develop a general-purpose library to cover common iteration pattens. 
 
 ## Compiling to GLSL program strings
 
