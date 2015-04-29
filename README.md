@@ -94,6 +94,12 @@ To refer to a input variable with the AST, simply create it and pass it to an AS
 (g/sin (g/attribute "a_Attr" :float))
 ```
 
+If's are expressions, so we can nest if's inside of other expressions:
+
+```clojure 
+(g/sin (g/if (g/attribute "b_Bool" :bool) 1 2))
+```
+
 ##### Factor your AST with functions and datastructures
 
 It doesn't really matter how the AST comes together, just flow data to where it is needed.
@@ -150,11 +156,9 @@ This is useful for debugging. Your code can also dispatch based on the GLSL type
 
 ##### GLSL If Statements are nestable expressions
 
-In Gamma, we represent if-statements as expressions, so we can nest if's inside of other expressions:
+In Gamma, we represent 
 
-```clojure 
-(g/sin (g/if (g/attribute "b_Bool" :bool) 1 2))
-```
+
 
 
 
