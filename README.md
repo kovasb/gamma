@@ -16,7 +16,7 @@ Look at the tests.
 
 See examples. 
 
-WebGL/GLSL references: WebGL Cheatsheet, [WebGL Spec](https://www.khronos.org/registry/webgl/specs/latest/1.0/), [OpenGL ES Shading Language 1.0 Spec](https://www.khronos.org/files/opengles_shading_language.pdf)
+WebGL/GLSL references: [WebGL Cheatsheet](https://www.khronos.org/files/webgl/webgl-reference-card-1_0.pdf), [WebGL Spec](https://www.khronos.org/registry/webgl/specs/latest/1.0/), [OpenGL ES Shading Language 1.0 Spec](https://www.khronos.org/files/opengles_shading_language.pdf), [WebGL Programming Slide](http://www.amazon.com/WebGL-Programming-Guide-Interactive-Graphics/dp/0321902920)
 
 
 # API
