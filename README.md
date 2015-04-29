@@ -49,6 +49,34 @@ Instead of entering the maps directly, use the constructor functions provided in
 
 Each GLSL operator, function, or type constructor has an equivalent function in gamma.api. 
 
+##### GLSL Input/Ouput variables are also maps with constructor functions. 
+
+The different species of GLSL input/output variables also have constructors:
+
+```clojure
+;; attribute 
+(g/attribute "a_Attr" :float)
+=> {:tag :variable, :name "a_Attr", :type :float, :storage :attribute}
+;; uniform 
+(g/uniform "u_Uniform" :mat4)
+=> {:tag :variable, :name "u_Uniform", :type :mat4, :storage :uniform}
+;; varying 
+(g/varying "v_Varying" :float :highp)
+=> {:tag :variable, :name "v_Varying", :type :float, :storage :varying, :precision :highp} 
+
+;; bult-in variables
+(g/gl-position)
+=> {:tag :variable, :name "gl_Position", :type :vec4}
+(g/gl-frag-color)
+=> {:tag :variable, :name "gl_FragColor", :type :vec4}
+```
+
+To refer to a input variable with the AST, simply create it and pass it to an AST constuctor: 
+
+```clojure 
+(g/sin (g/attribute "a_Attr" :float))
+```
+
 ##### Compose constructor functions to buld the AST
 
 Building the AST is just a matter of composing constructor functions, resulting in nested maps:
@@ -111,37 +139,7 @@ Passing the wrong type results in an exception:
 (g/sin true)
 => Error: Wrong argument types for term sin: :bool
 ```
-
 This is useful for debugging. Your code can also dispatch based on the GLSL type of the AST.
-
-##### GLSL Input/Ouput variables are also maps with constructor functions. 
-
-The different species of GLSL input/output variables also have constructors:
-
-```clojure
-;; attribute 
-(g/attribute "a_Attr" :float)
-=> {:tag :variable, :name "a_Attr", :type :float, :storage :attribute}
-;; uniform 
-(g/uniform "u_Uniform" :mat4)
-=> {:tag :variable, :name "u_Uniform", :type :mat4, :storage :uniform}
-;; varying 
-(g/varying "v_Varying" :float :highp)
-=> {:tag :variable, :name "v_Varying", :type :float, :storage :varying, :precision :highp} 
-
-;; bult-in variables
-(g/gl-position)
-=> {:tag :variable, :name "gl_Position", :type :vec4}
-(g/gl-frag-color)
-=> {:tag :variable, :name "gl_FragColor", :type :vec4}
-
-```
-
-To refer to a input variable with the AST, simply create it and pass it to an AST constuctor: 
-
-```clojure 
-(g/sin (g/attribute "a_Attr" :float))
-```
 
 ##### GLSL If Statements are nestable expressions
 
@@ -157,19 +155,19 @@ In Gamma, we represent if-statements as expressions, so we can nest if's inside 
 
 To reuse an expression in multiple places, use let, or any other binding form:
 ```clojure
-(let [x (g/length (g/attribute "a_Vec4" :vec4))]
+(let [x (g/sin (g/attribute "a_Attr" :float))]
   (g/vec3 x x x))
   
 ;; equivalent to 
 (g/vec3 
-    (g/length (g/attribute "a_Vec4" :vec4))
-    (g/length (g/attribute "a_Vec4" :vec4))
-    (g/length (g/attribute "a_Vec4" :vec4)))
+  (g/sin (g/attribute "a_Attr" :float))
+  (g/sin (g/attribute "a_Attr" :float))
+  (g/sin (g/attribute "a_Attr" :float)))
 ```
 
 Gamma's compiler will ensure that the (g/length ...) expression will only be evaluated once. This frees you from having to think about intermediary variables within the AST and their impact on performance. 
 
-
+In general, Gamma disallows use of binding forms within the AST. This is because the Gamma AST needs an important property: referential transparency. This property is what allows easy metaprogramming and full use of Clojurescript's facilities. 
 
 ##### Higher-order AST construction
 
