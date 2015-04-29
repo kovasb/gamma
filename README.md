@@ -117,7 +117,14 @@ Functions are an even more powerful abstraction. Use functions to factor out or 
 
 ;; refactor tree using helper:
 (g/+ 1 (my-helper 2))
+```
 
+Metaprogramming GLSL with higher-order functions:
+
+```clojure
+(reduce g/+ 0 [1 2 3 4])
+
+(apply g/vec4 (map #(g/clamp % 0 1) [0 0.5 1 2]))
 ```
 
 Feel free to use whatever abstractions you want for building up the tree. Just remember that GLSL is a typed language, and its functions and operations have type signatures that need to be respected. 
@@ -173,13 +180,7 @@ In general, Gamma disallows use of binding forms within the AST. This is because
 
 The Gamma AST is simple data and composes cleanly. Most things you can imagine doing will just work. 
 
-```clojure
-;; Some higher-order AST construction
 
-(reduce g/+ 0 [1 2 3 4])
-
-(apply g/vec4 (map #(g/clamp % 0 1) [0 0.5 1 2]))
-```
 
 
 
