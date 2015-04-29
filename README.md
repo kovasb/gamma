@@ -110,8 +110,9 @@ Passing the wrong type results in an exception:
 ```
 (g/sin true)
 => Error: Wrong argument types for term sin: :bool
-
 ```
+
+This is useful for debugging. Your code can also dispatch based on the GLSL type of the AST.
 
 ##### GLSL Input/Ouput variables are also maps with constructor functions. 
 
