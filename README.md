@@ -1,10 +1,15 @@
 # gamma
 
-Gamma is a simple, composable API for describing WebGL shaders. 
+Gamma simplifies an essential aspect of graphics programming: shaders. 
 
-Gamma's purpose is to be a fundamental building block for graphics libraries. It makes it easy to define your own abstractions that compile down to GLSL shaders. It also makes it possible for graphics libraries to meet at a common, simple yet powerful representation.
+Graphics shaders are so complex and painful to program by hand that most significant graphics systems use some form of metaprogramming. However, these metaprogramming systems are often adhoc and limited to specific patterns. In the end, they don't solve the problem of GLSL's lack of fundamental programming affordances. 
+
+Gamma lets you use a powerful tool to abstract and metaprogram shaders: Clojurescript. Gamma represents the GLSL AST as composable data, and lets you use virtually any Clojure programming pattern to abstract your shaders. 
+
+Gamma is suitable for use by applications. However, its greater potential lies as a basis for graphics libraries. It makes it far easier to write these libraries, and also provides a basis for interoperability. 
 
 Read the [rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
+
 
 # API
 
@@ -14,6 +19,8 @@ The value of Gamma is that it lets you use Clojure to abstract the process in st
 
 
 ## Constructing GLSL 
+
+##### GLSL represented as Clojure maps. Generate maps with constructor functions.  
 
 Gamma represents the GLSL AST as Clojure maps.  The functions in gamma.api are convenience functions for constructing the maps:
 
@@ -29,6 +36,8 @@ Gamma represents the GLSL AST as Clojure maps.  The functions in gamma.api are c
 ```
 
 Each GLSL operator, function, or type constructor has an equivalent function in gamma.api. 
+
+##### GLSL Input/ouput variables
 
 The different species of GLSL input/output variables also have constructors:
 
@@ -47,11 +56,15 @@ To refer to a input variable with the AST, simply create it and pass it to an AS
 (g/sin (g/attribute "a_Attr" :float))
 ```
 
+##### GLSL If Statements are nestable expressions
+
 In Gamma, we represent if-statements as expressions, so we can nest if's inside of other expressions:
 
 ```clojure 
 (g/sin (g/if (g/attribute "b_Bool" :bool) 1 2))
 ```
+
+##### Factor your AST with functions 
 
 Gamma allows you to employ vanilla Clojure programming to build up the ASTs.
 
@@ -68,6 +81,8 @@ Insert arbitary helper functions to construct pieces of the tree:
 (g/+ 1 (my-helper 2))
 ```
 
+##### Use Clojure's binding forms 
+
 To reuse an expression in multiple places, use let, or any other binding form:
 ```clojure
 (let [x (g/length (g/attribute "a_Vec4" :vec4))]
@@ -82,6 +97,8 @@ To reuse an expression in multiple places, use let, or any other binding form:
 
 Gamma's compiler will ensure that the (g/length ...) expression will only be evaluated once. This frees you from having to think about intermediary variables within the AST and their impact on performance. 
 
+##### Higher-order AST construction
+
 The Gamma AST is simple data and composes cleanly. Most things you can imagine doing will just work. 
 
 ```clojure
@@ -91,6 +108,8 @@ The Gamma AST is simple data and composes cleanly. Most things you can imagine d
 
 (apply g/vec4 (map #(g/clamp % 0 1) [0 0.5 1 2]))
 ```
+
+##### Use datastructures to convey AST fragments
 
 You can pass around AST fragments however you want, including inside datastructure:
 
