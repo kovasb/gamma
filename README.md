@@ -107,9 +107,10 @@ Constructor functions typecheck their arguments and infer their own types:
 
 Passing the wrong type results in an exception:
 
-```clojure
+```
 (g/sin true)
-=> 
+=> Error: Wrong argument types for term sin: :bool
+
 ```
 
 ##### GLSL Input/Ouput variables are also maps with constructor functions. 
