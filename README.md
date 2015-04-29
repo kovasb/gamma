@@ -43,28 +43,53 @@ Instead of entering the maps directly, use the constructor functions provided in
 
 ```clojure
 (g/sin 1)
-=>
-{:tag :term, :head :sin, :id {:tag :id, :id 1}, :type :float,
-  :body ({:tag :term, :head :literal, :value 1, :type :float, :id {:tag :id, :id 2}})}
+=> {:tag :term, :head :sin, :id {:tag :id, :id 1}, :type :float,
+      :body ({:tag :term, :head :literal, :value 1, :type :float, :id {:tag :id, :id 2}})}
 ```
 
 Each GLSL operator, function, or type constructor has an equivalent function in gamma.api. 
 
 ##### Compose constructor functions to buld the AST
 
-Building the AST is just a matter of composing constructor functions:
+Building the AST is just a matter of composing constructor functions, resulting in nested maps:
 
 ```clojure
-(g/clamp (g/sin s) 0.25 0.5)
+(g/clamp (g/sin 1.0) 0.25 0.5)
+=> {:tag :term, :head :clamp, 
+      :body (
+        {:tag :term, :head :sin, 
+          :body ({:tag :term, :head :literal, :value 1, :type :float, :id {:tag :id, :id 3}}), 
+                    :id {:tag :id, :id 2}, :type :float} 
+                  {:tag :term, :head :literal, :value 0.25, :type :float, 
+                    :id {:tag :id, :id 5}} 
+        {:tag :term, :head :literal, :value 0.5, :type :float, :id {:tag :id, :id 6}}), 
+          :id {:tag :id, :id 4}, :type :float}
 ```
 
+##### Factor your AST with functions and datastructures
+
 It doesn't really matter how the AST comes together, just flow data to where it is needed.
+
+We can create AST, put in in some datastructure, and write logic to flow it to a destination:
 
 ```clojure
 ;; create some AST fragments and hang on to them
 (def x {:partA (g/sin 1) :partB (g/cos a)})
 ;; get AST fragments and put them where we want
 (g/clamp (:partA x) 0 (:partB x))
+```
+Functions are an even more powerful abstraction. Use functions to factor out or parameterize subtrees:
+
+```clojure
+;; start with 
+(g/+ 1 (g/+ 2 3))
+
+;; create helper
+(defn my-helper [x] (g/+ x 3))
+
+;; refactor tree using helper:
+(g/+ 1 (my-helper 2))
+
 ```
 
 Feel free to use whatever abstractions you want for building up the tree. Just remember that GLSL is a typed language, and its functions and operations have type signatures that need to be respected. 
@@ -74,20 +99,18 @@ Feel free to use whatever abstractions you want for building up the tree. Just r
 Constructor functions typecheck their arguments and infer their own types:
 
 ```clojure
-(:type (sin 1.0))
+(:type (g/sin 1.0))
 => :float
-(:type (sin (vec3 0.0 0.0 1.0))
+(:type (g/sin (g/vec3 0.0 0.0 1.0))
 => :vec3
 ```
 
 Passing the wrong type results in an exception:
 
 ```clojure
-(sin true)
+(g/sin true)
 => 
 ```
-
-
 
 ##### GLSL Input/Ouput variables are also maps with constructor functions. 
 
@@ -116,22 +139,7 @@ In Gamma, we represent if-statements as expressions, so we can nest if's inside 
 (g/sin (g/if (g/attribute "b_Bool" :bool) 1 2))
 ```
 
-##### Factor your AST with functions 
 
-Gamma allows you to employ vanilla Clojure programming to build up the ASTs.
-
-Insert arbitary helper functions to construct pieces of the tree:
-
-```clojure
-;; start with 
-(g/+ 1 (g/+ 2 3))
-
-;; create helper
-(defn my-helper [x] (g/+ x 3))
-
-;; refactor tree using helper:
-(g/+ 1 (my-helper 2))
-```
 
 ##### Use Clojure's binding forms 
 
@@ -149,6 +157,8 @@ To reuse an expression in multiple places, use let, or any other binding form:
 
 Gamma's compiler will ensure that the (g/length ...) expression will only be evaluated once. This frees you from having to think about intermediary variables within the AST and their impact on performance. 
 
+
+
 ##### Higher-order AST construction
 
 The Gamma AST is simple data and composes cleanly. Most things you can imagine doing will just work. 
@@ -161,21 +171,6 @@ The Gamma AST is simple data and composes cleanly. Most things you can imagine d
 (apply g/vec4 (map #(g/clamp % 0 1) [0 0.5 1 2]))
 ```
 
-##### Use datastructures to convey AST fragments
-
-You can pass around AST fragments however you want, including inside datastructure:
-
-```clojure
-
-(def x {:color (g/vec3 0 0 1) :alpha 0.5})
-
-(defn conj-alpha [c]
-  (g/vec4 (:color c) (:alpha c)))
-  
-(conj-alpha x)  
-```
-
-If this looks like very basic programming, its because it is. However, these forms of abstraction are unavailable in raw GLSL, or in many of the languages and tools dedicated to wrapping it. 
 
 
 ### Differences from GLSL
