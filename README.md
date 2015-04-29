@@ -8,7 +8,7 @@ Gamma plays a different game. It simplifies GLSL itself, so that building abstra
 
 Gamma will be particularly useful to authors of graphics libraries, and graphics applications developers seeking greater flexibility and simplicity in their pipeline. 
 
-Read the [rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
+Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
 
 # API
