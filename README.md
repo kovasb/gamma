@@ -11,7 +11,7 @@ Benefits:
 - Create composable, multiplatform shader libraries 
 - Quickly build higher-level GL libraries 
 
-Gamma targets the OpenGL ES 1.0 Shading Language, which runs on the Web through WebGL, and on iOs, Android, and desktop platforms. Gamma runs in Clojurescript, but the shaders it generates can be used from any language. 
+Technically, Gamma is an EDSL that hosts GLSL within Clojurescript. It is inspired by [Carlos Scheidegger](http://cscheid.net/)'s [Lux](http://cscheid.github.io/lux/) and [Conal Elliot](http://conal.net/)'s [Vertigo](http://conal.net/papers/Vertigo/) and [Pan](http://conal.net/papers/jfp-saig/). Gamma targets the WebGL subset of the OpenGL ES 1.0 Shading Language.
 
 Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale). 
 
