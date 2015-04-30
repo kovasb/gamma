@@ -33,7 +33,13 @@ Define the traditional "Hello Triangle" shader:
 (def hello-triangle-shaders 
   {:vertex-shader {(g/gl-position) (g/vec4 vertex-position 0 1)}
    :fragment-shader {(g/gl-frag-color) (g/vec4 1 0 0 1)}})
+```
 
+This code defines a GLSL program with a vertex shader and a fragment shader. The two shaders are specified in a map. Each shader is also a map, whose keys are the shader's output variables, and whose values are GLSL expressions constructed using Gamma's api. 
+
+To compile this program into proper GLSL, pass it to p/program:
+
+```
 (def hello-triangle-program (p/program hello-triangle-shaders))
 ```
 
@@ -54,6 +60,34 @@ void main(void){
 "void main(void){
  gl_FragColor = vec4(1, 0, 0, 1);
 }"
+```
+
+Lets actually execute this shader in WebGL.
+
+```clojure
+(require '[goog.webgl :as ggl])
+
+(def gl-context (.getContext xx))
+
+;; set up vertex shader
+(def vertex-shader (.createShader gl-context ggl/VERTEX_SHADER))
+(.shaderSource gl-context vertex-shader (:glsl (:vertex-shader hello-triangle-program)))
+(.compileShader gl-context vertex-shader)
+
+;; set up fragment shader
+(def fragment-shader (.createShader gl-context ggl/FRAGMENT_SHADER))
+(.shaderSource gl-context fragment-shader (:glsl (:fragment-shader hello-triangle-program)))
+(.compileShader gl-context fragment-shader)
+
+;; set up program
+(def hello-triangle (.createProgram gl-context))
+(.attachShader gl-context hello-triangle vertex-shader)
+(.attachShader gl-context hello-triangle fragment-shader)
+(.linkProgram gl-context hello-triangle)
+
+
+
+
 ```
 
 
