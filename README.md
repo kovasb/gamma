@@ -1,12 +1,14 @@
 # gamma
 
-Gamma is a substrate for graphics software, such as games and data visualization tools. It presents a simple, composable language for representing GLSL shaders. Gamma targets the OpenGL ES 1.0 Shading Language, which runs on the Web through WebGL, and on iOs, Android, and desktop platforms. 
+Gamma is a substrate for graphics software, such as games and data visualization tools. It presents a simple, composable language for representing GLSL shaders. 
 
 Benefits: 
 - Decouple, simplify, abstract shader code 
 - Release graphics pipeline from rigid demands of shaders
 - Create composable, multiplatform shader libraries 
 - Quickly build higher-level GL libraries 
+
+Gamma targets the OpenGL ES 1.0 Shading Language, which runs on the Web through WebGL, and on iOs, Android, and desktop platforms. Gamma runs in Clojurescript, but the shaders it generates can be used from any language. 
 
 Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale). Look at the tests. See examples. 
 
