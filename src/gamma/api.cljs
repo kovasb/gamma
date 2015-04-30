@@ -47,8 +47,8 @@
 (defn uniform [name type]
   {:tag :variable :name name :type type :storage :uniform})
 
-(defn varying [name type]
-  {:tag :variable :name name :type type :storage :varying})
+(defn varying [name type precision]
+  {:tag :variable :name name :type type :storage :varying :precision precision})
 
 (defn variable
   ([x] (variable x nil))
@@ -132,6 +132,12 @@
 
 
 (api-macro/gen-fns)
+
+(defn vec2 [& args]
+  (assoc (apply ast/term :vec2 args) :type :vec2))
+
+(defn vec3 [& args]
+  (assoc (apply ast/term :vec3 args) :type :vec3))
 
 (defn vec4 [& args]
   (assoc (apply ast/term :vec4 args) :type :vec4))

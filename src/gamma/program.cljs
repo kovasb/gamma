@@ -62,8 +62,9 @@
     (filter #(= :uniform (:storage %))
             (:inputs fs))))
 
-(defn program [vertex-shader fragment-shader]
-  (let [vs (shader vertex-shader) fs (shader fragment-shader)]
+(defn program [x]
+  (let [{:keys [vertex-shader fragment-shader]} x
+        vs (shader vertex-shader) fs (shader fragment-shader)]
     {:tag             :program
      :vertex-shader   vs
      :fragment-shader fs
