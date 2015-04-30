@@ -1,102 +1,80 @@
 # gamma
 
-Gamma simplifies developing GLSL shaders for use with WebGL or OpenGL. It represents shaders as composable expressions, giving you the full power of Clojure to compose, abstract and manipulate them before finally compiling to an executable GLSL string. 
+Gamma is a substrate for graphics software, such as games and data visualization tools. It presents a simple, composable language for representing GLSL shaders. 
 
-## Design Goals
+- ["Hello Triangle" Tutorial](https://github.com/kovasb/gamma/blob/master/README.md#hello-triangle-tutorial) 
+- [Documenation](https://github.com/kovasb/gamma/wiki/API-Guide)
+- [Rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale)
 
-Metaprogramming shaders has been done badly many times. The most common solutions are to program against a dataflow graph, or to transpile from a crippled version of the host language. These approaches fail to provide a foundation for users to create their own abstractions. They are effectively frameworks. This can be seen in practice in the derth of interopable graphics libraries. 
+Benefits: 
+- Decouple, simplify, abstract shader code 
+- Release graphics pipeline from rigid demands of shaders
+- Create composable, multiplatform shader libraries 
+- Quickly build higher-level GL libraries 
 
-By fixing the problem at the root, a ecosystem of interopable libraries can emerge. Gamma's insight is that shaders are pure functions, which allows us to represent them as compositions of expressions, with no variables or binding on the inside. Composing such expressions is then just a matter of vanilla Clojure programming of data-oriented GLSL expressions.
+Technically, Gamma is an [EDSL](http://c2.com/cgi/wiki?EmbeddedDomainSpecificLanguage) that hosts GLSL within Clojurescript. It is inspired by [Carlos Scheidegger](http://cscheid.net/)'s [Lux](http://cscheid.github.io/lux/) and [Conal Elliot](http://conal.net/)'s [Vertigo](http://conal.net/papers/Vertigo/) and [Pan](http://conal.net/papers/jfp-saig/). Gamma targets the WebGL subset of the OpenGL ES 1.0 Shading Language.
 
-It is nevertheless a form of metaprogramming, the complexity of which Gamma mitigages in the following ways:
+# Installation
 
-- Everything is data
-- No macros, special "def" forms
-- No binding forms, user variables in GLSL code
-- Clear separation of Clojure code versus GLSL code 
-- Worry-free use of all Clojure's affordaces (defn, let, protocols, multimethods, etc)
-
-
-## Basic Usage
-
-GLSL operations are represented by simple Clojure maps. Instead of entering the maps directly, use the constructor functions in the gamma.api namespace:
+Add the following to your project.clj's :dependencies
 
 ```clojure
-(g/sin 1)
+[kovasb/gamma "0.1.0"]
 ```
 
-In addition to clarity & brevity, these constructor functions provide type checking and inference:
+# "Hello Triangle" Tutorial 
 
 ```clojure
-(g/sin "a")
+(require '[gamma.api :as g])
+(require '[gamma.program :as p])
 ```
 
-To see the GLSL fragment corresponding to an expression, use XX. 
-
-
-To compile a full GLSL program, use XX, shown below. 
-
-## Input Variables
-
-The only kinds of variables you need to think about in Gamma are the inputs to your program. Like everything else, there are represented as data, so you only need to construct the variable and pass it into the operations you want. 
-
-To create a variable and use it in gamma code, simply create the variable and pass it as an argument:
+Lets use Gamma to create a minimum shader program for drawing a red triangle.
 
 ```clojure
-(let [a (g/attribute "my_Attribute" :float)]
-  (g/sin a))
-```  
-  
-In GLSL, there are 3 kinds of input variables: attributes, uniforms, and varyings. Consult WebGL or OpenGL references for their semantics.   
+;; shader input attribute will be a vec2 of x,y coordinates
+(def vertex-position (g/attribute "a_VertexPosition" :vec2))
 
+;; vertex shader turns input into a vec4, and assigns it to gl_Position
+(def vertex-shader {(g/gl-position) (g/vec4 vertex-position 0 1)})
 
-## Statements as Expessions
+;; fragment shader assigns the rgba value for red to gl_FragColor 
+(def fragment-shader {(g/gl-frag-color) (g/vec4 1 0 0 1)})
 
-GLSL is a statement-oriented language, but Gamma's compiler transformations allow you to compose with expressions:
+;; compile Gamma into a GLSL program string 
+(def hello-triangle 
+  (p/program 
+    {:vertex-shader vertex-shader 
+     :fragment-shader fragment-shader}))
+```
+Thats it! hello-triangle now contains the GLSL for this shader, and other useful information such as a description of its inputs.  
 
 ```clojure
-(g/cos (g/sin (g/if (g/< 1 a) 2 3)))
+;; print vertex shader glsl
+(println (:glsl (:vertex-shader hello-triangle)))
+=> 
+"attribute vec2 a_VertexPosition;
+void main(void){
+ gl_Position = vec4(a_VertexPosition, 0, 1);
+}"
+
+;; print fragment shader glsl
+(println (:glsl (:fragment-shader hello-triangle)))
+=>
+"void main(void){
+ gl_FragColor = vec4(1, 0, 0, 1);
+}"
+
+;; get shader inputs 
+(:inputs hello-triangle)
+=> #{{:tag :variable, :name "a_VertexPosition", :type :vec2, :storage :attribute}}
 ```
 
-Gamma will trasform the expression into a statement and create the intermediary variables necessary.
-
-## Binding, Reuse, and Common Subexpression Elimination
-
-Gamma allows you to use all of Clojure's binding forms to pass the data to multiple places, or to organize the logic of your code. It does not introduce new binding constructs, or require you to juggle intermediary variables at the meta level. 
-
-```clojure
-(let [x (g/sin 1)]
-  (g/vec4 x x x x))
-```  
-
-This means that (g/sin 1) is repeated many times within the body of g/vec4. However, the compiler eliminates this repetition and inserts an intermediary variable, so that (g/sin 1) is only computed once:
-
-Gamma does not have its own version of let or defn, we simply reuse the mechanisms of Clojure for all our binding needs. There is no magic, we simply put those expressions where they need to go, and let the compiler remove duplicated expressions later.
-
-Not having to worry about manipulating variables in the target GLSL is a massive simplicity win, making it easy to compose and reason about code, and reuse Clojure's existing constructs without worry. 
-
-
-## Free-form Shader Composition
-
-We are free to build up shader expressions any way we want. You can define functions, pass shader fragments inside maps, etc:
-
-```clojure
-
- (defn helper [x] {:some-key (g/sin x)})
- 
- (g/cos (:some-key (helper 1)))
-```
- 
-As long as the final result is a well-formed Gamma expression, you can build it up any way you want. 
-
-
-
-
-
+You can now wire this GLSL to a GL execution context. 
 
 ## License
 
-Copyright © 2014 Kovas Boguta
+Copyright © 2015 Kovas Boguta
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
