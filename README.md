@@ -1,15 +1,8 @@
 # gamma
 
-Gamma simplifies an essential aspect of graphics programming: shaders. It represents GLSL shader programs as composable Clojurescript data, giving you Clojurescript's power to define and manipulate them. 
+Gamma is a substrate for graphics software, such as games and data visualization tools. It presents a simple, composable language for representing GLSL shaders. Gamma targets the OpenGL ES 1.0 Shading Language, which runs on the Web through WebGL, and on iOs, Android, and desktop platforms. 
 
-Graphics shaders are so complex and painful to program by hand that most significant graphics systems use some form of metaprogramming. Typically, they provide a more specific programming model, such as dataflow, that parameterizes the complexity of GLSL. This allows faster programming of a certain pattern or set of patterns, but falls short of providing the user with a substrate they can continue to abstract.
-
-Gamma plays a different game. It simplifies GLSL itself, so that building abstractions on top becomes easy. Instead of imposing its own abstractions, Gamma enables using a powerful tool - Clojurescript - to build what you need. Furthermore, it provides the foundation for these user-land abstractions to interoperate, setting the stage for a la carte graphics libraries. Finally, it allows creating shaders in reponse to input, allowing the graphics pipeline to dictate its own variable names, data formats, and desired computations to GLSL, rather than than other way around. 
-
-Gamma will be particularly useful to authors of graphics libraries, and graphics applications developers seeking greater flexibility and simplicity in their pipeline. 
-
-Gamma is currently implemented for WebGL's GLSL and Clojurescript.
-
+Gamma is designed to be programmed with Clojurescript, but the shaders it generates can be used by applications in any language. 
 Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale). Look at the tests. See examples. 
 
 WebGL/GLSL references: [WebGL Cheatsheet](https://www.khronos.org/files/webgl/webgl-reference-card-1_0.pdf), [WebGL Spec](https://www.khronos.org/registry/webgl/specs/latest/1.0/), [OpenGL ES Shading Language 1.0 Spec](https://www.khronos.org/files/opengles_shading_language.pdf), [WebGL Programming Guide (Book)](http://www.amazon.com/WebGL-Programming-Guide-Interactive-Graphics/dp/0321902920)
@@ -17,6 +10,52 @@ WebGL/GLSL references: [WebGL Cheatsheet](https://www.khronos.org/files/webgl/we
 #### WIP
 
 Gamma's API is not complete or stable yet. Still early days. 
+
+# Tutorial 
+
+The gamma.api namespace provides constructor functions for building a shader AST.
+
+```clojure
+(require '[gamma.api :as g])
+```
+
+The gamma.program namespaces lets you compile AST's into GLSL program strings.
+
+```clojure
+(require '[gamma.program :as p])
+```
+
+Define the traditional "Hello Triangle" shader:
+
+```clojure
+(def vertex-position (g/attribute "a_VertexPosition" :vec2))
+
+(def hello-triangle-shaders 
+  {:vertex-shader {(g/gl-position) (g/vec4 vertex-position 0 1)}
+   :fragment-shader {(g/gl-frag-color) (g/vec4 1 0 0 1)}})
+
+(def hello-triangle-program (p/program hello-triangle-shaders))
+```
+
+At this point, hello-triangle-program contains the GLSL strings corresponding to the two shaders:
+
+```clojure
+;; print vertex shader glsl
+(println (:glsl (:vertex-shader hello-triangle-program)))
+=> 
+"attribute vec2 a_VertexPosition;
+void main(void){
+ gl_Position = vec4(a_VertexPosition, 0, 1);
+}"
+
+;; print fragment shader glsl
+(println (:glsl (:fragment-shader hello-triangle-program)))
+=>
+"void main(void){
+ gl_FragColor = vec4(1, 0, 0, 1);
+}"
+```
+
 
 # API
 
