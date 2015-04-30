@@ -43,7 +43,7 @@ To compile this program into proper GLSL, pass it to p/program:
 (def hello-triangle-program (p/program hello-triangle-shaders))
 ```
 
-At this point, hello-triangle-program contains the GLSL strings corresponding to the two shaders:
+hello-triangle-program contains the GLSL strings corresponding to the two shaders:
 
 ```clojure
 ;; print vertex shader glsl
@@ -62,29 +62,51 @@ void main(void){
 }"
 ```
 
-Lets actually execute this shader in WebGL.
+Lets actually execute this shader in WebGL. Gamma's shader representation is useful to automate away WebGL boilerplate, but here the standard low level way to do it (sans error checking).   
 
 ```clojure
 (require '[goog.webgl :as ggl])
 
 (def gl-context (.getContext xx))
 
-;; set up vertex shader
+;; use WebGL APIs to install the shader in a GL context
+;; nothing gamma-specific until we bind data to input variable
+
+;;; set up vertex shader
 (def vertex-shader (.createShader gl-context ggl/VERTEX_SHADER))
 (.shaderSource gl-context vertex-shader (:glsl (:vertex-shader hello-triangle-program)))
 (.compileShader gl-context vertex-shader)
 
-;; set up fragment shader
+;;; set up fragment shader
 (def fragment-shader (.createShader gl-context ggl/FRAGMENT_SHADER))
 (.shaderSource gl-context fragment-shader (:glsl (:fragment-shader hello-triangle-program)))
 (.compileShader gl-context fragment-shader)
 
-;; set up program
+;;; set up program
 (def hello-triangle (.createProgram gl-context))
 (.attachShader gl-context hello-triangle vertex-shader)
 (.attachShader gl-context hello-triangle fragment-shader)
 (.linkProgram gl-context hello-triangle)
 
+;; set up input data 
+(def data (js/Float32Array. #js [0 1, 1 0, 1 1])
+(def array-buffer (.createBuffer gl-context))
+(.bindBuffer gl-context array-buffer)
+(.bufferData gl-context ggl/ARRAY_BUFFER data ggl/STATIC_DRAW)
+
+;; bind data to input variable
+;; can programmatically figure out name of input variable!! WOOT!
+(.vertexAttribPointer 
+  gl-context 
+  (.getAttribLocation 
+    gl-context 
+    hello-triangle 
+    (:name vertex-position))
+  2 ggl/FLOAT false 0 0)
+
+;; draw 
+(.useProgram gl-context hello-triangle)
+(.drawArrays gl-context ggl/TRIANGLES 0 3)
 
 
 
