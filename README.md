@@ -16,39 +16,32 @@ Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
 Gamma's API is not complete or stable yet. Still early days. 
 
-# Tutorial 
-
-The gamma.api namespace provides constructor functions for building a shader AST.
+# "Hello Triangle" Tutorial 
 
 ```clojure
 (require '[gamma.api :as g])
-```
-
-The gamma.program namespaces lets you compile AST's into GLSL program strings.
-
-```clojure
 (require '[gamma.program :as p])
 ```
 
-Define the traditional "Hello Triangle" shader:
+Lets use Gamma to create a minimum shader program to simply draw a red triangle.
 
 ```clojure
+;; shader input attribute will be a vec2 of x,y coordinates
 (def vertex-position (g/attribute "a_VertexPosition" :vec2))
 
-(def hello-triangle-shaders 
-  {:vertex-shader {(g/gl-position) (g/vec4 vertex-position 0 1)}
-   :fragment-shader {(g/gl-frag-color) (g/vec4 1 0 0 1)}})
+;; vertex shader turns input into a vec4, and assigns it to gl_Position
+(def vertex-shader {(g/gl-position) (g/vec4 vertex-position 0 1)})
+
+;; fragment shader assigns red, represented as a vec4, to gl_FragColor 
+(def fragment-shader {(g/gl-frag-color) (g/vec4 1 0 0 1})
+
+;; compile Gamma into a GLSL program string 
+(def hello-triangle 
+  (p/program 
+    {:vertex-shader vertex-shader 
+     :fragment-shader fragment-shader}))
 ```
-
-This code defines a GLSL program with a vertex shader and a fragment shader. The two shaders are specified in a map. Each shader is also a map, whose keys are the shader's output variables, and whose values are GLSL expressions constructed using Gamma's api. 
-
-To compile this program into proper GLSL, pass it to p/program:
-
-```
-(def hello-triangle-program (p/program hello-triangle-shaders))
-```
-
-hello-triangle-program contains the GLSL strings corresponding to the two shaders:
+Thats it! hello-triangle now contains the GLSL for this shader. 
 
 ```clojure
 ;; print vertex shader glsl
