@@ -2,6 +2,9 @@
 
 Gamma is a substrate for graphics software, such as games and data visualization tools. It presents a simple, composable language for representing GLSL shaders. 
 
+["Hello Triangle" Tutorial]() 
+[Documenation](https://github.com/kovasb/gamma/wiki/API-Guide)
+
 Benefits: 
 - Decouple, simplify, abstract shader code 
 - Release graphics pipeline from rigid demands of shaders
