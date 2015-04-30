@@ -2,8 +2,8 @@
 
 Gamma is a substrate for graphics software, such as games and data visualization tools. It presents a simple, composable language for representing GLSL shaders. 
 
-["Hello Triangle" Tutorial]() 
-[Documenation](https://github.com/kovasb/gamma/wiki/API-Guide)
+- [Hello Triangle Tutorial](#Hello Triangle Tutorial ) 
+- [Documenation](https://github.com/kovasb/gamma/wiki/API-Guide)
 
 Benefits: 
 - Decouple, simplify, abstract shader code 
@@ -19,7 +19,7 @@ Read the [full rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale).
 
 Gamma's API is not complete or stable yet. Still early days. 
 
-# "Hello Triangle" Tutorial 
+# Hello Triangle Tutorial 
 
 ```clojure
 (require '[gamma.api :as g])
