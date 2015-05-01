@@ -26,6 +26,8 @@ Add the following to your project.clj's :dependencies
 
 # "Hello Triangle" Tutorial 
 
+See the [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for a batteries-included version, including the WebGL boilerplate for webgl context initialization.  
+
 ```clojure
 (require '[gamma.api :as g])
 (require '[gamma.program :as p])
@@ -72,7 +74,7 @@ void main(void){
 => #{{:tag :variable, :name "a_VertexPosition", :type :vec2, :storage :attribute}}
 ```
 
-See the [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for how execute this GLSL and show a triangle in a browser window. 
+
 
 ## License
 
