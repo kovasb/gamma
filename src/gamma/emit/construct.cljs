@@ -1,4 +1,4 @@
-(ns gamma.emit.constructor
+(ns gamma.emit.construct
   (:use [gamma.emit.emit :only [emit]]
         [gamma.ast :only [head body term ]]))
 

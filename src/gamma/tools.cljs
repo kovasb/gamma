@@ -19,7 +19,7 @@
     gamma.emit.operator
     gamma.emit.statement
     gamma.emit.tag
-    gamma.emit.constructor
+    gamma.emit.construct
     clojure.string
     ))
 

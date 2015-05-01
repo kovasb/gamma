@@ -9,7 +9,7 @@
             gamma.emit.operator
             gamma.emit.statement
             gamma.emit.tag
-            gamma.emit.constructor
+            gamma.emit.construct
             [fipp.printer]
             [gamma.tools :refer [stages-map print-dag print-tree compile-stages stages glsl-stage glsl-string]]
             [gamma.compiler.flatten-ast :refer [->tree]])

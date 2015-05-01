@@ -10,5 +10,6 @@ pom.xml.asc
 /.nrepl-port
 .repl*
 .idea/
+gamma.iml
 resources/public/js/*
 
