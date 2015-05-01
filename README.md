@@ -28,13 +28,12 @@ Add the following to your project.clj's :dependencies
 
 See the batteries-included [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for how to set up your project, and how to invoke the generated shader so that a triangle appears on screen. 
 
-At the repl,
+Lets use Gamma at the REPL to create a minimum shader program for drawing a red triangle.
+
 ```clojure
 (require '[gamma.api :as g])
 (require '[gamma.program :as p])
 ```
-
-Lets use Gamma to create a minimum shader program for drawing a red triangle.
 
 ```clojure
 ;; shader input attribute will be a vec2 of x,y coordinates
