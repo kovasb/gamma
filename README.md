@@ -26,8 +26,9 @@ Add the following to your project.clj's :dependencies
 
 # "Hello Triangle" Tutorial 
 
-See the [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for a batteries-included version, including the WebGL boilerplate for webgl context initialization.  
+See the [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for a batteries-included version that will draw to screen. 
 
+At the repl,
 ```clojure
 (require '[gamma.api :as g])
 (require '[gamma.program :as p])
