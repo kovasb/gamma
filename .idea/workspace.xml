@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32090a69-fd81-45e2-a750-643aa6512c93" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.clj" afterPath="$PROJECT_DIR$/project.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/replstate.xml" afterPath="$PROJECT_DIR$/.idea/replstate.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="gamma.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -143,8 +141,8 @@
       <file leaf-file-name="project.clj" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.22119816" vertical-offset="0" max-vertical-offset="651">
-              <caret line="6" column="47" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.14746544" vertical-offset="0" max-vertical-offset="651">
+              <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -1175,8 +1173,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/project.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22119816" vertical-offset="0" max-vertical-offset="651">
-          <caret line="6" column="47" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="47" />
+        <state vertical-scroll-proportion="0.14746544" vertical-offset="0" max-vertical-offset="651">
+          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
           <folding />
         </state>
       </provider>
