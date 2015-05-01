@@ -70,7 +70,7 @@ void main(void){
 => #{{:tag :variable, :name "a_VertexPosition", :type :vec2, :storage :attribute}}
 ```
 
-You can now wire this GLSL to a GL execution context. 
+See the [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for how execute this GLSL and show a triangle in a browser window. 
 
 ## License
 
