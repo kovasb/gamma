@@ -11,3 +11,23 @@
     (interpose [:span "," :line]
                (map #(emit db (db %)) (body x)))]
    ")"])
+
+(defmethod emit :vec3 [db x]
+  [:group
+   (name (head x))
+   "("
+   [:line ""]
+   [:nest 2
+    (interpose [:span "," :line]
+               (map #(emit db (db %)) (body x)))]
+   ")"])
+
+(defmethod emit :vec2 [db x]
+  [:group
+   (name (head x))
+   "("
+   [:line ""]
+   [:nest 2
+    (interpose [:span "," :line]
+               (map #(emit db (db %)) (body x)))]
+   ")"])
