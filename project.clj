@@ -1,4 +1,4 @@
-(defproject kovasb/gamma "0.1.1"
+(defproject kovasb/gamma "0.1.2-SNAPSHOT"
   :description "glsl shaders made simple"
   :url "https://github.com/kovasb/gamma"
   :license {:name "Eclipse Public License"
