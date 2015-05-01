@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32090a69-fd81-45e2-a750-643aa6512c93" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/api.cljs" afterPath="$PROJECT_DIR$/src/gamma/api.cljs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gamma/program.cljs" afterPath="$PROJECT_DIR$/src/gamma/program.cljs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.clj" afterPath="$PROJECT_DIR$/project.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/replstate.xml" afterPath="$PROJECT_DIR$/.idea/replstate.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -130,21 +130,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.cljs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="api.cljs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gamma/api.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6313364" vertical-offset="2925" max-vertical-offset="4224">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2925" max-vertical-offset="4224">
               <caret line="139" column="50" selection-start-line="139" selection-start-column="50" selection-end-line="139" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="project.clj" pinned="false" current-in-tab="false">
+      <file leaf-file-name="project.clj" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="432">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.22119816" vertical-offset="0" max-vertical-offset="651">
+              <caret line="6" column="47" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -209,7 +209,6 @@
         <option value="$PROJECT_DIR$/src/gamma/test.cljs" />
         <option value="$PROJECT_DIR$/test/gamma/core_test.clj" />
         <option value="$PROJECT_DIR$/test/gamma/constructors.clj" />
-        <option value="$PROJECT_DIR$/project.clj" />
         <option value="$PROJECT_DIR$/scripts/repl.clj" />
         <option value="$PROJECT_DIR$/test/gamma/repl.cljs" />
         <option value="$PROJECT_DIR$/resources/public/index.html" />
@@ -219,6 +218,7 @@
         <option value="$PROJECT_DIR$/src/gamma/test/constructors.cljs" />
         <option value="$PROJECT_DIR$/src/gamma/program.cljs" />
         <option value="$PROJECT_DIR$/src/gamma/api.cljs" />
+        <option value="$PROJECT_DIR$/project.clj" />
       </list>
     </option>
   </component>
@@ -741,7 +741,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1693" height="1174" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -763,7 +763,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22834645" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="REPL" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35700756" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="REPL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35700756" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1149,14 +1149,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="432">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/program.cljs">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1365" max-vertical-offset="2016">
@@ -1175,8 +1167,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gamma/api.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6313364" vertical-offset="2925" max-vertical-offset="4224">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2925" max-vertical-offset="4224">
           <caret line="139" column="50" selection-start-line="139" selection-start-column="50" selection-end-line="139" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22119816" vertical-offset="0" max-vertical-offset="651">
+          <caret line="6" column="47" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="47" />
           <folding />
         </state>
       </provider>
