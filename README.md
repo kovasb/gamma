@@ -26,7 +26,7 @@ Add the following to your project.clj's :dependencies
 
 # "Hello Triangle" Tutorial 
 
-See the [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for a batteries-included version that will draw to screen. 
+See the batteries-included [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for how to set up your project, and how to invoke the generated shader so that a triangle appears on screen. 
 
 At the repl,
 ```clojure
