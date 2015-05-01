@@ -1,2 +1,0 @@
-;; Analyzed by ClojureScript 0.0-3208
-{:defs {conn {:meta {:end-column 14, :end-line 7, :column 10, :line 7, :file "/Users/kovasb/repo/gamma/src/gamma/test/repl.cljs"}, :file "src/gamma/test/repl.cljs", :line 7, :column 1, :end-line 7, :end-column 14, :test true, :name gamma.test.repl/conn}}, :imports nil, :requires {clojure.browser.repl clojure.browser.repl, repl clojure.browser.repl}, :uses nil, :require-macros nil, :use-macros nil, :excludes #{}, :doc nil, :name gamma.test.repl}

@@ -1,2 +1,0 @@
-(ns gamma.test.runner)
-
