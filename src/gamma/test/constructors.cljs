@@ -58,6 +58,16 @@
 ;; need swizzle tests
 
 (deftest
+  variables
+  (is (= (->glsl (g/gl-position)) "gl_Position;"))
+  (is (= (->glsl (g/gl-point-size "gl_PointSize;"))))
+  (is (= (->glsl (g/gl-frag-coord)) "gl_FragCoord;"))
+  (is (= (->glsl (g/gl-front-facing)) "gl_FrontFacing;"))
+  (is (= (->glsl (g/gl-point-coord)) "gl_PointCoord;"))
+  (is (= (->glsl (g/gl-frag-color)) "gl_FragColor;"))
+  (is (= (->glsl (g/gl-frag-data 1)) "gl_FragData1;")))
+
+(deftest
   constructors
   (is (= (->glsl (g/vec2 1 2)) "vec2(1,2);"))
   (is (= (->glsl (g/vec3 1 2 3)) "vec3(1,2,3);"))

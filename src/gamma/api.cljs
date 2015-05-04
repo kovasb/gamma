@@ -29,17 +29,7 @@
 (defn array-type [type length]
   {:tag :array :member-type type :length length})
 
-(defn gl-position []
-  {:tag :variable :name "gl_Position" :type :vec4})
 
-(defn gl-frag-color []
-  {:tag :variable :name "gl_FragColor" :type :vec4})
-
-(defn gl-frag-coord []
-  {:tag :variable :name "gl_FragCoord" :type :vec4})
-
-(defn gl-point-size []
-  {:tag :variable :name "gl_PointSize" :type :float})
 
 (defn attribute [name type]
   {:tag :variable :name name :type type :storage :attribute})
@@ -53,6 +43,36 @@
 (defn variable
   ([x] (variable x nil))
   ([x t] {:tag :variable :name x :type t}))
+
+;; built-in glsl variables
+
+(defn gl-position []
+  {:tag :variable :name "gl_Position" :type :vec4})
+
+(defn gl-point-size []
+  {:tag :variable :name "gl_PointSize" :type :float})
+
+(defn gl-frag-coord []
+  {:tag :variable :name "gl_FragCoord" :type :vec4})
+
+(defn gl-front-facing []
+  {:tag :variable :name "gl_FrontFacing" :type :bool})
+
+(defn gl-point-coord []
+  {:tag :variable :name "gl_PointCoord" :type :vec2})
+
+(defn gl-frag-color []
+  {:tag :variable :name "gl_FragColor" :type :vec4})
+
+(defn gl-frag-data [n]
+  {:tag :variable :name (str "gl_FragData" n) :type :vec4})
+
+
+
+
+
+
+
 
 
 
