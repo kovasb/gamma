@@ -57,6 +57,22 @@
 
 ;; need swizzle tests
 
+(deftest
+  constructors
+  (is (= (->glsl (g/vec2 1 2)) "vec2(1,2);"))
+  (is (= (->glsl (g/vec3 1 2 3)) "vec3(1,2,3);"))
+  (is (= (->glsl (g/vec4 1 2 3 4)) "vec4(1,2,3,4);"))
+  (is (= (->glsl (g/bvec2 true false)) "bvec2(true,false);"))
+  (is (= (->glsl (g/bvec3 true false true)) "bvec3(true,false,true);"))
+  (is (= (->glsl (g/bvec4 true false true false)) "bvec4(true,false,true,false);"))
+  (is (= (->glsl (g/ivec2 1 2)) "ivec2(1,2);"))
+  (is (= (->glsl (g/ivec3 1 2 3)) "ivec3(1,2,3);"))
+  (is (= (->glsl (g/ivec4 1 2 3 4)) "ivec4(1,2,3,4);"))
+  (is (= (->glsl (g/mat2 0 1 1 0)) "mat2(0,1,1,0);"))
+  (is (=  (->glsl (g/mat3 1 0 0 0 1 0 0 0 1))
+          "mat3(1,0,0,0,1,0,0,0,1);"))
+  (is (= (->glsl (g/mat4 1 0 0 0 0 1  0 0 0 0 1 0 0 0 0 1))
+         "mat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);")))
 
 
 

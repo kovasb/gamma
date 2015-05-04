@@ -115,7 +115,9 @@
   `(defn ~(symbol (name n)) [& body#]
      (build-standard-function-term ~n ~specs body#)))
 
-
+(defn gen-constructor [tag]
+  `(defn ~(symbol (name tag)) [& body#]
+     (assoc (apply gamma.ast/term ~tag body#) :type ~tag)))
 
 
 (defmacro ^:private gen-fns []
@@ -125,5 +127,7 @@
                          (concat
                            ;(keys gamma.ast/functions)
                            (keys operators)
-                           [ :for :block :continue :break :discard]))))
+                           [ :for :block :continue :break :discard]))
+     ~@(clojure.core/map gen-constructor
+                         [:vec2 :vec3 :vec4 :bvec2 :bvec3 :bvec4 :ivec2 :ivec3 :ivec4 :mat2 :mat3 :mat4])))
 

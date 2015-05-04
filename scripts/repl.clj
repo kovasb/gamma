@@ -5,5 +5,5 @@
   (cljs.repl.browser/repl-env*
     {:static-dir ["resources/public" "resources/public/js/out"]})
   {:output-dir "resources/public/js/out"
-   :main "gamma.repl"
+   :main "gamma.test.repl"
    :asset-path "http://localhost:9000/js/out"})

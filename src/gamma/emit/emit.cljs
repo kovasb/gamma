@@ -10,20 +10,27 @@
     (:class o)))
 
 (defn primitive? [x]
-  (or (#{true false} x) (integer? x) (number? x)))
+  (or (true? x) (false? x) (integer? x) (number? x)))
+
+(defn constructor? [x]
+  (#{:vec2 :vec3 :vec4 :bvec2 :bvec3 :bvec4 :ivec2 :ivec3 :ivec4 :mat2 :mat3 :mat4}
+    (:head x)))
 
 (defn emit-dispatch [db x]
   (if (primitive? x)
     :primitive
     (if (#{:float :bool :int} x)
       :primitive-type
-      (if (function? x)
-       :function
-       (if-let [c (operator-class x)]
-         c
-         (if-let [h (head x)]
-           h
-           (:tag x)))))))
+      (if
+        (constructor? x)
+        :constructor
+        (if (function? x)
+         :function
+         (if-let [c (operator-class x)]
+           c
+           (if-let [h (head x)]
+             h
+             (:tag x))))))))
 
 
 (defmulti emit emit-dispatch)
