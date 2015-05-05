@@ -78,21 +78,7 @@
        {:operator :decrement :literal "--" :class :postfix}
        {:operator :pre-increment :literal "++" :class :prefix}
        {:operator :pre-decrement :literal "--" :class :prefix}
-       {:operator :not :literal "!" :class :prefix}
        {:operator :+- :literal "+-" :class :infix}
-       {:operator :* :literal "*" :class :infix}
-       {:operator :div :literal "/" :class :infix}
-       {:operator :+ :literal "+" :class :infix}
-       {:operator :- :literal "-" :class :infix}
-       {:operator :< :literal "<" :class :infix}
-       {:operator :> :literal ">" :class :infix}
-       {:operator :<= :literal "<=" :class :infix}
-       {:operator :>= :literal ">=" :class :infix}
-       {:operator :== :literal "==" :class :infix}
-       {:operator :!= :literal "!=" :class :infix}
-       {:operator :and :literal "&&" :class :infix}
-       {:operator :or :literal "||" :class :infix}
-       {:operator :xor :literal "^^" :class :infix}
        {:operator :conditional-choice}
        {:operator :set :literal "=" :class :infix}
        {:operator :set+ :literal "+=" :class :infix}

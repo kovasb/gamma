@@ -2,6 +2,7 @@
   (:refer-clojure
   :exclude [aget
             not
+            not=
             or
             set
             *
@@ -68,18 +69,77 @@
   {:tag :variable :name (str "gl_FragData" n) :type :vec4})
 
 
-
-
-
-
-
-
-
-
 (defn ensure-term [x]
   (if (ast/term? x)
     x
     (ast/literal x)))
+
+;; operators
+
+(defn arithmetic-type [a b]
+  (let [t (into #{} (map :type [a b]))]
+    (cond
+      (= #{:float} t) :float
+      (= #{:float :int} t) :float
+      (= #{:int} t) :int
+      true nil)))
+
+
+(defn + [a b]
+  (let [a (ensure-term a)
+        b (ensure-term b)
+        t (arithmetic-type a b)]
+    (if t
+      (assoc (ast/term :+ a b) :type t)
+      (throw (js/Error. (str "Arguments to + must have type :int or :float"))))))
+
+(defn - [a b]
+  (let [a (ensure-term a)
+        b (ensure-term b)
+        t (arithmetic-type a b)]
+    (if t
+      (assoc (ast/term :- a b) :type t)
+      (throw (js/Error. (str "Arguments to - must have type :int or :float"))))))
+
+(defn * [a b]
+  (let [a (ensure-term a)
+        b (ensure-term b)
+        t (arithmetic-type a b)]
+    (if t
+      (assoc (ast/term :* a b) :type t)
+      (throw (js/Error. (str "Arguments to * must have type :int or :float"))))))
+
+(defn div [a b]
+  (let [a (ensure-term a)
+        b (ensure-term b)
+        t (arithmetic-type a b)]
+    (if t
+      (assoc (ast/term :div a b) :type t)
+      (throw (js/Error. (str "Arguments to div must have type :int or :float"))))))
+
+
+
+(defn < [a b] (assoc (ast/term :< (ensure-term a) (ensure-term b)) :type :bool))
+
+(defn > [a b] (assoc (ast/term :> (ensure-term a) (ensure-term b)) :type :bool))
+
+(defn <= [a b] (assoc (ast/term :<= (ensure-term a) (ensure-term b)) :type :bool))
+
+(defn >= [a b] (assoc (ast/term :>= (ensure-term a) (ensure-term b)) :type :bool))
+
+(defn == [a b] (assoc (ast/term :== (ensure-term a) (ensure-term b)) :type :bool))
+
+(defn not= [a b] (assoc (ast/term :!= (ensure-term a) (ensure-term b)) :type :bool))
+
+(defn and [a b] (assoc (ast/term :and (ensure-term a) (ensure-term b)) :type :bool))
+
+(defn or [a b] (assoc (ast/term :or (ensure-term a) (ensure-term b)) :type :bool))
+
+(defn xor [a b] (assoc (ast/term :xor (ensure-term a) (ensure-term b)) :type :bool))
+
+(defn not [a] (assoc (ast/term :not (ensure-term a)) :type :bool))
+
+
 
 (defn if [c a b]
   (let [a (ensure-term a)
@@ -153,18 +213,6 @@
 
 (api-macro/gen-fns)
 
-
-(defn * [a b]
-  (let [t (ast/term :* a b)]
-    (assoc t :type (:type (first (:body t))))))
-
-(defn - [a b]
-  (let [t (ast/term :- a b)]
-    (assoc t :type (:type (first (:body t))))))
-
-(defn + [a b]
-  (let [t (ast/term :+ a b)]
-    (assoc t :type (:type (first (:body t))))))
 
 (defn swizzle-type [x c]
   (let [l (count (name c))

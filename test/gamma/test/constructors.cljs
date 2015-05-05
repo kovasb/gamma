@@ -42,7 +42,7 @@
     (is (= (->glsl (g/<= f f)) "f<=f;"))
     (is (= (->glsl (g/>= f f)) "f>=f;"))
     (is (= (->glsl (g/== f f)) "f==f;"))
-    (is (= (->glsl (g/!= f f)) "f!=f;"))
+    (is (= (->glsl (g/not= f f)) "f!=f;"))
     ;(is (= (g/conditional-choice f) "vec4_v--"))
     (is (= (->glsl (g/set f f)) "f=f;"))
     (is (= (->glsl (g/set+ f f)) "f+=f;"))
@@ -51,7 +51,7 @@
     (is (= (->glsl (g/set-div f f)) "f/=f;"))
     ;(is (= (g/constructor f) "vec4_v--"))
     (is (= (->glsl (g/and b b)) "b&&b;"))
-    (is (= (->glsl (g/or b)) "b||b;"))
+    (is (= (->glsl (g/or b b)) "b||b;"))
     (is (= (->glsl (g/xor b b)) "b^^b;"))
     (is (= (->glsl (g/not b)) "!b;"))))
 

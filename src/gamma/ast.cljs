@@ -254,7 +254,7 @@
      [:bvec :notEqual [:bvec :x :bvec :y]]
      [:bool :any [:bvec :x]]
      [:bool :all [:bvec :x]]
-     [:bvec :not [:bvec :x]]]))
+     [:bvec :notv [:bvec :x]]]))
 
 
 
