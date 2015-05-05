@@ -1,6 +1,7 @@
-(require '[cljs.closure :as cljsc])
+(require '[cljs.closure :as cljsc]
+         '[cljs.build.api])
 
-(cljsc/build "src"
+(cljsc/build (cljs.build.api/inputs "src" "test")
              {:output-dir "resources/public/js/out"
               :output-to "resources/public/js/main.js"
               :main "gamma.test.repl"

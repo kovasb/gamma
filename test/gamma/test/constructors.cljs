@@ -60,7 +60,7 @@
 (deftest
   variables
   (is (= (->glsl (g/gl-position)) "gl_Position;"))
-  (is (= (->glsl (g/gl-point-size "gl_PointSize;"))))
+  (is (= (->glsl (g/gl-point-size)) "gl_PointSize;"))
   (is (= (->glsl (g/gl-frag-coord)) "gl_FragCoord;"))
   (is (= (->glsl (g/gl-front-facing)) "gl_FrontFacing;"))
   (is (= (->glsl (g/gl-point-coord)) "gl_PointCoord;"))
