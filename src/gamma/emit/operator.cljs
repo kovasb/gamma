@@ -7,15 +7,15 @@
 
 (defmethod emit :infix [db x]
   (let [literal (:literal (gamma.ast/operators (head x)))]
-    [:group (interpose (str " " literal " ") (map #(emit db (db %)) (body x)))]))
+    [:group "(" (interpose (str " " literal " ") (map #(emit db (db %)) (body x))) ")"]))
 
 (defmethod emit :prefix [db x]
   (let [literal (:literal (gamma.ast/operators (head x)))]
-    [:group (str " " literal ) (emit db (db (first (body x))))]))
+    [:group "(" (str " " literal ) (emit db (db (first (body x)))) ")"]))
 
 (defmethod emit :postfix [db x]
   (let [literal (:literal (gamma.ast/operators (head x)))]
-    [:group (emit db (db (first (body x)))) (str literal " ")]))
+    [:group "(" (emit db (db (first (body x)))) (str literal " ") ")"]))
 
 
 (defmethod emit :constructor [db x]
