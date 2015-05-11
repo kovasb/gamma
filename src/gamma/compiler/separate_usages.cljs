@@ -148,11 +148,6 @@
 
 (defn separate-usages [source-db id-mapping bound-ids]
   (fn [db location]
-    #_(if (= :sin (:head (get-element db location)))
-      (println [(bound-ids (:id location)) (:id location)]))
-    ;(println (:id location))
-
-
     (let [elt (get-element db location)
           bound-ids (into bound-ids (:env elt))
           id-mapping (merge id-mapping (:id-mapping elt))]
@@ -163,9 +158,6 @@
              new-id-mapping (into id-mapping (map #(vector (:source-id %) (:id %)) shared))
              new-bound-ids (into bound-ids (map :id shared))
              body (body-elements source-element new-id-mapping)]
-
-
-
          [(-> (assoc-attributes db location source-element new-bound-ids)
               ;(assoc-in [(:id location) :env] new-bound-ids)
               (merge-elements (location-conj db location :shared) shared)

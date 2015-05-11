@@ -25,16 +25,14 @@
 
 (defn transform-1 [db stack]
   (loop [db db stack stack c 0]
-    (if (> c 100 )
-      db
-      (if-let [f (peek stack)]
-       (let [[db ops]
-             (do
-               ;(println [(f 1) (f 0)])
-               ((f 1) db (f 0)))]
+    (if-let [f (peek stack)]
+      (let [[db ops]
+            (do
+              ;(println [(f 1) (f 0)])
+              ((f 1) db (f 0)))]
 
-         (recur db (push-ops db ops (f 0) (pop stack)) (inc c)))
-       db))))
+        (recur db (push-ops db ops (f 0) (pop stack)) (inc c)))
+      db)))
 
 (defn transform [db f]
   (transform-1 db [[{:id :root :path []} f]]))

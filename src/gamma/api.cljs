@@ -78,11 +78,9 @@
 
 (defn arithmetic-type [a b]
   (let [t (into #{} (map :type [a b]))]
-    (cond
-      (= #{:float} t) :float
-      (= #{:float :int} t) :float
-      (= #{:int} t) :int
-      true nil)))
+    (if (= 1 (count t))
+      (#{:float :int :vec2 :vec3 :vec4 :ivec2 :ivec3 :ivec4}
+        (first t)))))
 
 
 (defn + [a b]
