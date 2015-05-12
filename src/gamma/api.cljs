@@ -89,7 +89,7 @@
         t (arithmetic-type a b)]
     (if t
       (assoc (ast/term :+ a b) :type t)
-      (throw (js/Error. (str "Arguments to + must have type :int or :float, given " (pr-str (:type a)) " and " (pr-str (:type b))))))))
+      (throw (js/Error. (str "Arguments to + must have type :int or :float"))))))
 
 (defn - [a b]
   (let [a (ensure-term a)
@@ -97,15 +97,27 @@
         t (arithmetic-type a b)]
     (if t
       (assoc (ast/term :- a b) :type t)
-      (throw (js/Error. (str "Arguments to - must have type :int or :float, given " (pr-str (:type a)) " and " (pr-str (:type b))))))))
+      (throw (js/Error. (str "Arguments to - must have type :int or :float"))))))
 
 (defn * [a b]
   (let [a (ensure-term a)
         b (ensure-term b)
-        t (arithmetic-type a b)]
-    (if t
+        at (:type a)
+        bt (:type b)]
+    (if-let
+      [t ({[:float :float] :float
+           [:mat4 :vec4]   :vec4
+           [:mat3 :vec3]   :vec3
+           [:mat2 :vec2]   :vec2
+           [:mat4 :mat4]   :mat4
+           [:mat3 :mat3]   :mat3
+           [:mat2 :mat2]   :mat2
+           [:vec4 :vec4]   :vec4
+           [:vec3 :vec3]   :vec3
+           [:vec2 :vec2]   :vec2}
+           [at bt])]
       (assoc (ast/term :* a b) :type t)
-      (throw (js/Error. (str "Arguments to * must have type :int or :float, given " (pr-str (:type a)) " and " (pr-str (:type b))))))))
+      (str (str "Arguments to * of incompatible type: " at "," bt)))))
 
 (defn div [a b]
   (let [a (ensure-term a)
@@ -113,7 +125,7 @@
         t (arithmetic-type a b)]
     (if t
       (assoc (ast/term :div a b) :type t)
-      (throw (js/Error. (str "Arguments to div must have type :int or :float, given " (pr-str (:type a)) " and " (pr-str (:type b))))))))
+      (throw (js/Error. (str "Arguments to div must have type :int or :float"))))))
 
 
 
