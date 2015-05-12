@@ -105,17 +105,25 @@
         at (:type a)
         bt (:type b)]
     (if-let
-      [t ({[:float :float] :float
-           [:mat4 :vec4]   :vec4
-           [:mat3 :vec3]   :vec3
-           [:mat2 :vec2]   :vec2
-           [:mat4 :mat4]   :mat4
-           [:mat3 :mat3]   :mat3
-           [:mat2 :mat2]   :mat2
-           [:vec4 :vec4]   :vec4
-           [:vec3 :vec3]   :vec3
-           [:vec2 :vec2]   :vec2}
-           [at bt])]
+      [t (cljs.core/or
+           ({[:float :float] :float
+            [:mat4 :vec4]   :vec4
+            [:mat3 :vec3]   :vec3
+            [:mat2 :vec2]   :vec2
+            [:mat4 :mat4]   :mat4
+            [:mat3 :mat3]   :mat3
+            [:mat2 :mat2]   :mat2
+            [:vec4 :vec4]   :vec4
+            [:vec3 :vec3]   :vec3
+            [:vec2 :vec2]   :vec2}
+            [at bt])
+           ({
+             #{:mat2 :float} :mat2
+             #{:mat3 :float} :mat3
+              #{:mat4 :float} :mat4
+              #{:vec2 :float} :vec2
+              #{:vec3 :float} :vec3
+              #{:vec4 :float} :vec4} #{at bt}))]
       (assoc (ast/term :* a b) :type t)
       (throw (js/Error. (str "Arguments to * of incompatible type: " at "," bt))))))
 
@@ -172,7 +180,7 @@
 (defn infer-parameterized-type [rule args]
   (let [prule (:parameter rule)
         input-types (:input rule)]
-    (if (not= (count input-types) (count args))
+    (if (cljs.core/not= (count input-types) (count args))
       :fail
       (loop [input args
              expected input-types
@@ -200,17 +208,14 @@
                 :fail))))))))
 
 
-(comment
-  (infer-parameterized-type {:parameter {:T #{:vec3 :vec4}}
-                             :input     [:T :bool :T] :output :T}
-                            [:vec4 :bool :vec4]))
+
 
 
 (defn build-standard-function-term [name specs args]
   (let [t (apply ast/term name args)]
     (if-let [result
              (first
-               (filter #(not= :fail %)
+               (filter #(cljs.core/not= :fail %)
                        (map #(infer-parameterized-type % (map :type (:body t)))
                             specs)))]
       (assoc t :type result)
@@ -237,4 +242,24 @@
     :type (swizzle-type x c)))
 
 
+(comment
+  (infer-parameterized-type {:parameter {:T #{:vec3 :vec4}}
+                             :input     [:T :bool :T] :output :T}
+                            [:vec4 :bool :vec4]))
 
+(comment
+  (infer-parameterized-type
+    {:name :sin, :input [:T], :output :T, :parameter {:T #{:vec3 :float :vec4 :vec2}}})
+
+
+  (let [spec ((fn [x]
+                {:name      (x 1)
+                 :input     (vec (take-nth 2 (x 2)))
+                 :output    (x 0)
+                 :parameter {:T #{:float :vec2 :vec3 :vec4}}})
+               [:T :sin [:T :angle]])]
+    (build-standard-function-term :sin spec [(gamma.ast/literal 1)])
+
+
+    )
+  )
