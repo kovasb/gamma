@@ -117,7 +117,7 @@
            [:vec2 :vec2]   :vec2}
            [at bt])]
       (assoc (ast/term :* a b) :type t)
-      (str (str "Arguments to * of incompatible type: " at "," bt)))))
+      (throw (js/Error. (str "Arguments to * of incompatible type: " at "," bt))))))
 
 (defn div [a b]
   (let [a (ensure-term a)
