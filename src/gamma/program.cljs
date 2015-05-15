@@ -24,7 +24,6 @@
 
 
 (defn precision-defaults [p]
-  (println p)
   (let [x (map (fn [[k v]] (str "precision " (name v) " " (name k) ";\n")) p)]
     (if (empty? x)
       ""
