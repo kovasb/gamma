@@ -12,14 +12,22 @@
             [gamma.api :as g]))
 
 
+(defn precision-defaults [p]
+  (let [x (map (fn [[k v]] (str "precision " (name v) " " (name k) ";\n")) p)]
+    (if (empty? x)
+      ""
+      (apply str x))))
 
 
+(defn glsl [shader opts]
+  (let [p (:precision opts)]
+    (str
+      (precision-defaults p)
+      (with-out-str
+       (fipp.printer/pprint-document
+         (emit/emit (:ir shader) shader)
+         {:width 80})))))
 
-(defn glsl [shader]
-  (with-out-str
-    (fipp.printer/pprint-document
-      (emit/emit (:ir shader) shader)
-      {:width 80})))
 
 (defn ast [inputs]
   (apply g/block
@@ -29,7 +37,7 @@
            inputs)))
 
 
-(defn shader [shader]
+(defn shader [shader opts]
   (let [ast (ast shader)
         ir (gamma.compiler.core/compile ast)
         v (gamma.compiler.core/variables ir)
@@ -52,7 +60,7 @@
         :ir      ir
         :ast     ast}]
       p
-      (assoc p :glsl (glsl p)))))
+      (assoc p :glsl (glsl p opts)))))
 
 
 
@@ -62,13 +70,15 @@
     (filter #(= :uniform (:storage %))
             (:inputs fs))))
 
-(defn program [x]
-  (let [{:keys [vertex-shader fragment-shader]} x
-        vs (shader vertex-shader) fs (shader fragment-shader)]
-    {:tag             :program
-     :vertex-shader   vs
-     :fragment-shader fs
-     :inputs (program-inputs vs fs)}))
+(defn program
+  ([x] (program x {}))
+  ([x opts]
+   (let [{:keys [vertex-shader fragment-shader]} x
+         vs (shader vertex-shader opts) fs (shader fragment-shader opts)]
+     {:tag             :program
+      :vertex-shader   vs
+      :fragment-shader fs
+      :inputs          (program-inputs vs fs)})))
 
 
 
