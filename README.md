@@ -24,7 +24,7 @@ Gamma is very early alpha (0.1.1)
 Add the following to your project.clj's :dependencies
 
 ```clojure
-[kovasb/gamma "0.1.1"]
+[kovasb/gamma "0.1.2-SNAPSHOT"]
 ```
 
 # "Hello Triangle" Tutorial 
