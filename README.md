@@ -17,14 +17,14 @@ Benefits:
 
 Technically, Gamma is an [EDSL](http://c2.com/cgi/wiki?EmbeddedDomainSpecificLanguage) that hosts GLSL within Clojurescript. It is inspired by [Carlos Scheidegger](http://cscheid.net/)'s [Lux](http://cscheid.github.io/lux/) and [Conal Elliot](http://conal.net/)'s [Vertigo](http://conal.net/papers/Vertigo/) and [Pan](http://conal.net/papers/jfp-saig/). Gamma targets the WebGL subset of the OpenGL ES 1.0 Shading Language. Gamma can be used a la carte to compile shader source, without adopting Clojure/Clojurescript for your runtime application.
 
-Gamma is very early alpha (0.1.1)
+Gamma is very early alpha (0.1.2)
 
 # Installation
 
 Add the following to your project.clj's :dependencies
 
 ```clojure
-[kovasb/gamma "0.1.1"]
+[kovasb/gamma "0.1.2-SNAPSHOT"]
 ```
 
 # "Hello Triangle" Tutorial 
