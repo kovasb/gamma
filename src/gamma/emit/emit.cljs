@@ -35,7 +35,13 @@
 
 (defmulti emit emit-dispatch)
 
-(defmethod emit :primitive [db x] (str x))
+(defmethod emit :primitive [db x]
+  (if (number? x)
+    (let [tmp (str x)]
+      (if (pos? (.indexOf tmp "."))
+        tmp
+        (str tmp ".0")))
+    (str x)))
 
 (defmethod emit :primitive-type [db x] (name x))
 
