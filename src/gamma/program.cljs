@@ -29,8 +29,8 @@
       ""
       (apply str x))))
 
-(defn glsl [shader opts]
-  (let [p (:precision opts)]
+(defn glsl [shader precision]
+  (let [p precision]
     (str
       (precision-defaults p)
       (with-out-str
