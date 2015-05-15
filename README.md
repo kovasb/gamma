@@ -1,8 +1,11 @@
 # gamma
 
+[![Join the chat at https://gitter.im/kovasb/gamma](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kovasb/gamma?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Gamma is a substrate for graphics software, such as games and data visualization tools. It presents a simple, composable language for representing GLSL shaders. 
 
-- [Tutorial](https://github.com/kovasb/gamma/blob/master/README.md#hello-triangle-tutorial) 
+- [Tutorial](https://github.com/kovasb/gamma/blob/master/README.md#hello-triangle-tutorial), [Tutorial repo](https://github.com/kovasb/gamma-hello-triangle)
+- [Examples repo](https://github.com/kovasb/gamma-examples)
 - [Docs](https://github.com/kovasb/gamma/wiki/API-Guide)
 - [Rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale)
 
