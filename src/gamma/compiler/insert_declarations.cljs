@@ -26,6 +26,5 @@
                          (println location))
                        ))))
                db))
-    @a
-    ))
+    @a))
 

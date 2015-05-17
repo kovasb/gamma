@@ -1,12 +1,6 @@
 (ns gamma.compiler.insert-assignments
   (:use [gamma.ast :only [id? gen-term-id]]
-        [gamma.compiler.common :only [get-element map-path assoc-elements assoc-in-location]])
-  )
-
-
-
-;;;;
-
+        [gamma.compiler.common :only [get-element map-path assoc-elements assoc-in-location]]))
 
 
 (defn insert-assignment [db location target-id]

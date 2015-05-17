@@ -11,17 +11,12 @@
             gamma.emit.construct
             [gamma.api :as g]))
 
-
-
-
 (defn ast [inputs]
   (apply g/block
          (mapv
            (fn [[k v]]
              (g/set k v))
            inputs)))
-
-
 
 (defn precision-defaults [p]
   (let [x (map (fn [[k v]] (str "precision " (name v) " " (name k) ";\n")) p)]

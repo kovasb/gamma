@@ -9,8 +9,7 @@
     [gamma.compiler.separate-usages :only [separate-usages]]
     [gamma.compiler.insert-variables :only [insert-variables]]
     [gamma.compiler.move-assignments :only [move-assignments]]
-    [gamma.compiler.print :only [printer]]
-    )
+    [gamma.compiler.print :only [printer]])
   (:require
     [gamma.compiler.core :refer [transform]]
     [gamma.api :as g]
@@ -20,8 +19,7 @@
     gamma.emit.statement
     gamma.emit.tag
     gamma.emit.construct
-    clojure.string
-    ))
+    clojure.string))
 
 
 (def stages-map
@@ -94,73 +92,3 @@
       (fipp.printer/pprint-document
         (emit ir (:root ir))
         {:width 80}))))
-
-(comment
-  (def p (g/+ 1 2))
-
-  (def s (compile-stages p))
-
-
-
-
-  (print-stage s (nth stages 1))
-
-  (get-in s [:stages :separate-usages])
-
-  (nth stages 2)
-
-  ((stages-map :separate-usages)
-    (:bubble-terms (:stages s)))
-
-  ((stages-map :flatten-ast)
-    p )
-
-  (print-dag
-    ((comp
-       (stages-map :move-assignments)
-       (stages-map :insert-assignments)
-       (stages-map :insert-variables)
-      (stages-map :lift-assignments)
-      (stages-map :separate-usages)
-      (stages-map :bubble-terms)
-      (stages-map :flatten-ast))
-     p))
-
-
-  (fipp.printer/pprint-document
-    ((printer) (gamma.compiler.flatten-ast/->tree
-                 (get-in s [:stages (nth stages 1)])
-                 :root))
-    {:width 30}))
-
-
-(comment
-
-  ;; after separate usages
-  (print-ast d2
-             (fn [x db] [(:id (:id x)) (mapv :id (:shared x))]) 30)
-
-
-  ;; after lift-assignments
-  (print-ast d3
-             (fn [x db] [(:id (:id x)) (mapv :id (:assignments x))]) 30)
-
-  (fipp.printer/pprint-document
-    (ast-doc2 gamma.compiler.lift-assignments/test3 :root [:body])
-    {:width 30})
-
-
-  ;; after insert variables
-  (print-ast iv4
-             (fn printer [x db]
-               [:group "{"
-                (str (:id (:id x))) " "
-                (if (= :literal (:head x))
-                  (str (:id (:id (:value x))))
-                  (map #(gamma.compiler.print/ast-doc db % printer)
-                       (:assignments x)))
-                "}"
-                ]) 30)
-
-
-  )

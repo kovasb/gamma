@@ -59,15 +59,6 @@
         (nil? x) pretty-nil
         :default pretty-object))))
 
-(comment
-  ((printer) {:a 1 :b [1 "2" #{(list nil)}]})
-
-  (fipp.printer/pprint-document
-    ((printer) {:a 1 :b [1 "2" #{(list nil)}]})
-     {:width 30})
-
-
-  )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -168,22 +159,6 @@
       :root
       [:body]) {:width w}))
 
-(comment
-  (print-ast2 data3 30)
-
-
-  (print-ast data3
-             (fn printer [x db]
-               [:group "{"
-                (str (:id (:id x))) " "
-                (if (= :literal (:head x))
-                  (str "val:" (:value x))
-                  (map #(gamma.compiler.print/ast-doc db % printer)
-                       (:assignments x)))
-                "}"
-                ]) 30)
-
-  )
 
 
 

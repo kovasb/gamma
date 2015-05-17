@@ -45,29 +45,6 @@
    :id (gen-term-id)})
 
 
-;; does reduce-kv work for sequences?
-
-
-(comment
-
-  (defn walk [term index pre post]
-   (post
-     (reduce-kv (fn [x y]
-                  (if (instance? Term x)
-                    (walk x)
-                    x))
-                x
-                (body (pre term))))
-
-   ))
-
-
-
-
-;; any way to specify "reduced" or to skip recursion?
-
-
-
 (def primitive-types
   [:bool
    :int
@@ -103,8 +80,6 @@
 (def matrix-types
   (map (fn [dim] {:tag :matrix :member-type :float :dimensions dim})
        2 3 4))
-
-
 
 
 
@@ -221,14 +196,6 @@
       ])))
 
 
-
-
-
-
-
-
-
-
 (def matrix-functions
   (map
     (fn [x]
@@ -263,60 +230,7 @@
         (concat
           (map :name vector-relational-functions)
           (map :name matrix-functions)
-          (map first standard-functions)))
+          (map first standard-functions))))
 
-  )
-
-
-(comment
-  ;; doing functional clojure metaprogramming
-  ;; continue to use binders from host?
-  (let [x (s/foo y)]
-    (s/baz x))
-
-  ;; what about generating functions?
-
-  (fresh [a b]
-    (s/fn [a (foo b)] a))
-
-  (with-terms [a b c d]
-         (map a [b c d]))
-
-  (escape [map]
-    (term (map a [b c])))
-
-
-  (fresh [a b]
-         )
-
-  (escape [a b c]
-          (map a [b c]))
-
-  (capture [map]
-           (term (map a [b c])))
-
-  ;; dont want to use capture to inject fns and eval then
-
-  (capture [a]
-           (term (map f a)))
-
-  (require-terms '[foo.bar :as f])
-
-  ;; can pass atoms/promises inside variables to add binding info later
-
-
-
-
-  ;; should just be a replacement fn?
-
-
-
-
-
-  (s/let [] (s/foo x))
-
-
-
-  )
 
 

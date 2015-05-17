@@ -224,8 +224,6 @@
       )))
 
 
-
-
 (api-macro/gen-fns)
 
 
@@ -242,24 +240,3 @@
     :type (swizzle-type x c)))
 
 
-(comment
-  (infer-parameterized-type {:parameter {:T #{:vec3 :vec4}}
-                             :input     [:T :bool :T] :output :T}
-                            [:vec4 :bool :vec4]))
-
-(comment
-  (infer-parameterized-type
-    {:name :sin, :input [:T], :output :T, :parameter {:T #{:vec3 :float :vec4 :vec2}}})
-
-
-  (let [spec ((fn [x]
-                {:name      (x 1)
-                 :input     (vec (take-nth 2 (x 2)))
-                 :output    (x 0)
-                 :parameter {:T #{:float :vec2 :vec3 :vec4}}})
-               [:T :sin [:T :angle]])]
-    (build-standard-function-term :sin spec [(gamma.ast/literal 1)])
-
-
-    )
-  )

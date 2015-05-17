@@ -56,25 +56,3 @@
             (fn [x] (map (fn [y] {:start (:id x)  :current y}) (:parents x)))
             (filter #(clojure.core/< 1 (count (:parents %)))
                     (map last db)))))
-
-
-
-
-(comment
-  (let [y (term :plus 1 2)]
-    (def x (flatten-ast (term :plus y y))))
-
-  (let [x (term :plus 1 2)
-        y (term :plus x x x)]
-    (print-ast (bubble-terms (flatten-ast y))
-               (fn [x db] [(:id x) (:shared x)]) 30))
-
-  (let [x (term :plus 1 2)
-        y (term :plus x x (g/if true 1 x))]
-    (print-ast (bubble-terms (flatten-ast y))
-               (fn [x db] [(:id x) (:shared x)]) 30))
-
-
-
-
-  )

@@ -65,18 +65,6 @@
     @a
     ))
 
-;;;
-
-(defn compile [input]
-  (->
-    (transform
-      {:root {:source-id :root :id :root}}
-      (separate-usages
-        (bubble-terms (flatten-ast input)) {} #{}))
-    (transform (lift-assignments :root))
-    (transform (insert-variables #{}))
-    (transform (insert-assignments))
-    (transform (move-assignments))))
 
 
 

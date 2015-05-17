@@ -78,34 +78,6 @@
          "{" (emit then) "}"
          "else" "{"
          (emit else)
-         "}"
-         )))
+         "}")))
 
 
-(comment
-  (use 'gamma.emit.statement)
-  (in-ns 'gamma.emit.statement)
-  (use 'gamma.emit.tag)
-  (use 'gamma.api)
-
-   (def a {:tag :variable :name "a"})
-  (def b {:tag :variable :name "b"})
-
-  (emit (term :block (variable "a") (variable "b")))
-  (emit
-    (term :for
-          (variable "a")
-          (variable "b")
-          (variable "c")
-          (term :block (variable "d") (variable "e"))))
-
-  (emit (term :if (variable "a")
-                  (term :block (variable "b") (variable "c"))))
-
-  (print
-    (emit (term :if-else (variable "a")
-               (term :block (variable "b") (variable "c"))
-               (term :block (variable "d") (variable "e")))))
-
-
-  )

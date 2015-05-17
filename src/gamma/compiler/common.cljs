@@ -46,16 +46,3 @@
    (-> db
        (assoc-elements elements)
        (assoc-in-location location (mapv :id elements)))))
-
-
-
-
-(comment
-  (assoc-in-parent2
-    {1 {:body [2]}}
-    {:parent {:id 1 :path [:body 0]}}
-    3)
-
-
-  )
-
