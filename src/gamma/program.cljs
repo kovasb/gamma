@@ -1,7 +1,5 @@
 (ns gamma.program
-  (:require [gamma.webgl :as webgl]
-            [goog.webgl :as ggl]
-            gamma.compiler.core
+  (:require gamma.compiler.core
             fipp.printer
             [gamma.emit.emit :as emit]
             gamma.emit.fun
