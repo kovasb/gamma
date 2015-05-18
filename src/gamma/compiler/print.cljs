@@ -1,7 +1,7 @@
 (ns gamma.compiler.print
   (:use [gamma.ast :only [id?]])
   (:require
-    [fipp.printer]))
+    [fipp.engine]))
 
 
 
@@ -84,7 +84,7 @@
 
 
 (defn print-ast [x f w]
-  (fipp.printer/pprint-document
+  (fipp.engine/pprint-document
     (ast-doc
       x
       :root
@@ -153,7 +153,7 @@
      ]))
 
 (defn print-ast2 [x  w]
-  (fipp.printer/pprint-document
+  (fipp.engine/pprint-document
     (ast-doc2
       x
       :root

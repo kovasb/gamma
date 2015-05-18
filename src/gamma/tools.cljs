@@ -19,7 +19,8 @@
     gamma.emit.statement
     gamma.emit.tag
     gamma.emit.construct
-    clojure.string))
+    clojure.string
+    fipp.engine))
 
 
 (def stages-map
@@ -63,23 +64,23 @@
   (let [x (gamma.compiler.flatten-ast/->tree
             (get-in stages [:stages stage])
             :root)]
-    (fipp.printer/pprint-document
+    (fipp.engine/pprint-document
       ((printer) x)
       {:width 30})))
 
 (defn print-dag [x]
-  (fipp.printer/pprint-document
+  (fipp.engine/pprint-document
     ((printer) (gamma.compiler.flatten-ast/->tree x :root))
     {:width 30}))
 
 
 (defn print-tree [x]
-  (fipp.printer/pprint-document
+  (fipp.engine/pprint-document
     ((printer) x)
     {:width 30}))
 
 (defn glsl-stage [stages stage]
-  (fipp.printer/pprint-document
+  (fipp.engine/pprint-document
     (emit
       (:move-assignments (:stages stages))
       (:root (stage (:stages stages))))
@@ -89,6 +90,11 @@
 (defn glsl-string [ast]
   (let [ir (gamma.compiler.core/compile ast)]
     (with-out-str
-      (fipp.printer/pprint-document
+      (fipp.engine/pprint-document
         (emit ir (:root ir))
         {:width 80}))))
+
+
+(defn glsl-fipp [ast]
+  (let [ir (gamma.compiler.core/compile ast)]
+    (emit ir (:root ir))))

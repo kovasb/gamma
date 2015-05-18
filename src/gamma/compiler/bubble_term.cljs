@@ -1,7 +1,5 @@
 (ns gamma.compiler.bubble-term
-  (:use [gamma.ast :only [id?]])
-  (:require
-    [fipp.printer]))
+  (:use [gamma.ast :only [id?]]))
 
 
 (defn parent-bubbles [db bubble]

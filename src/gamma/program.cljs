@@ -1,6 +1,6 @@
 (ns gamma.program
   (:require gamma.compiler.core
-            fipp.printer
+            fipp.engine
             [gamma.emit.emit :as emit]
             gamma.emit.fun
             gamma.emit.operator
@@ -27,7 +27,7 @@
     (str
       (precision-defaults p)
       (with-out-str
-       (fipp.printer/pprint-document
+       (fipp.engine/pprint-document
          (emit/emit (:ir shader) shader)
          {:width 80})))))
 
