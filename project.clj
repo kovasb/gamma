@@ -1,4 +1,4 @@
-(defproject kovasb/gamma "0.1.2-SNAPSHOT"
+(defproject kovasb/gamma "auto"
   :description "glsl shaders made simple"
   :url "https://github.com/kovasb/gamma"
   :license {:name "Eclipse Public License"
@@ -7,5 +7,6 @@
   :dependencies [[org.clojure/clojure "1.7.0-beta2"]
                  [org.clojure/clojurescript "0.0-3269"]
                  [fipp "0.6.1"]]
+  :plugins [[org.clojars.cvillecsteele/lein-git-version "1.0.0"]]
   :source-paths ["src" "test"])
 
