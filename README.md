@@ -27,6 +27,12 @@ Add the following to your project.clj's :dependencies
 [kovasb/gamma "0.0-135"]
 ```
 
+Be sure to use clojurescript 0.0-3292 or above:
+
+```clojure 
+[org.clojure/clojurescript "0.0-3292"]
+```
+
 # "Hello Triangle" Tutorial 
 
 See the batteries-included [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for how to set up your project, and how to invoke the generated shader so that a triangle appears on screen. 
