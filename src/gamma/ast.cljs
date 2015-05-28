@@ -147,7 +147,7 @@
       [:T :atan [:T :y :T :x]]
       [:T :atan [:T :y_over_x]]
 
-      [:T :power [:T :x :T :y]]
+      [:T :pow [:T :x :T :y]]
       [:T :exp [:T :x]]
       [:T :log [:T :x]]
       [:T :exp2 [:T :x]]
