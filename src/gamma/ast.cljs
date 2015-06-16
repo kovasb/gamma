@@ -137,7 +137,11 @@
      (fn [x]
        {:name      (x 1) :input (vec (take-nth 2 (x 2))) :output (x 0)
         :parameter {:T #{:float :vec2 :vec3 :vec4}}})
-     [[:T :radians [:T :degrees]]
+     [[:int :int [:T :x]]
+      [:float :float [:T :x]]
+      [:bool :bool [:T :x]]
+
+      [:T :radians [:T :degrees]]
       [:T :degrees [:T :radians]]
       [:T :sin [:T :angle]]
       [:T :cos [:T :angle]]
