@@ -18,7 +18,9 @@
             and
             if
             for
-            ])
+
+            int
+            float])
   (:require [gamma.ast :as ast])
   (:require-macros [gamma.api :as api-macro])
   )
