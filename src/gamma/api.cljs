@@ -68,6 +68,8 @@
 (defn gl-frag-data [n]
   {:tag :variable :name (str "gl_FragData" n) :type :vec4})
 
+(defn gl-depth-range []
+  {:tag :variable :name "gl_DepthRange" :type :vec2})
 
 (defn ensure-term [x]
   (if (ast/term? x)
@@ -228,9 +230,13 @@
 
 
 (defn swizzle-type [x c]
-  (let [l (count (name c))
-        ]
-    ({1 :float 2 :vec2 3 :vec3 4 :vec4} l)))
+  (let [swizzle-length (count (name c))
+        depth-range-swizzles #{:near :far}]
+    ;; Special-case the depth-range swizzles since their length
+    ;; doesn't follow the standard rules
+    (if (get depth-range-swizzles c)
+      :float
+      (get {1 :float 2 :vec2 3 :vec3 4 :vec4} swizzle-length))))
 
 
 (defn swizzle [x c]
