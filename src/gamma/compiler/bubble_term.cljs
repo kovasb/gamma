@@ -5,7 +5,10 @@
 (defn parent-bubbles [db bubble]
   (map
     (fn [x]
-      (if (= :if (:head (db x)))
+      ;; should check if bubble came from branches, or from test
+      (if (and
+            (= :if (:head (db x)))
+            (not= (first (:body (db x))) (:current bubble)))
         (assoc bubble :current x :conditional true)
         (assoc bubble :current x)))
     (get-in db [(:current bubble) :parents])))
