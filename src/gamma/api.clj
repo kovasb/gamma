@@ -78,8 +78,6 @@
     (map
       #(vector (:operator %) %)
       [
-       {:operator :aget}
-       {:operator :selector}
        {:operator :increment :literal "++" :class :postfix}
        {:operator :decrement :literal "--" :class :postfix}
        {:operator :pre-increment :literal "++" :class :prefix}
