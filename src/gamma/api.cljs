@@ -22,8 +22,7 @@
             int
             float])
   (:require [gamma.ast :as ast])
-  (:require-macros [gamma.api :as api-macro])
-  )
+  (:require-macros [gamma.api :as api-macro]))
 
 
 (defn vector-type [l]
