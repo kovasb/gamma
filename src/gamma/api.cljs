@@ -14,6 +14,7 @@
             >=
             ==
             max
+            min
             mod
             and
             if
