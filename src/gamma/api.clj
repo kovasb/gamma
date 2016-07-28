@@ -106,7 +106,7 @@
 
 (defn define-standard-function [[n specs]]
   `(defn ~(symbol (name n)) [& body#]
-     (build-standard-function-term ~n ~specs body#)))
+     (gamma.api/build-standard-function-term ~n ~specs body#)))
 
 (defn gen-constructor [tag]
   `(defn ~(symbol (name tag)) [& body#]
