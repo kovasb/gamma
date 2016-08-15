@@ -36,7 +36,9 @@
               [:T :ceil [:T :x]]
               [:T :fract [:T :x]]
               [:T :mod [:T :x :T :y]]
+              [:T :max [:T :x :T :y]]
               [:T :max [:T :x :float :y]]
+              [:T :min [:T :x :T :y]]
               [:T :min [:T :x :float :y]]
               [:T :mix [:T :x :T :y :T :z]]
               [:T :mix [:T :x :T :y :float :z]]
@@ -123,4 +125,3 @@
                            [ :for :block :continue :break :discard]))
      ~@(clojure.core/map gen-constructor
                          [:vec2 :vec3 :vec4 :bvec2 :bvec3 :bvec4 :ivec2 :ivec3 :ivec4 :mat2 :mat3 :mat4])))
-
