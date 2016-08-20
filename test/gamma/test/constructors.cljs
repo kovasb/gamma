@@ -13,11 +13,10 @@
 
 ;; test variables, declarations, literals
 
-
-(->glsl (gamma.ast/literal {:tag :variable :name "v" :type :vec4}))
-
-(def vec4-variable {:tag :variable :id "v" :type :vec4})
-;; operators
+;; FIXME make these actual tests?
+;; (->glsl (gamma.ast/literal {:tag :variable :name "v" :type :vec4}))
+;;
+;; (def vec4-variable {:tag :variable :id "v" :type :vec4})
 
 ;;;;;;; OPERATORS WITH VARIABLES
 
@@ -55,9 +54,7 @@
     (is (= (->glsl (g/xor b b)) "(b^^b);"))
     (is (= (->glsl (g/not b)) "(!b);"))))
 
-(operators)
-
-;; need swizzle tests
+;; FIXME need swizzle tests
 
 (deftest
   variables
@@ -94,7 +91,9 @@
         v2 {:tag :variable :name "v2" :type :vec2}
         v3 {:tag :variable :name "v3" :type :vec3}
         v4 {:tag :variable :name "v4" :type :vec4}
-        sampler {:tag :variable :id "sampler" :type :sampler2D}]
+        sampler2 {:tag :variable :name "sampler2" :type :sampler2D}
+        samplerC {:tag :variable :name "samplerC" :type :samplerCube}
+        ]
     (is (= (->glsl (g/radians t)) "radians(t);"))
     (is (= (->glsl (g/degrees t)) "degrees(t);"))
     (is (= (->glsl (g/sin t)) "sin(t);"))
@@ -140,15 +139,15 @@
     (is (= (->glsl (g/faceforward t t t)) "faceforward(t,t,t);"))
     (is (= (->glsl (g/reflect t t)) "reflect(t,t);"))
     (is (= (->glsl (g/refract t t f)) "refract(t,t,f);"))
-    (is (= (->glsl (g/texture2DLod sampler v2 f)) "texture2DLod(sampler,v2,f);"))
-    (is (= (->glsl (g/texture2DProjLod sampler v3 f)) "texture2DProjLod(sampler,v3,f);"))
-    (is (= (->glsl (g/texture2DProjLod sampler v4 f)) "texture2DProjLod(sampler,v4,f);"))
-    (is (= (->glsl (g/textureCubeLod sampler v4 f)) "textureCubeLod(sampler,v4,f);"))
-    (is (= (->glsl (g/texture2D sampler v2 f)) "texture2D(sampler,v2,f);"))
-    (is (= (->glsl (g/texture2DProj sampler v3 f)) "texture2DProj(sampler,v3,f);"))
-    (is (= (->glsl (g/texture2DProj sampler v4 f)) "texture2DProj(sampler,v4,f);"))
-    (is (= (->glsl (g/textureCube sampler v3 f)) "textureCube(sampler,v3,f);"))
-    (is (= (->glsl (g/texture2D sampler v2)) "texture2D(sampler,v2);"))
-    (is (= (->glsl (g/texture2DProj sampler v3 f)) "texture2DProj(sampler,v3,f);"))
-    (is (= (->glsl (g/texture2DProj sampler v4 f)) "texture2DProj(sampler,v4,f);"))
-    (is (= (->glsl (g/textureCube sampler v3)) "textureCube(sampler,v3);"))))
+    (is (= (->glsl (g/texture2DLod sampler2 v2 f)) "texture2DLod(sampler2,v2,f);"))
+    (is (= (->glsl (g/texture2DProjLod sampler2 v3 f)) "texture2DProjLod(sampler2,v3,f);"))
+    (is (= (->glsl (g/texture2DProjLod sampler2 v4 f)) "texture2DProjLod(sampler2,v4,f);"))
+    (is (= (->glsl (g/textureCubeLod samplerC v3 f)) "textureCubeLod(samplerC,v3,f);"))
+    (is (= (->glsl (g/texture2D sampler2 v2 f)) "texture2D(sampler2,v2,f);"))
+    (is (= (->glsl (g/texture2DProj sampler2 v3 f)) "texture2DProj(sampler2,v3,f);"))
+    (is (= (->glsl (g/texture2DProj sampler2 v4 f)) "texture2DProj(sampler2,v4,f);"))
+    (is (= (->glsl (g/textureCube samplerC v3 f)) "textureCube(samplerC,v3,f);"))
+    (is (= (->glsl (g/texture2D sampler2 v2)) "texture2D(sampler2,v2);"))
+    (is (= (->glsl (g/texture2DProj sampler2 v3 f)) "texture2DProj(sampler2,v3,f);"))
+    (is (= (->glsl (g/texture2DProj sampler2 v4 f)) "texture2DProj(sampler2,v4,f);"))
+    (is (= (->glsl (g/textureCube samplerC v3)) "textureCube(samplerC,v3);"))))
