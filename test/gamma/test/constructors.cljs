@@ -26,7 +26,7 @@
   (let [f {:tag :variable :name "f" :type :float}
         v {:tag :variable :name "v" :type :vec4}
         b {:tag :variable :name "b" :type :bool}]
-    (is (= (->glsl (g/aget vec4-variable 0)) "(v[0]);"))
+    (is (= (->glsl (g/aget v 0)) "v[0.0];"))
     ;; selector?
     (is (= (->glsl (g/increment f)) "(f++);"))
     (is (= (->glsl (g/decrement f)) "(f--);"))
@@ -71,22 +71,20 @@
 
 (deftest
   constructors
-  (is (= (->glsl (g/vec2 1 2)) "vec2(1,2);"))
-  (is (= (->glsl (g/vec3 1 2 3)) "vec3(1,2,3);"))
-  (is (= (->glsl (g/vec4 1 2 3 4)) "vec4(1,2,3,4);"))
+  (is (= (->glsl (g/vec2 1 2)) "vec2(1.0,2.0);"))
+  (is (= (->glsl (g/vec3 1 2 3)) "vec3(1.0,2.0,3.0);"))
+  (is (= (->glsl (g/vec4 1 2 3 4)) "vec4(1.0,2.0,3.0,4.0);"))
   (is (= (->glsl (g/bvec2 true false)) "bvec2(true,false);"))
   (is (= (->glsl (g/bvec3 true false true)) "bvec3(true,false,true);"))
   (is (= (->glsl (g/bvec4 true false true false)) "bvec4(true,false,true,false);"))
-  (is (= (->glsl (g/ivec2 1 2)) "ivec2(1,2);"))
-  (is (= (->glsl (g/ivec3 1 2 3)) "ivec3(1,2,3);"))
-  (is (= (->glsl (g/ivec4 1 2 3 4)) "ivec4(1,2,3,4);"))
-  (is (= (->glsl (g/mat2 0 1 1 0)) "mat2(0,1,1,0);"))
+  (is (= (->glsl (g/ivec2 1 2)) "ivec2(1.0,2.0);"))
+  (is (= (->glsl (g/ivec3 1 2 3)) "ivec3(1.0,2.0,3.0);"))
+  (is (= (->glsl (g/ivec4 1 2 3 4)) "ivec4(1.0,2.0,3.0,4.0);"))
+  (is (= (->glsl (g/mat2 0 1 1 0)) "mat2(0.0,1.0,1.0,0.0);"))
   (is (=  (->glsl (g/mat3 1 0 0 0 1 0 0 0 1))
-          "mat3(1,0,0,0,1,0,0,0,1);"))
+          "mat3(1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0);"))
   (is (= (->glsl (g/mat4 1 0 0 0 0 1  0 0 0 0 1 0 0 0 0 1))
-         "mat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);")))
-
-
+         "mat4(1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0);")))
 
 (deftest
   standard-functions
@@ -104,9 +102,9 @@
     (is (= (->glsl (g/tan t)) "tan(t);"))
     (is (= (->glsl (g/asin t)) "asin(t);"))
     (is (= (->glsl (g/acos t)) "acos(t);"))
-    (is (= (->glsl (g/atan t f2)) "atan(f,f2);"))
+    (is (= (->glsl (g/atan t f2)) "atan(t,f2);"))
     (is (= (->glsl (g/atan t)) "atan(t);"))
-    (is (= (->glsl (g/power t f2)) "power(f,f2);"))
+    (is (= (->glsl (g/pow t f2)) "pow(t,f2);"))
     (is (= (->glsl (g/exp t)) "exp(t);"))
     (is (= (->glsl (g/log t)) "log(t);"))
     (is (= (->glsl (g/exp2 t)) "exp2(t);"))
