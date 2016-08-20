@@ -61,8 +61,8 @@
               [:vec4 :texture2DLod [:sampler2D :sampler :vec2 :coord :float :lod]]
               [:vec4 :texture2DProjLod [:sampler2D :sampler :vec3 :coord :float :lod]]
               [:vec4 :texture2DProjLod [:sampler2D :sampler :vec4 :coord :float :lod]]
-              [:vec4 :textureCubeLod [:sampler2D :sampler :vec4 :coord :float :lod]]
-              ;; available only in fragement shaders
+              [:vec4 :textureCubeLod [:samplerCube :sampler :vec3 :coord :float :lod]]
+              ;; available only in fragment shaders
               [:vec4 :texture2D [:sampler2D :sampler :vec2 :coord :float :bias]]
               [:vec4 :texture2DProj [:sampler2D :sampler :vec3 :coord :float :bias]]
               [:vec4 :texture2DProj [:sampler2D :sampler :vec4 :coord :float :bias]]

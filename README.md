@@ -95,6 +95,8 @@ Run the tests:
 lein trampoline run -m clojure.main scripts/test_run.clj
 ```
 
+Or use the shell-script `./scripts/test`
+
 Watch for "Waiting for browser to connect ...", then connect browser
 to http://localhost:9000/test.html
 
