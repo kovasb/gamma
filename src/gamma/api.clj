@@ -36,7 +36,9 @@
               [:T :ceil [:T :x]]
               [:T :fract [:T :x]]
               [:T :mod [:T :x :T :y]]
+              [:T :max [:T :x :T :y]]
               [:T :max [:T :x :float :y]]
+              [:T :min [:T :x :T :y]]
               [:T :min [:T :x :float :y]]
               [:T :mix [:T :x :T :y :T :z]]
               [:T :mix [:T :x :T :y :float :z]]
@@ -59,8 +61,8 @@
               [:vec4 :texture2DLod [:sampler2D :sampler :vec2 :coord :float :lod]]
               [:vec4 :texture2DProjLod [:sampler2D :sampler :vec3 :coord :float :lod]]
               [:vec4 :texture2DProjLod [:sampler2D :sampler :vec4 :coord :float :lod]]
-              [:vec4 :textureCubeLod [:sampler2D :sampler :vec4 :coord :float :lod]]
-              ;; available only in fragement shaders
+              [:vec4 :textureCubeLod [:samplerCube :sampler :vec3 :coord :float :lod]]
+              ;; available only in fragment shaders
               [:vec4 :texture2D [:sampler2D :sampler :vec2 :coord :float :bias]]
               [:vec4 :texture2DProj [:sampler2D :sampler :vec3 :coord :float :bias]]
               [:vec4 :texture2DProj [:sampler2D :sampler :vec4 :coord :float :bias]]
@@ -106,7 +108,7 @@
 
 (defn define-standard-function [[n specs]]
   `(defn ~(symbol (name n)) [& body#]
-     (build-standard-function-term ~n ~specs body#)))
+     (gamma.api/build-standard-function-term ~n ~specs body#)))
 
 (defn gen-constructor [tag]
   `(defn ~(symbol (name tag)) [& body#]
@@ -123,4 +125,3 @@
                            [ :for :block :continue :break :discard]))
      ~@(clojure.core/map gen-constructor
                          [:vec2 :vec3 :vec4 :bvec2 :bvec3 :bvec4 :ivec2 :ivec3 :ivec4 :mat2 :mat3 :mat4])))
-

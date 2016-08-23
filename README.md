@@ -2,18 +2,18 @@
 
 [![Join the chat at https://gitter.im/kovasb/gamma](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kovasb/gamma?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Gamma is a substrate for graphics software, such as games and data visualization tools. It presents a simple, composable language for representing GLSL shaders. 
+Gamma is a substrate for graphics software, such as games and data visualization tools. It presents a simple, composable language for representing GLSL shaders.
 
 - [Tutorial](https://github.com/kovasb/gamma/blob/master/README.md#hello-triangle-tutorial), [Tutorial repo](https://github.com/kovasb/gamma-hello-triangle)
 - [Examples repo](https://github.com/kovasb/gamma-examples)
 - [Docs](https://github.com/kovasb/gamma/wiki/API-Guide)
 - [Rationale](https://github.com/kovasb/gamma/wiki/Gamma-Rationale)
 
-Benefits: 
-- Decouple, simplify, abstract shader code 
+Benefits:
+- Decouple, simplify, abstract shader code
 - Release graphics pipeline from rigid demands of shaders
-- Create composable, multiplatform shader libraries 
-- Quickly build higher-level GL libraries 
+- Create composable, multiplatform shader libraries
+- Quickly build higher-level GL libraries
 
 Technically, Gamma is an [EDSL](http://c2.com/cgi/wiki?EmbeddedDomainSpecificLanguage) that hosts GLSL within Clojurescript. It is inspired by [Carlos Scheidegger](http://cscheid.net/)'s [Lux](http://cscheid.github.io/lux/) and [Conal Elliot](http://conal.net/)'s [Vertigo](http://conal.net/papers/Vertigo/) and [Pan](http://conal.net/papers/jfp-saig/). Gamma targets the WebGL subset of the OpenGL ES 1.0 Shading Language. Gamma can be used a la carte to compile shader source, without adopting Clojure/Clojurescript for your runtime application.
 
@@ -29,13 +29,13 @@ Add the following to your project.clj's :dependencies
 
 Be sure to use clojurescript 0.0-3292 or above:
 
-```clojure 
+```clojure
 [org.clojure/clojurescript "0.0-3292"]
 ```
 
-# "Hello Triangle" Tutorial 
+# "Hello Triangle" Tutorial
 
-See the batteries-included [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for how to set up your project, and how to invoke the generated shader so that a triangle appears on screen. 
+See the batteries-included [Hello Triangle example project](https://github.com/kovasb/gamma-hello-triangle) for how to set up your project, and how to invoke the generated shader so that a triangle appears on screen.
 
 Lets use Gamma at the REPL to create a minimum shader program for drawing a red triangle.
 
@@ -51,21 +51,21 @@ Lets use Gamma at the REPL to create a minimum shader program for drawing a red 
 ;; vertex shader turns input into a vec4, and assigns it to gl_Position
 (def vertex-shader {(g/gl-position) (g/vec4 vertex-position 0 1)})
 
-;; fragment shader assigns the rgba value for red to gl_FragColor 
+;; fragment shader assigns the rgba value for red to gl_FragColor
 (def fragment-shader {(g/gl-frag-color) (g/vec4 1 0 0 1)})
 
-;; compile Gamma into a GLSL program string 
-(def hello-triangle 
-  (p/program 
-    {:vertex-shader vertex-shader 
+;; compile Gamma into a GLSL program string
+(def hello-triangle
+  (p/program
+    {:vertex-shader vertex-shader
      :fragment-shader fragment-shader}))
 ```
-Thats it! hello-triangle now contains the GLSL for this shader, and other useful information such as a description of its inputs.  
+Thats it! hello-triangle now contains the GLSL for this shader, and other useful information such as a description of its inputs.
 
 ```clojure
 ;; print vertex shader glsl
 (println (:glsl (:vertex-shader hello-triangle)))
-=> 
+=>
 "attribute vec2 a_VertexPosition;
 void main(void){
  gl_Position = vec4(a_VertexPosition, 0, 1);
@@ -78,12 +78,29 @@ void main(void){
  gl_FragColor = vec4(1, 0, 0, 1);
 }"
 
-;; get shader inputs 
+;; get shader inputs
 (:inputs hello-triangle)
 => #{{:tag :variable, :name "a_VertexPosition", :type :vec2, :storage :attribute}}
 ```
 
+## Testing
 
+Build the tests:
+```
+lein trampoline run -m clojure.main scripts/test_build.clj
+```
+
+Run the tests:
+```
+lein trampoline run -m clojure.main scripts/test_run.clj
+```
+
+Or use the shell-script `./scripts/test`
+
+Watch for "Waiting for browser to connect ...", then connect browser
+to http://localhost:9000/test.html
+
+The output of the testing will be sent to the developer console.
 
 ## License
 
