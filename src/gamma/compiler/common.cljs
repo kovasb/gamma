@@ -40,6 +40,8 @@
    (-> db
        (merge-elements elements)
        (assoc-in-location location (mapv :id elements)))))
+
+
 (defn assoc-elements
   ([db elements] (reduce #(assoc %1 (:id %2) %2) db elements))
   ([db location elements]

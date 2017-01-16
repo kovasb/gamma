@@ -2,7 +2,7 @@
 
   (:require [clojure.set :refer [difference union intersection]])
   (:use [gamma.ast :only [id? gen-term-id]]
-        [gamma.compiler.common :only [merge-elements location-conj get-element map-path assoc-in-parent assoc-elements]])
+        [gamma.compiler.common :only [merge-elements location-conj get-element map-path assoc-elements]])
   )
 
 
@@ -49,35 +49,11 @@
         (recur g' (conj l n) (union s' (intersection (no-incoming g') m)))))))
 
 
-(comment
-  (def acyclic-g
-    {7 [11 8]
-     5 #{11}
-     3 #{8 10}
-     11 #{2 9}
-     8 #{9}})
-
-  (def cyclic-g
-    {7 #{11 8}
-     5 #{11}
-     3 #{8 10}
-     11 #{2 9}
-     8 #{9}
-     2 #{11}}) ;oops, a cycle!
-
-  (kahn-sort acyclic-g) ;=> [3 5 7 8 10 11 2 9]
-  (kahn-sort cyclic-g) ;=> nil
-
-  )
-
-
-
-
-
 
 ;;;;;;
 
 (defn get-shared  [x]
+  ;; nodes that will get evaluated in potentially more than 1 place
   (map
     first
     (filter
@@ -95,21 +71,12 @@
       []
       (reverse (kahn-sort graph)))))
 
-(comment
-  (defn topological-sort [ids db]
-   (let [graph (into {}
-                     (map (fn [id]
-                            [id (filter (:shared (db id) {}) ids)])
-                          ids))]
-
-     (if (= {} graph)
-       []
-       (reverse (lga/topsort (lg/digraph graph)))))))
-
 
 (defn shared-elements [id-mappings source-element source-db]
   (let [shared (topological-sort
                  (filter
+                   ;; id-mappings contains old->new ids for shared nodes
+                   ;; filter out nodes we've already handled
                   #(not (id-mappings %))
                   (get-shared (:shared source-element)))
                  source-db)]
@@ -123,7 +90,9 @@
                         :id        new-id
                         :env       (:env result)
                         :id-mapping (:id-mapping result)})
+            ;; ids that should be bound at this point
             :env (conj (:env result) new-id)
+            ;; mapping of old ids to new ids, for bound elements
             :id-mapping (assoc (:id-mapping result) source-id new-id)}))
        {:elements [] :env #{} :id-mapping {}}
        shared))))
@@ -132,7 +101,9 @@
   (mapv
     (fn [y]
       (if-let [id (id-mappings y)]
+        ;; if we've bound the id from above, need to replace node with the new id
         {:source-id y :id id }
+        ;; otherwise just generate a branch new id
         {:source-id y :id (gen-term-id) }))
     (:body source-element)))
 
@@ -145,6 +116,10 @@
                :env (into (:env %1) bound-ids))
              (dissoc source-element :id :body :shared)))
 
+
+
+;; conditionals break common subexpression elimination
+;; need to give new ids to expressions when they are separated by conditionals
 
 (defn separate-usages [source-db id-mapping bound-ids]
   (fn [db location]
